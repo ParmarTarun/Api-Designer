@@ -17,7 +17,7 @@ const Layout = ({ children }: ReactChildrenProps) => {
             </button>
             <h2 className="">API Designer</h2>
           </div>
-          <div className="p-6">{children}</div>
+          <div className="p-6 min-h-screen">{children}</div>
         </div>
       </div>
     </div>

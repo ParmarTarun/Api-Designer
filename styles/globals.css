@@ -2,16 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+label {
+  font-size: 1rem;
 }
-/* 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-} */
 
-body {
+.basic-input::placeholder {
+  color: black;
+  opacity: 0.3;
+}
+
+.basic-input {
+  background: transparent;
+  padding: 5px;
+  border-bottom: 1px solid;
+}
+
+.basic-input:focus {
+  /* border: none; */
+  outline: none;
 }
