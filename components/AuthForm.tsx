@@ -1,7 +1,11 @@
+import { signIn } from "next-auth/react";
 import React from "react";
 import { RiGithubFill, RiGoogleFill } from "react-icons/ri";
 
 const AuthForm = () => {
+  const providerLogin = async (provider: string) => {
+    await signIn(provider, { callbackUrl: "/dashboard" });
+  };
   return (
     <div className="text-primary font-semibold grid grid-cols-2 rounded-lg shadow-lg">
       <div className="col-span-1 text-center bg-primary p-8 text-secondary rounded-l-lg flex flex-col justify-center items-center">
@@ -43,11 +47,17 @@ const AuthForm = () => {
           </div>
         </form>
         <div className="flex justify-around text-xl border border-transparent border-t-primary pt-4">
-          <button className="flex items-center gap-1">
+          <button
+            className="flex items-center gap-1"
+            onClick={() => providerLogin("google")}
+          >
             <RiGoogleFill />
             Google
           </button>
-          <button className="flex items-center gap-1">
+          <button
+            className="flex items-center gap-1"
+            onClick={() => providerLogin("github")}
+          >
             <RiGithubFill />
             Github
           </button>

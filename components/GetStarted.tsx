@@ -1,10 +1,10 @@
 import React from "react";
 
 interface GetStartedProps {
-  setShowAuth: (p: boolean) => void;
+  switchToAuthForm: () => void;
 }
 
-const GetStarted = ({ setShowAuth }: GetStartedProps) => {
+const GetStarted = ({ switchToAuthForm }: GetStartedProps) => {
   return (
     <div className="w-4/5 text-center">
       <h2 className="text-4xl font-bold underline mb-4">API Designer</h2>
@@ -16,7 +16,7 @@ const GetStarted = ({ setShowAuth }: GetStartedProps) => {
       </p>
       <button
         className="bg-darkHighlight font-semibold  text-secondary px-4 py-2 rounded-md mt-4"
-        onClick={() => setShowAuth(true)}
+        onClick={switchToAuthForm}
       >
         GET STARTED
       </button>

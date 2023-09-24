@@ -1,3 +1,4 @@
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import {
@@ -5,6 +6,7 @@ import {
   RiUser3Fill,
   RiDashboardFill,
   RiMenuFoldFill,
+  RiLogoutCircleLine,
 } from "react-icons/ri";
 
 interface SideBarProps {
@@ -13,6 +15,10 @@ interface SideBarProps {
 }
 
 const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
+  const { data: session } = useSession();
+  const logout = async () => {
+    await signOut({ callbackUrl: "/" });
+  };
   return (
     <aside
       className={
@@ -33,23 +39,34 @@ const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
             <h5 className="text-2xl">Designer</h5>
           </Link>
           <div className="border-b border-secondary mt-2"></div>
-          <div className="mt-4">
-            <Link href={"/dashboard"} className="text-lg flex items-center">
-              <RiDashboardFill className="mr-2" />
-              Dashboard
-            </Link>
-          </div>
+          {session && (
+            <div className="mt-4">
+              <Link href={"/dashboard"} className="text-lg flex items-center">
+                <RiDashboardFill className="mr-2" />
+                Dashboard
+              </Link>
+            </div>
+          )}
         </div>
       </div>
       <div className="lower-section">
-        <Link href={"/profile"} className="text-lg flex items-center">
-          <RiUser3Fill className="mr-2" />
-          Profile
-        </Link>
-        <Link href={"/settings"} className="text-lg flex items-center">
-          <RiSettingsFill className="mr-2" />
-          Settings
-        </Link>
+        {session && (
+          <>
+            {" "}
+            <Link href={"/profile"} className="text-lg flex items-center">
+              <RiUser3Fill className="mr-2" />
+              Profile
+            </Link>
+            <Link href={"/settings"} className="text-lg flex items-center">
+              <RiSettingsFill className="mr-2" />
+              Settings
+            </Link>
+            <button className="text-lg flex items-center" onClick={logout}>
+              <RiLogoutCircleLine className="mr-2" />
+              Logout
+            </button>
+          </>
+        )}
       </div>
     </aside>
   );
