@@ -18,8 +18,8 @@ const DashboardPage = () => {
           <h2 className="font-medium">Collections</h2>
         </div>
         <div className="flex gap-4 flex-wrap bg-primary  p-4 text-primary bg-opacity-50 rounded-md">
-          {collections.map((coll) => (
-            <div className=" rounded-lg bg-secondary">
+          {collections.map((coll, i) => (
+            <div className=" rounded-lg bg-secondary" key={i}>
               <div className="px-2 py-1 bg-lightHighlight rounded-t-lg">
                 <h5 className="uppercase font-semibold ">{coll.name}</h5>
               </div>
