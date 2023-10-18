@@ -10,7 +10,6 @@ type Data = {
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  await mongooseConnect();
   switch (req.method) {
     case "GET": {
       try {

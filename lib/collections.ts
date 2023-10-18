@@ -1,7 +1,9 @@
 import { Collection, collectionType } from "@/models/Collection";
+import { mongooseConnect } from "./mongoose";
 
 type getCollectionType = () => Promise<collectionType[]>;
 export const getCollections: getCollectionType = async () => {
+  await mongooseConnect();
   const collectionDocs = await Collection.find(
     {},
     {},
@@ -26,6 +28,7 @@ type postCollectionType = ({
   createdAt = "",
 }: collectionType) => Promise<collectionType>;
 export const postCollection: postCollectionType = async ({ name, baseUrl }) => {
+  await mongooseConnect();
   const collection = await Collection.create({ name, baseUrl });
 
   return { name, baseUrl, createdAt: collection.createdAt };

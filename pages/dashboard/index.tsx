@@ -1,16 +1,17 @@
 import Layout from "@/components/Layout";
-import React from "react";
+import { getCollections } from "@/lib/collections";
+import { collectionType } from "@/models/Collection";
+import { GetServerSideProps } from "next";
+import React, { useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 
-const DashboardPage = () => {
-  const collections = [
-    { name: "Collection 1", baseUrl: "https://collection1.com/api" },
-    { name: "Collection 2", baseUrl: "https://collection2.com/api" },
-    { name: "Collection 3", baseUrl: "https://collection3.com/api" },
-    { name: "Collection 4", baseUrl: "https://collection4.com/api" },
-    { name: "Collection 5", baseUrl: "https://collection5.com/api" },
-    { name: "Collection 6", baseUrl: "https://collection6.com/api" },
-  ];
+interface dashboardProps {
+  collectionsData: collectionType[];
+}
+
+const DashboardPage = ({ collectionsData }: dashboardProps) => {
+  const [collections, setCollections] = useState(collectionsData);
+
   return (
     <Layout>
       <>
@@ -38,3 +39,15 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
+
+export const getServerSideProps: GetServerSideProps<
+  dashboardProps
+> = async () => {
+  const collectionsData = await getCollections();
+
+  return {
+    props: {
+      collectionsData: JSON.parse(JSON.stringify(collectionsData)),
+    },
+  };
+};
