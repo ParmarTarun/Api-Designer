@@ -1,4 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { getCollections, postCollection } from "@/lib/collections";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Collection } from "@/models/Collection";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -13,13 +14,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   switch (req.method) {
     case "GET": {
       try {
-        const collectionDocs = await Collection.find();
-        const collections = collectionDocs.map((row) => {
-          return {
-            name: row.name,
-            baseUrl: row.baseUrl,
-          };
-        });
+        const collections = await getCollections();
         return res.status(200).json({ message: "Success", collections });
       } catch (e) {
         return res.status(500).json({ message: "Something went wrong!" });
@@ -32,10 +27,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
         if (!name || !baseUrl) {
           return res.status(400).json({ message: "Invalid request" });
         }
-        const collectionDoc = await Collection.create({ name, baseUrl });
-        console.log(collectionDoc);
-        const collection = { name, baseUrl };
-
+        const collection = await postCollection({
+          name,
+          baseUrl,
+          createdAt: "",
+        });
         return res.status(201).json({ message: "Success", collection });
       } catch (e) {
         return res.status(500).json({ message: "Something went wrong!" });

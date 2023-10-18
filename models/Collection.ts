@@ -1,6 +1,6 @@
 import { Schema, model, models } from "mongoose";
 
-type collectionType = {
+export type collectionType = {
   name: string;
   baseUrl: string;
   createdAt: string;
