@@ -3,7 +3,7 @@ import Modal from "./Modal";
 import { IoMdClose } from "react-icons/io";
 import { collectionBody } from "@/types";
 import { useCollection } from "@/context/collection";
-import { postCollection } from "@/lib/apiCall";
+import { patchCollection, postCollection } from "@/lib/apiCall";
 import { collectionType } from "@/models/Collection";
 
 interface collectionFormModalProps {
@@ -32,16 +32,20 @@ const CollectionFormModal = ({
   };
 
   const handleUpdate = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // setError("");
-    // e.preventDefault();
-    // postCollection(formData)
-    //   .then(({ collection }) => {
-    //     setCollections([collection, ...collections]);
-    //     close();
-    //   })
-    //   .catch((e) => {
-    //     setError(e.response.data.message);
-    //   });
+    if (!collection?.id) return;
+    setError("");
+    e.preventDefault();
+    patchCollection(collection.id, formData)
+      .then(({ collection }) => {
+        const updatedCollections = collections.filter(
+          (coll) => coll.id !== collection.id
+        );
+        setCollections([collection, ...updatedCollections]);
+        close();
+      })
+      .catch((e) => {
+        setError(e.response.data.message);
+      });
   };
   const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
     setError("");

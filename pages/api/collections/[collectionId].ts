@@ -41,7 +41,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     case "DELETE": {
       try {
         const result = await deleteCollection(collectionId.toString());
-        return res.status(201).json({ message: "Success" });
+        return res.status(200).json({ message: "Success" });
       } catch (e) {
         console.log(e);
         return res.status(500).json({ message: "Something went wrong!" });

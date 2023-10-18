@@ -4,6 +4,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import CollectionFormModal from "./CollectionFormModal";
 import { useCollection } from "@/context/collection";
 import { MdDelete, MdModeEdit } from "react-icons/md";
+import { deleteCollection } from "@/lib/apiCall";
 
 interface collectionsProps {
   collectionsData: collectionType[];
@@ -22,7 +23,15 @@ const Collections = ({ collectionsData }: collectionsProps) => {
   };
 
   const handleDelete = (collId: string) => {
-    console.log("deleting", collId);
+    if (!confirm("Are you sure:")) return;
+    deleteCollection(collId)
+      .then(() =>
+        setCollections(collections.filter((coll) => coll.id !== collId))
+      )
+      .catch((e) => {
+        alert(e.response.data.message);
+        console.log(e);
+      });
   };
 
   const handleEdit = (coll: collectionType) => {
@@ -35,7 +44,7 @@ const Collections = ({ collectionsData }: collectionsProps) => {
   return (
     <div className="flex gap-4 flex-wrap bg-primary  p-4 text-primary bg-opacity-50 rounded-md">
       {collections.map((coll, i) => (
-        <div className=" rounded-lg bg-secondary " key={i}>
+        <div className=" rounded-lg bg-secondary" key={i}>
           <div className="px-2 py-1 bg-lightHighlight rounded-t-lg flex items-center justify-between">
             <h5 className="uppercase font-semibold ">{coll.name}</h5>
             <div className="flex gap-2">
