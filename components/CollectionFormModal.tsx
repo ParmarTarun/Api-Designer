@@ -4,18 +4,23 @@ import { IoMdClose } from "react-icons/io";
 import { collectionBody } from "@/types";
 import { useCollection } from "@/context/collection";
 import { postCollection } from "@/lib/apiCall";
+import { collectionType } from "@/models/Collection";
 
 interface collectionFormModalProps {
+  collection?: collectionType;
   close: () => void;
 }
 
-const CollectionFormModal = ({ close }: collectionFormModalProps) => {
+const CollectionFormModal = ({
+  collection,
+  close,
+}: collectionFormModalProps) => {
   const { collections, setCollections } = useCollection();
 
   const [error, setError] = useState("");
   const [formData, setFormData] = useState<collectionBody>({
-    name: "",
-    baseUrl: "",
+    name: collection?.name || "",
+    baseUrl: collection?.baseUrl || "",
   });
 
   const handleFormInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +31,18 @@ const CollectionFormModal = ({ close }: collectionFormModalProps) => {
     });
   };
 
+  const handleUpdate = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // setError("");
+    // e.preventDefault();
+    // postCollection(formData)
+    //   .then(({ collection }) => {
+    //     setCollections([collection, ...collections]);
+    //     close();
+    //   })
+    //   .catch((e) => {
+    //     setError(e.response.data.message);
+    //   });
+  };
   const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
     setError("");
     e.preventDefault();
@@ -80,15 +97,25 @@ const CollectionFormModal = ({ close }: collectionFormModalProps) => {
             <button
               className="border px-2 py-1 rounded-md bg-white mr-2"
               onClick={close}
+              type="button"
             >
               CANCEL
             </button>
-            <button
-              className="border px-2 py-1 rounded-md bg-lightHighlight"
-              onClick={handleSave}
-            >
-              SAVE
-            </button>
+            {collection ? (
+              <button
+                className="border px-2 py-1 rounded-md bg-lightHighlight"
+                onClick={handleUpdate}
+              >
+                UPDATE
+              </button>
+            ) : (
+              <button
+                className="border px-2 py-1 rounded-md bg-lightHighlight"
+                onClick={handleSave}
+              >
+                SAVE
+              </button>
+            )}
           </div>
         </form>
       </div>
