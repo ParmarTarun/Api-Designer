@@ -14,6 +14,7 @@ const config: Config = {
         darkHighlight: "#ff6e40",
         lightHighlight: "#ffc13b",
         white: "#ffffff",
+        error: "#FF3333",
       },
     },
   },

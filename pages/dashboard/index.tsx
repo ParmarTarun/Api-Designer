@@ -1,9 +1,13 @@
 import CollectionFormModal from "@/components/CollectionFormModal";
+import Collections from "@/components/Collections";
 import Layout from "@/components/Layout";
+import { CollectionProvider, useCollection } from "@/context/collection";
+import { postCollection } from "@/lib/apiCall";
 import { getCollections } from "@/lib/collections";
 import { collectionType } from "@/models/Collection";
+import { collectionBody } from "@/types";
 import { GetServerSideProps } from "next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 
 interface dashboardProps {
@@ -11,34 +15,16 @@ interface dashboardProps {
 }
 
 const DashboardPage = ({ collectionsData }: dashboardProps) => {
-  const [collections, setCollections] = useState(collectionsData);
-  const [showModal, setShowModal] = useState(false);
-
   return (
     <Layout>
-      <>
-        <div className="my-2">
-          <h2 className="font-medium">Collections</h2>
-        </div>
-        <div className="flex gap-4 flex-wrap bg-primary  p-4 text-primary bg-opacity-50 rounded-md">
-          {collections.map((coll, i) => (
-            <div className=" rounded-lg bg-secondary" key={i}>
-              <div className="px-2 py-1 bg-lightHighlight rounded-t-lg">
-                <h5 className="uppercase font-semibold ">{coll.name}</h5>
-              </div>
-              <div className="py-4 px-2">
-                <p>Url: {coll.baseUrl}</p>
-              </div>
-            </div>
-          ))}
-          <button className="w-20" onClick={() => setShowModal(true)}>
-            <IoMdAddCircleOutline className="m-auto text-secondary text-2xl" />
-          </button>
-        </div>
-        {!!showModal && (
-          <CollectionFormModal close={() => setShowModal(false)} />
-        )}
-      </>
+      <CollectionProvider>
+        <>
+          <div className="my-2">
+            <h2 className="font-medium">Collections</h2>
+          </div>
+          <Collections collectionsData={collectionsData} />
+        </>
+      </CollectionProvider>
     </Layout>
   );
 };
