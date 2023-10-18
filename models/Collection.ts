@@ -1,6 +1,7 @@
 import { Schema, model, models } from "mongoose";
 
 export type collectionType = {
+  id: string;
   name: string;
   baseUrl: string;
   createdAt: string;
