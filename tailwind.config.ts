@@ -13,6 +13,7 @@ const config: Config = {
         secondary: "#f5f0e1",
         darkHighlight: "#ff6e40",
         lightHighlight: "#ffc13b",
+        white: "#ffffff",
       },
     },
   },

@@ -1,3 +1,4 @@
+import CollectionFormModal from "@/components/CollectionFormModal";
 import Layout from "@/components/Layout";
 import { getCollections } from "@/lib/collections";
 import { collectionType } from "@/models/Collection";
@@ -11,6 +12,7 @@ interface dashboardProps {
 
 const DashboardPage = ({ collectionsData }: dashboardProps) => {
   const [collections, setCollections] = useState(collectionsData);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <Layout>
@@ -29,10 +31,13 @@ const DashboardPage = ({ collectionsData }: dashboardProps) => {
               </div>
             </div>
           ))}
-          <button className="w-20">
+          <button className="w-20" onClick={() => setShowModal(true)}>
             <IoMdAddCircleOutline className="m-auto text-secondary text-2xl" />
           </button>
         </div>
+        {!!showModal && (
+          <CollectionFormModal close={() => setShowModal(false)} />
+        )}
       </>
     </Layout>
   );
