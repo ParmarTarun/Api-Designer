@@ -8,3 +8,9 @@ export type collectionBody = {
   name: string;
   baseUrl: string;
 };
+
+export type requestBody = {
+  name: string;
+  method: string;
+  path: string;
+};

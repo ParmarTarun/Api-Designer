@@ -69,7 +69,7 @@ const Collections = ({ collectionsData }: collectionsProps) => {
         </Link>
       ))}
       <button className="w-20" onClick={() => setShowModal(true)}>
-        <IoMdAddCircleOutline className="m-auto text-secondary text-2xl" />
+        <IoMdAddCircleOutline className="m-auto text-primary text-2xl" />
       </button>
       {!!showModal && (
         <CollectionFormModal

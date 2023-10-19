@@ -7,7 +7,7 @@ const Layout = ({ children }: ReactChildrenProps) => {
   const [showNav, setShowNav] = useState(false);
 
   return (
-    <div className="bg-secondary h-screen">
+    <div className="bg-secondary">
       <div className="flex">
         <SideBar showNav={showNav} setShowNav={setShowNav} />
         <div className="w-full flex flex-col">
