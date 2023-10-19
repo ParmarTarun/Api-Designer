@@ -8,6 +8,8 @@ import {
   RiMenuFoldFill,
   RiLogoutCircleLine,
 } from "react-icons/ri";
+import { GoPasskeyFill } from "react-icons/go";
+import { BiSolidCollection } from "react-icons/bi";
 
 interface SideBarProps {
   showNav: boolean;
@@ -39,11 +41,23 @@ const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
             <h5 className="text-2xl">Designer</h5>
           </Link>
           <div className="border-b border-secondary mt-2"></div>
-          {session && (
+          {!!session && (
             <div className="mt-4">
               <Link href={"/dashboard"} className="text-lg flex items-center">
                 <RiDashboardFill className="mr-2" />
                 Dashboard
+              </Link>
+              <Link href={"/collections"} className="text-lg flex items-center">
+                <BiSolidCollection className="mr-2" />
+                Collections
+              </Link>
+            </div>
+          )}
+          {!session && (
+            <div className="mt-4">
+              <Link href={"/auth"} className="text-lg flex items-center">
+                <GoPasskeyFill className="mr-2" />
+                Login
               </Link>
             </div>
           )}

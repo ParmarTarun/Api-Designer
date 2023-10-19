@@ -5,6 +5,7 @@ import CollectionFormModal from "./CollectionFormModal";
 import { useCollection } from "@/context/collection";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { deleteCollection } from "@/lib/apiCall";
+import Link from "next/link";
 
 interface collectionsProps {
   collectionsData: collectionType[];
@@ -22,7 +23,9 @@ const Collections = ({ collectionsData }: collectionsProps) => {
     setShowModal(false);
   };
 
-  const handleDelete = (collId: string) => {
+  const handleDelete = (e: React.MouseEvent, collId: string) => {
+    e.stopPropagation();
+    e.preventDefault();
     if (!confirm("Are you sure:")) return;
     deleteCollection(collId)
       .then(() =>
@@ -34,7 +37,9 @@ const Collections = ({ collectionsData }: collectionsProps) => {
       });
   };
 
-  const handleEdit = (coll: collectionType) => {
+  const handleEdit = (e: React.MouseEvent, coll: collectionType) => {
+    e.stopPropagation();
+    e.preventDefault();
     setEditingColelction(coll);
     setShowModal(true);
   };
@@ -42,24 +47,26 @@ const Collections = ({ collectionsData }: collectionsProps) => {
   useEffect(() => setCollections(collectionsData), []);
 
   return (
-    <div className="flex gap-4 flex-wrap bg-primary  p-4 text-primary bg-opacity-50 rounded-md">
+    <div className="flex gap-4 flex-wrap  p-4">
       {collections.map((coll, i) => (
-        <div className=" rounded-lg bg-secondary" key={i}>
-          <div className="px-2 py-1 bg-lightHighlight rounded-t-lg flex items-center justify-between">
-            <h5 className="uppercase font-semibold ">{coll.name}</h5>
-            <div className="flex gap-2">
-              <button onClick={() => handleEdit(coll)}>
-                <MdModeEdit className="text-primary" />
-              </button>
-              <button onClick={() => handleDelete(coll.id)}>
-                <MdDelete className="text-error" />
-              </button>
+        <Link href={`/collections/${coll.name}`} key={i}>
+          <div className=" rounded-lg bg-lightHighlight">
+            <div className="px-3 py-2 text-secondary bg-primary rounded-t-lg flex items-center justify-between">
+              <h5 className="text-lg">{coll.name}</h5>
+              <div className="flex gap-2">
+                <button onClick={(e) => handleEdit(e, coll)}>
+                  <MdModeEdit className="text-secondary" />
+                </button>
+                <button onClick={(e) => handleDelete(e, coll.id)}>
+                  <MdDelete className="text-error" />
+                </button>
+              </div>
+            </div>
+            <div className="py-4 px-2 overflow-x-hidden">
+              <p>Url: {coll.baseUrl}</p>
             </div>
           </div>
-          <div className="py-4 px-2 overflow-x-hidden">
-            <p>Url: {coll.baseUrl}</p>
-          </div>
-        </div>
+        </Link>
       ))}
       <button className="w-20" onClick={() => setShowModal(true)}>
         <IoMdAddCircleOutline className="m-auto text-secondary text-2xl" />
