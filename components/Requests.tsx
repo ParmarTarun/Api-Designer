@@ -55,7 +55,7 @@ const Requests = () => {
               <select
                 name="method"
                 className="text-2xl bg-transparent focus:outline-none"
-                value={selectedReq.method}
+                defaultValue={selectedReq.method}
               >
                 <option value="GET">GET</option>
                 <option value="POST">POST</option>
@@ -68,7 +68,7 @@ const Requests = () => {
                 type="text"
                 placeholder="/products"
                 className="bg-transparent w-full px-2 focus:outline-none text-lg"
-                value={selectedReq.path}
+                defaultValue={selectedReq.path}
               />
             </div>
           </div>
