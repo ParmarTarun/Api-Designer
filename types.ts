@@ -19,4 +19,5 @@ export type requestBody = {
   name: string;
   method: string;
   path: string;
+  entityId: string;
 };

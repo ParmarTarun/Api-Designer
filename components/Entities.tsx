@@ -1,9 +1,10 @@
+import { entityType } from "@/models/Entity";
 import React from "react";
 
 interface entitiesProps {
-  entities: string[];
-  currentEntity: string;
-  setEntity: (p: string) => void;
+  entities: entityType[];
+  currentEntity: entityType;
+  setEntity: (p: entityType) => void;
 }
 
 const Entities = ({ entities, currentEntity, setEntity }: entitiesProps) => {
@@ -15,13 +16,13 @@ const Entities = ({ entities, currentEntity, setEntity }: entitiesProps) => {
           <button
             key={i}
             className={`bg-primary rounded-md px-4 py-1 ${
-              entity === currentEntity
+              entity.name === currentEntity.name
                 ? "border-2 border-darkHighlight"
                 : "border-2 border-transparent"
             }`}
             onClick={() => setEntity(entity)}
           >
-            {entity}
+            {entity.name}
           </button>
         ))}
         {/* <button className="bg-primary rounded-md px-4 py-1 ">

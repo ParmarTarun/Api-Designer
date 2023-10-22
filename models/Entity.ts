@@ -1,16 +1,17 @@
 import { Schema, model, models } from "mongoose";
+import { requestType } from "./Request";
 
 export type entityType = {
   id: string;
   name: string;
-  requests: string[];
+  requests: requestType[];
   createdAt: string;
 };
 
 const EntitySchema = new Schema<entityType>(
   {
     name: String,
-    requests: [{ type: String, default: [] }],
+    requests: [{ type: Schema.Types.ObjectId, ref: "Request", default: [] }],
   },
   {
     timestamps: true,

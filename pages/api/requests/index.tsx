@@ -1,5 +1,6 @@
-import { InvalidCollectionId } from "@/lib/customErrors";
+import { InvalidCollectionId, InvalidEntityId } from "@/lib/customErrors";
 import { getEntities, postEntity } from "@/lib/entities";
+import { getRequests, postRequest } from "@/lib/requests";
 import { isValidObjectId } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -8,14 +9,14 @@ type Data = {
   [key: string]: any;
 };
 
-// GET, POST  /entities
+// GET, POST  /requests
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   switch (req.method) {
     case "GET": {
       try {
-        const entities = await getEntities();
-        return res.status(200).json({ message: "Success", entities });
+        const requests = await getRequests();
+        return res.status(200).json({ message: "Success", requests });
       } catch (e) {
         console.log(e);
         return res.status(500).json({ message: "Something went wrong!" });
@@ -24,18 +25,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
     case "POST": {
       try {
-        const { name, collectionId } = req.body;
+        const { name, method, path, entityId } = req.body;
 
-        if (!name || !collectionId) {
+        if (!name || !method || !path || !entityId) {
           return res.status(400).json({ message: "Invalid request" });
         }
-        if (!isValidObjectId(collectionId))
-          return res.status(400).json({ message: "Invalid collection Id" });
+        if (!isValidObjectId(entityId))
+          return res.status(400).json({ message: "Invalid entity Id" });
 
-        const entity = await postEntity({ name, collectionId });
-        return res.status(201).json({ message: "Success", entity });
+        const request = await postRequest({ name, path, method, entityId });
+        return res.status(201).json({ message: "Success", request });
       } catch (e) {
-        if (e instanceof InvalidCollectionId) {
+        if (e instanceof InvalidEntityId) {
           return res.status(400).json({ message: e.message });
         }
         console.log(e);

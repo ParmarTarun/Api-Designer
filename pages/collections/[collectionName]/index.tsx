@@ -15,7 +15,6 @@ interface collectionPageProps {
 }
 
 const CollectionPage = ({ collectionData }: collectionPageProps) => {
-  const entities = ["product", "service"];
   const requests: requestBody[] = [
     { name: "Fetch all products", method: "GET", path: "/products" },
     { name: "Remove a product", method: "DELETE", path: "/products" },
@@ -29,7 +28,9 @@ const CollectionPage = ({ collectionData }: collectionPageProps) => {
     { name: "Fetch all services", method: "GET", path: "/services" },
   ];
   const [collection, setCollection] = useState<collectionType>(collectionData);
-  const [selectedEntity, setSelectedEntity] = useState(entities[0]);
+  const [selectedEntity, setSelectedEntity] = useState(
+    collection.entities[0] || null
+  );
 
   return (
     <Layout>
@@ -38,7 +39,7 @@ const CollectionPage = ({ collectionData }: collectionPageProps) => {
           <h3>{collection.name}</h3>
           <BaseUrl baseUrl={collection.baseUrl} />
           <Entities
-            entities={entities}
+            entities={collection.entities}
             currentEntity={selectedEntity}
             setEntity={setSelectedEntity}
           />
@@ -58,6 +59,7 @@ export const getServerSideProps: GetServerSideProps<
   const collection = await getCollectionByName(
     collectionName?.toString() || ""
   );
+  console.log(collection);
   return {
     props: {
       collectionData: JSON.parse(JSON.stringify(collection)),
