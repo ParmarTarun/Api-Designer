@@ -10,6 +10,10 @@ export type collectionBody = {
   baseUrl: string;
   entities: entityType[];
 };
+export type entityBody = {
+  name: string;
+  collectionId: string;
+};
 
 export type requestBody = {
   name: string;

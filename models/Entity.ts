@@ -10,7 +10,7 @@ export type entityType = {
 const EntitySchema = new Schema<entityType>(
   {
     name: String,
-    requests: [{ type: String }],
+    requests: [{ type: String, default: [] }],
   },
   {
     timestamps: true,

@@ -23,7 +23,7 @@ export const getCollections: getCollectionsType = async () => {
       id: row._id,
       name: row.name,
       baseUrl: row.baseUrl,
-      entities: [],
+      entities: row.entities,
       createdAt: row.createdAt,
     });
   });
