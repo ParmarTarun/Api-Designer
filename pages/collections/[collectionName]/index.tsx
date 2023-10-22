@@ -1,24 +1,48 @@
 import BaseUrl from "@/components/BaseUrl";
 import CollectionLayout from "@/components/CollectionLayout";
+import Entities from "@/components/Entities";
 import Layout from "@/components/Layout";
 import Requests from "@/components/Requests";
 import { getCollectionByName } from "@/lib/collections";
 import { collectionType } from "@/models/Collection";
+import { requestBody } from "@/types";
 import { GetServerSideProps } from "next";
-import React from "react";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 
 interface collectionPageProps {
-  collection: collectionType;
+  collectionData: collectionType;
 }
 
-const CollectionPage = ({ collection }: collectionPageProps) => {
+const CollectionPage = ({ collectionData }: collectionPageProps) => {
+  const entities = ["product", "service"];
+  const requests: requestBody[] = [
+    { name: "Fetch all products", method: "GET", path: "/products" },
+    { name: "Remove a product", method: "DELETE", path: "/products" },
+    { name: "Fetch a product", method: "GET", path: "/product/:pId" },
+    { name: "Create a product", method: "POST", path: "/products" },
+    { name: "Update a product", method: "PATCH", path: "/products/:pId" },
+    { name: "Remove a service", method: "DELETE", path: "/services/:sId" },
+    { name: "Fetch a service", method: "GET", path: "/service/:sId" },
+    { name: "Update a service", method: "PATCH", path: "/services/:sId" },
+    { name: "Create a service", method: "POST", path: "/services" },
+    { name: "Fetch all services", method: "GET", path: "/services" },
+  ];
+  const [collection, setCollection] = useState<collectionType>(collectionData);
+  const [selectedEntity, setSelectedEntity] = useState(entities[0]);
+
   return (
     <Layout>
       <CollectionLayout>
         <div className="text-primary">
           <h3>{collection.name}</h3>
           <BaseUrl baseUrl={collection.baseUrl} />
-          <Requests />
+          <Entities
+            entities={entities}
+            currentEntity={selectedEntity}
+            setEntity={setSelectedEntity}
+          />
+          <Requests requests={requests} />
         </div>
       </CollectionLayout>
     </Layout>
@@ -36,7 +60,7 @@ export const getServerSideProps: GetServerSideProps<
   );
   return {
     props: {
-      collection: JSON.parse(JSON.stringify(collection)),
+      collectionData: JSON.parse(JSON.stringify(collection)),
     },
   };
 };
