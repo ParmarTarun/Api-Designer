@@ -1,15 +1,18 @@
 import { Schema, model, models } from "mongoose";
+import { entityType } from "./Entity";
 
 export type collectionType = {
   id: string;
   name: string;
   baseUrl: string;
+  entities: entityType[];
   createdAt: string;
 };
 
 const CollectionSchema = new Schema<collectionType>(
   {
     name: String,
+    entities: [{ type: Schema.Types.ObjectId, ref: "Entity", default: [] }],
     baseUrl: String,
   },
   {

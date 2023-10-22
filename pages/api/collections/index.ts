@@ -30,6 +30,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
         const collection = await postCollection({
           name,
           baseUrl,
+          entities: [],
         });
         return res.status(201).json({ message: "Success", collection });
       } catch (e) {
