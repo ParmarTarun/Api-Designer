@@ -1,11 +1,13 @@
 import { Entity } from "@/models/Entity";
 import { mongooseConnect } from "./mongoose";
 import { requestBody } from "@/types";
-import { InvalidEntityId } from "./customErrors";
+import { InvalidEntityId, InvalidRequestId } from "./customErrors";
 import { Request, requestType } from "@/models/Request";
 
 type getRequestsType = () => Promise<requestType[]>;
 type postRequestType = (data: requestBody) => Promise<requestType>;
+type patchRequestType = (id: string, data: requestBody) => Promise<requestType>;
+type deleteRequestType = (id: string) => Promise<boolean>;
 
 export const getRequests: getRequestsType = async () => {
   await mongooseConnect();
@@ -50,4 +52,33 @@ export const postRequest: postRequestType = async ({
     createdAt: request.createdAt,
     id: request._id,
   };
+};
+
+// @ts-ignore   path is coming in as a string from request body and Literal type is expected here
+export const patchRequest: patchRequestType = async (
+  id,
+  { name, method, path }
+) => {
+  await mongooseConnect();
+  const request = await Request.findByIdAndUpdate(id, {
+    name,
+    method,
+    path,
+  });
+  if (!request) throw new InvalidRequestId();
+
+  return {
+    name,
+    method,
+    path,
+    createdAt: request.createdAt,
+    id: request._id,
+  };
+};
+
+export const deleteRequest: deleteRequestType = async (id) => {
+  await mongooseConnect();
+  const result = await Request.findByIdAndDelete(id);
+
+  return true;
 };

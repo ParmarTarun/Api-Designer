@@ -11,3 +11,10 @@ export class InvalidEntityId extends Error {
     this.name = "InvalidEntityId";
   }
 }
+
+export class InvalidRequestId extends Error {
+  constructor() {
+    super("Invalid Request Id");
+    this.name = "InvalidRequestId";
+  }
+}

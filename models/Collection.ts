@@ -1,6 +1,6 @@
 import { Schema, model, models } from "mongoose";
-import { Entity, entityType } from "./Entity";
-
+import { entityType } from "./Entity";
+const Entity = require("./Entity"); // this way entity model will be registered and avoid error
 export type collectionType = {
   id: string;
   name: string;
@@ -12,9 +12,7 @@ export type collectionType = {
 const CollectionSchema = new Schema<collectionType>(
   {
     name: String,
-    entities: [
-      { type: Schema.Types.ObjectId, ref: Entity.modelName, default: [] },
-    ],
+    entities: [{ type: Schema.Types.ObjectId, ref: "Entity", default: [] }],
     baseUrl: String,
   },
   {

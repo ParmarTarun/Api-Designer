@@ -1,4 +1,5 @@
 import { Schema, model, models } from "mongoose";
+import { Entity } from "./Entity";
 
 export type requestType = {
   id: string;
@@ -18,5 +19,22 @@ const RequestSchema = new Schema<requestType>(
     timestamps: true,
   }
 );
+
+// hook to delete all referenced entities in the collection on delete entity
+RequestSchema.post("findOneAndDelete", (request) => {
+  if (!request) return;
+  const reqId = request._id;
+  Entity.find({ requests: { $in: [reqId] } }).then((requests) => {
+    Promise.all(
+      requests.map((req) =>
+        Entity.findByIdAndUpdate(
+          req._id,
+          { $pull: { requests: reqId } },
+          { new: true }
+        )
+      )
+    );
+  });
+});
 
 export const Request = models.Request || model("Request", RequestSchema);

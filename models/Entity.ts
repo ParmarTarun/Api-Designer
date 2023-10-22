@@ -1,7 +1,7 @@
 import { Schema, model, models } from "mongoose";
-import { Request, requestType } from "./Request";
+import { requestType } from "./Request";
 import { Collection } from "./Collection";
-
+const Request = require("./Request"); // this way entity model will be registered and avoid error
 export type entityType = {
   id: string;
   name: string;
@@ -12,9 +12,7 @@ export type entityType = {
 const EntitySchema = new Schema<entityType>(
   {
     name: String,
-    requests: [
-      { type: Schema.Types.ObjectId, ref: Request.modelName, default: [] },
-    ],
+    requests: [{ type: Schema.Types.ObjectId, ref: "Request", default: [] }],
   },
   {
     timestamps: true,
@@ -23,6 +21,7 @@ const EntitySchema = new Schema<entityType>(
 
 // hook to delete all referenced entities in the collection on delete entity
 EntitySchema.post("findOneAndDelete", (entity) => {
+  if (!entity) return;
   const enId = entity._id;
   Collection.find({ entities: { $in: [enId] } }).then((collections) => {
     Promise.all(
