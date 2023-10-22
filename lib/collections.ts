@@ -1,7 +1,9 @@
 import { Collection, collectionType } from "@/models/Collection";
 import { mongooseConnect } from "./mongoose";
-import { collectionBody } from "@/types";
+import { collectionBody, entityBody } from "@/types";
 import { InvalidCollectionId } from "./customErrors";
+import { entityType } from "@/models/Entity";
+import { requestType } from "@/models/Request";
 
 type getCollectionsType = () => Promise<collectionType[]>;
 type getCollectionType = (id: string) => Promise<collectionType>;
@@ -48,11 +50,31 @@ export const getCollectionByName: getCollectionByNameType = async (
   collName
 ) => {
   await mongooseConnect();
-  const collection = await Collection.findOne({ name: collName }).populate(
-    "entities"
-  );
-  const { name, baseUrl, entities, createdAt, id } =
-    collection as collectionType;
+  const collectionDoc = await Collection.findOne({ name: collName }).populate({
+    path: "entities",
+    populate: { path: "requests" },
+  });
+  const { name, baseUrl, createdAt, id } = collectionDoc as collectionType;
+  let entities: entityType[] = [];
+  let requests: requestType[] = [];
+  collectionDoc.entities.forEach((en: any) => {
+    en.requests.forEach((req: any) => {
+      requests.push({
+        id: req._id,
+        name: req.name,
+        path: req.path,
+        method: req.method,
+        createdAt: req.createdAt,
+      });
+    });
+    entities.push({
+      id: en._id,
+      name: en.name,
+      requests,
+      createdAt: en.createdAt,
+    });
+    requests = [];
+  });
 
   return { name, baseUrl, entities, createdAt, id };
 };

@@ -1,14 +1,15 @@
 import { reqMethodColorMap } from "@/lib/utils";
-import { requestBody } from "@/types";
+import { requestType } from "@/models/Request";
 import React, { useState } from "react";
+import { IoMdAddCircleOutline } from "react-icons/io";
 
 interface requestsProps {
-  requests: requestBody[];
+  requests: requestType[];
 }
 
 const Requests = ({ requests }: requestsProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const selectedReq = requests[selectedIndex];
+  const selectedReq = requests[selectedIndex] || null;
   return (
     <div className="my-2">
       <h5 className="mb-1">Requests:</h5>
@@ -41,30 +42,34 @@ const Requests = ({ requests }: requestsProps) => {
           </div>
         </div>
         <div className="col-span-4 px-4">
-          <div className="grid grid-cols-8 border border-primary rounded-md">
-            <div className="col-span-1 pl-4 py-2 text-secondary bg-primary border-r border-primary">
-              <select
-                name="method"
-                className="text-2xl bg-transparent focus:outline-none"
-                value={selectedReq.method}
-                onChange={() => {}}
-              >
-                <option value="GET">GET</option>
-                <option value="POST">POST</option>
-                <option value="PATCH">PATCH</option>
-                <option value="DELETE">DELETE</option>
-              </select>
+          {requests.length === 0 && <p>Create a request</p>}
+          {requests.length !== 0 && !selectedReq && <p>Select a request</p>}
+          {requests.length > 0 && (
+            <div className="grid grid-cols-8 border border-primary rounded-md">
+              <div className="col-span-1 pl-4 py-2 text-secondary bg-primary border-r border-primary">
+                <select
+                  name="method"
+                  className="text-2xl bg-transparent focus:outline-none"
+                  value={selectedReq.method}
+                  onChange={() => {}}
+                >
+                  <option value="GET">GET</option>
+                  <option value="POST">POST</option>
+                  <option value="PATCH">PATCH</option>
+                  <option value="DELETE">DELETE</option>
+                </select>
+              </div>
+              <div className="col-span-7 flex">
+                <input
+                  type="text"
+                  placeholder="/products"
+                  className="bg-transparent w-full px-2 focus:outline-none text-lg"
+                  value={selectedReq.path}
+                  onChange={() => {}}
+                />
+              </div>
             </div>
-            <div className="col-span-7 flex">
-              <input
-                type="text"
-                placeholder="/products"
-                className="bg-transparent w-full px-2 focus:outline-none text-lg"
-                value={selectedReq.path}
-                onChange={() => {}}
-              />
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

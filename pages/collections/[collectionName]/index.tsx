@@ -5,7 +5,6 @@ import Layout from "@/components/Layout";
 import Requests from "@/components/Requests";
 import { getCollectionByName } from "@/lib/collections";
 import { collectionType } from "@/models/Collection";
-import { requestBody } from "@/types";
 import { GetServerSideProps } from "next";
 import React, { useState } from "react";
 
@@ -14,68 +13,6 @@ interface collectionPageProps {
 }
 
 const CollectionPage = ({ collectionData }: collectionPageProps) => {
-  const requests: requestBody[] = [
-    {
-      entityId: "",
-      name: "Fetch all products",
-      method: "GET",
-      path: "/products",
-    },
-    {
-      entityId: "",
-      name: "Remove a product",
-      method: "DELETE",
-      path: "/products",
-    },
-    {
-      entityId: "",
-      name: "Fetch a product",
-      method: "GET",
-      path: "/product/:pId",
-    },
-    {
-      entityId: "",
-      name: "Create a product",
-      method: "POST",
-      path: "/products",
-    },
-    {
-      entityId: "",
-      name: "Update a product",
-      method: "PATCH",
-      path: "/products/:pId",
-    },
-    {
-      entityId: "",
-      name: "Remove a service",
-      method: "DELETE",
-      path: "/services/:sId",
-    },
-    {
-      entityId: "",
-      name: "Fetch a service",
-      method: "GET",
-      path: "/service/:sId",
-    },
-    {
-      entityId: "",
-      name: "Update a service",
-      method: "PATCH",
-      path: "/services/:sId",
-    },
-    {
-      entityId: "",
-      name: "Create a service",
-      method: "POST",
-      path: "/services",
-    },
-    {
-      entityId: "",
-      name: "Fetch all services",
-      method: "GET",
-      path: "/services",
-    },
-  ];
   const [collection, setCollection] = useState<collectionType>(collectionData);
   const [selectedEntity, setSelectedEntity] = useState(
     collection.entities[0] || null
@@ -92,7 +29,7 @@ const CollectionPage = ({ collectionData }: collectionPageProps) => {
             currentEntity={selectedEntity}
             setEntity={setSelectedEntity}
           />
-          <Requests requests={requests} />
+          <Requests requests={selectedEntity["requests"]} />
         </div>
       </CollectionLayout>
     </Layout>
