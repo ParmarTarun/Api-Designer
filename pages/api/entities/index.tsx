@@ -32,7 +32,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
         if (!isValidObjectId(collectionId))
           return res.status(400).json({ message: "Invalid collection Id" });
 
-        const entity = await postEntity({ name, collectionId });
+        const entity = await postEntity({ name, collectionId, requests: [] });
         return res.status(201).json({ message: "Success", entity });
       } catch (e) {
         if (e instanceof InvalidCollectionId) {

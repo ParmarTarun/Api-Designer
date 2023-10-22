@@ -2,10 +2,12 @@ import { Entity, entityType } from "@/models/Entity";
 import { mongooseConnect } from "./mongoose";
 import { entityBody } from "@/types";
 import { Collection } from "@/models/Collection";
-import { InvalidCollectionId } from "./customErrors";
+import { InvalidCollectionId, InvalidEntityId } from "./customErrors";
 
 type getEntitiesType = () => Promise<entityType[]>;
 type postEntityType = (data: entityBody) => Promise<entityType>;
+type patchEntityType = (id: string, data: entityBody) => Promise<entityType>;
+type deleteEntityType = (id: string) => Promise<boolean>;
 
 export const getEntities: getEntitiesType = async () => {
   await mongooseConnect();
@@ -36,7 +38,6 @@ export const postEntity: postEntityType = async ({ name, collectionId }) => {
     { _id: collectionId },
     { $push: { entities: entity._id } }
   );
-  console.log(res);
 
   return {
     name,
@@ -44,4 +45,27 @@ export const postEntity: postEntityType = async ({ name, collectionId }) => {
     requests: entity.requests,
     id: entity._id,
   };
+};
+
+export const patchEntity: patchEntityType = async (id, { name, requests }) => {
+  await mongooseConnect();
+  const entity = await Entity.findByIdAndUpdate(id, {
+    name,
+    requests,
+  });
+  if (!entity) throw new InvalidEntityId();
+
+  return {
+    name,
+    requests,
+    createdAt: entity.createdAt,
+    id: entity._id,
+  };
+};
+
+export const deleteEntity: deleteEntityType = async (id) => {
+  await mongooseConnect();
+  const result = await Entity.findByIdAndDelete(id);
+
+  return true;
 };

@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import { entityType } from "./models/Entity";
+import { requestType } from "./models/Request";
 
 export type ReactChildrenProps = {
   children: ReactElement;
@@ -12,6 +13,7 @@ export type collectionBody = {
 };
 export type entityBody = {
   name: string;
+  requests: requestType[];
   collectionId: string;
 };
 

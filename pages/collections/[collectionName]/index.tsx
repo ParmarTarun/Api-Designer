@@ -7,8 +7,7 @@ import { getCollectionByName } from "@/lib/collections";
 import { collectionType } from "@/models/Collection";
 import { requestBody } from "@/types";
 import { GetServerSideProps } from "next";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 interface collectionPageProps {
   collectionData: collectionType;
@@ -16,16 +15,66 @@ interface collectionPageProps {
 
 const CollectionPage = ({ collectionData }: collectionPageProps) => {
   const requests: requestBody[] = [
-    { name: "Fetch all products", method: "GET", path: "/products" },
-    { name: "Remove a product", method: "DELETE", path: "/products" },
-    { name: "Fetch a product", method: "GET", path: "/product/:pId" },
-    { name: "Create a product", method: "POST", path: "/products" },
-    { name: "Update a product", method: "PATCH", path: "/products/:pId" },
-    { name: "Remove a service", method: "DELETE", path: "/services/:sId" },
-    { name: "Fetch a service", method: "GET", path: "/service/:sId" },
-    { name: "Update a service", method: "PATCH", path: "/services/:sId" },
-    { name: "Create a service", method: "POST", path: "/services" },
-    { name: "Fetch all services", method: "GET", path: "/services" },
+    {
+      entityId: "",
+      name: "Fetch all products",
+      method: "GET",
+      path: "/products",
+    },
+    {
+      entityId: "",
+      name: "Remove a product",
+      method: "DELETE",
+      path: "/products",
+    },
+    {
+      entityId: "",
+      name: "Fetch a product",
+      method: "GET",
+      path: "/product/:pId",
+    },
+    {
+      entityId: "",
+      name: "Create a product",
+      method: "POST",
+      path: "/products",
+    },
+    {
+      entityId: "",
+      name: "Update a product",
+      method: "PATCH",
+      path: "/products/:pId",
+    },
+    {
+      entityId: "",
+      name: "Remove a service",
+      method: "DELETE",
+      path: "/services/:sId",
+    },
+    {
+      entityId: "",
+      name: "Fetch a service",
+      method: "GET",
+      path: "/service/:sId",
+    },
+    {
+      entityId: "",
+      name: "Update a service",
+      method: "PATCH",
+      path: "/services/:sId",
+    },
+    {
+      entityId: "",
+      name: "Create a service",
+      method: "POST",
+      path: "/services",
+    },
+    {
+      entityId: "",
+      name: "Fetch all services",
+      method: "GET",
+      path: "/services",
+    },
   ];
   const [collection, setCollection] = useState<collectionType>(collectionData);
   const [selectedEntity, setSelectedEntity] = useState(
@@ -59,7 +108,6 @@ export const getServerSideProps: GetServerSideProps<
   const collection = await getCollectionByName(
     collectionName?.toString() || ""
   );
-  console.log(collection);
   return {
     props: {
       collectionData: JSON.parse(JSON.stringify(collection)),

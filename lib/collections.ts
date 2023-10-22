@@ -7,6 +7,10 @@ type getCollectionsType = () => Promise<collectionType[]>;
 type getCollectionType = (id: string) => Promise<collectionType>;
 type getCollectionByNameType = (name: string) => Promise<collectionType>;
 type postCollectionType = (data: collectionBody) => Promise<collectionType>;
+type patchCollectionType = (
+  id: string,
+  data: collectionBody
+) => Promise<collectionType>;
 type deleteCollectionType = (id: string) => Promise<boolean>;
 
 export const getCollections: getCollectionsType = async () => {
@@ -70,10 +74,6 @@ export const postCollection: postCollectionType = async ({
   };
 };
 
-type patchCollectionType = (
-  id: string,
-  data: collectionBody
-) => Promise<collectionType>;
 export const patchCollection: patchCollectionType = async (
   id,
   { name, baseUrl, entities }
