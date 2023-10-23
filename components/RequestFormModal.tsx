@@ -1,27 +1,27 @@
-import React, { useState } from "react";
+import { requestType } from "@/models/Request";
+import { requestBody } from "@/types";
+import { useState } from "react";
 import Modal from "./Modal";
 import { IoMdClose } from "react-icons/io";
-import { collectionBody } from "@/types";
-import { useCollection } from "@/context/collection";
-import { patchCollection, postCollection } from "@/lib/apiCall";
-import { collectionType } from "@/models/Collection";
+import { postRequest } from "@/lib/apiCall";
 
-interface collectionFormModalProps {
-  collection?: collectionType;
+interface requestFormModalProps {
+  request?: requestType;
+  entityId: string;
   close: () => void;
 }
 
-const CollectionFormModal = ({
-  collection,
+const RequestFormModal = ({
+  request,
+  entityId,
   close,
-}: collectionFormModalProps) => {
-  const { collections, setCollections } = useCollection();
-
+}: requestFormModalProps) => {
   const [error, setError] = useState("");
-  const [formData, setFormData] = useState<collectionBody>({
-    name: collection?.name || "",
-    baseUrl: collection?.baseUrl || "",
-    entities: [],
+  const [formData, setFormData] = useState<requestBody>({
+    name: request?.name || "",
+    path: request?.path || "",
+    method: request?.method || "",
+    entityId: entityId,
   });
 
   const handleFormInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,28 +32,28 @@ const CollectionFormModal = ({
     });
   };
 
-  const handleUpdate = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!collection?.id) return;
-    setError("");
-    e.preventDefault();
-    patchCollection(collection.id, formData)
-      .then(({ collection }) => {
-        const updatedCollections = collections.filter(
-          (coll: collectionType) => coll.id !== collection.id
-        );
-        setCollections([collection, ...updatedCollections]);
-        close();
-      })
-      .catch((e) => {
-        setError(e.response.data.message);
-      });
-  };
+  // const handleUpdate = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   if (!collection?.id) return;
+  //   setError("");
+  //   e.preventDefault();
+  //   patchCollection(collection.id, formData)
+  //     .then(({ collection }) => {
+  //       const updatedCollections = collections.filter(
+  //         (coll) => coll.id !== collection.id
+  //       );
+  //       setCollections([collection, ...updatedCollections]);
+  //       close();
+  //     })
+  //     .catch((e) => {
+  //       setError(e.response.data.message);
+  //     });
+  // };
   const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
     setError("");
     e.preventDefault();
-    postCollection(formData)
-      .then(({ collection }) => {
-        setCollections([collection, ...collections]);
+    postRequest(formData)
+      .then(({ request }) => {
+        // add to requests
         close();
       })
       .catch((e) => {
@@ -65,7 +65,7 @@ const CollectionFormModal = ({
     <Modal>
       <div className="text-left bg-secondary rounded-md w-2/5">
         <div className="bg-primary text-secondary px-4 py-2 flex items-center justify-between">
-          <h4>New Collection</h4>
+          <h4>New Request</h4>
           <button onClick={close}>
             <IoMdClose />
           </button>
@@ -78,7 +78,7 @@ const CollectionFormModal = ({
             <input
               type="text"
               className="basic-input col-span-2"
-              placeholder="New Collection"
+              placeholder="New Request"
               name="name"
               value={formData.name}
               onChange={handleFormInput}
@@ -86,14 +86,27 @@ const CollectionFormModal = ({
           </div>
           <div className="grid grid-cols-6 items-center mt-2">
             <label htmlFor="collection-url" className="text-right mr-2">
-              Base URL:
+              Method:
             </label>
             <input
               type="text"
               className="basic-input col-span-2"
-              placeholder="https://newcollection.com/api"
-              name="baseUrl"
-              value={formData.baseUrl}
+              placeholder="POST"
+              name="method"
+              value={formData.method}
+              onChange={handleFormInput}
+            />
+          </div>
+          <div className="grid grid-cols-6 items-center mt-2">
+            <label htmlFor="collection-url" className="text-right mr-2">
+              Path:
+            </label>
+            <input
+              type="text"
+              className="basic-input col-span-2"
+              placeholder="/product"
+              name="path"
+              value={formData.path}
               onChange={handleFormInput}
             />
           </div>
@@ -106,10 +119,10 @@ const CollectionFormModal = ({
             >
               CANCEL
             </button>
-            {collection ? (
+            {request ? (
               <button
                 className="border px-2 py-1 rounded-md bg-lightHighlight"
-                onClick={handleUpdate}
+                // onClick={handleUpdate}
               >
                 UPDATE
               </button>
@@ -128,4 +141,4 @@ const CollectionFormModal = ({
   );
 };
 
-export default CollectionFormModal;
+export default RequestFormModal;

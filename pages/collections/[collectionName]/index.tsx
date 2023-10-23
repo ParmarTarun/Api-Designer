@@ -29,7 +29,10 @@ const CollectionPage = ({ collectionData }: collectionPageProps) => {
             currentEntity={selectedEntity}
             setEntity={setSelectedEntity}
           />
-          <Requests requests={selectedEntity["requests"]} />
+          <Requests
+            requestsData={selectedEntity.requests}
+            entityId={selectedEntity.id}
+          />
         </div>
       </CollectionLayout>
     </Layout>

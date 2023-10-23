@@ -2,21 +2,27 @@ import { reqMethodColorMap } from "@/lib/utils";
 import { requestType } from "@/models/Request";
 import React, { useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import RequestFormModal from "./RequestFormModal";
 
 interface requestsProps {
-  requests: requestType[];
+  requestsData: requestType[];
+  entityId: string;
 }
 
-const Requests = ({ requests }: requestsProps) => {
+const Requests = ({ requestsData, entityId }: requestsProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const selectedReq = requests[selectedIndex] || null;
+  const [showModal, setShowModal] = useState(false);
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
   return (
     <div className="my-2">
       <h5 className="mb-1">Requests:</h5>
       <div className="grid grid-cols-5">
         <div className="col-span-1 bg-primary ">
           <div className="text-secondary my-4">
-            {requests.map((req, i) => {
+            {requestsData.map((req, i) => {
               const backgroundClass =
                 selectedIndex === i ? "bg-lightHighlight text-primary " : "";
               return (
@@ -39,9 +45,14 @@ const Requests = ({ requests }: requestsProps) => {
                 </div>
               );
             })}
+            <div className="text-center mt-4">
+              <button onClick={() => setShowModal(true)}>
+                <IoMdAddCircleOutline className=" text-secondary text-2xl" />
+              </button>
+            </div>
           </div>
         </div>
-        <div className="col-span-4 px-4">
+        {/* <div className="col-span-4 px-4">
           {requests.length === 0 && <p>Create a request</p>}
           {requests.length !== 0 && !selectedReq && <p>Select a request</p>}
           {requests.length > 0 && (
@@ -70,8 +81,15 @@ const Requests = ({ requests }: requestsProps) => {
               </div>
             </div>
           )}
-        </div>
+        </div> */}
       </div>
+      {!!showModal && (
+        <RequestFormModal
+          close={handleModalClose}
+          request={undefined}
+          entityId={entityId}
+        />
+      )}
     </div>
   );
 };
