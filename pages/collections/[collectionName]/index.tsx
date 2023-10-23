@@ -25,14 +25,16 @@ const CollectionPage = ({ collectionData }: collectionPageProps) => {
           <h3>{collection.name}</h3>
           <BaseUrl baseUrl={collection.baseUrl} />
           <Entities
-            entities={collection.entities}
+            entities={collection.entities || []}
             currentEntity={selectedEntity}
             setEntity={setSelectedEntity}
           />
-          <Requests
-            requestsData={selectedEntity.requests}
-            entityId={selectedEntity.id}
-          />
+          {!!selectedEntity && (
+            <Requests
+              requestsData={selectedEntity.requests}
+              entityId={selectedEntity.id}
+            />
+          )}
         </div>
       </CollectionLayout>
     </Layout>

@@ -8,23 +8,23 @@ import {
   useState,
 } from "react";
 
-type collectionContextType = {
+type collectionsContextType = {
   collections: collectionType[];
   setCollections: Dispatch<SetStateAction<collectionType[]>>;
 };
 
-const initialValues: collectionContextType = {
+const initialValues: collectionsContextType = {
   collections: [],
   setCollections: () => {},
 };
 
-const CollectionContext = createContext<collectionContextType>(initialValues);
+const CollectionsContext = createContext<collectionsContextType>(initialValues);
 
-export function useCollection() {
-  return useContext(CollectionContext);
+export function useCollections() {
+  return useContext(CollectionsContext);
 }
 
-export function CollectionProvider({ children }: ReactChildrenProps) {
+export function CollectionsProvider({ children }: ReactChildrenProps) {
   const [collections, setCollections] = useState(initialValues.collections);
   const value = {
     collections,
@@ -32,9 +32,9 @@ export function CollectionProvider({ children }: ReactChildrenProps) {
   };
   return (
     <>
-      <CollectionContext.Provider value={value}>
+      <CollectionsContext.Provider value={value}>
         {children}
-      </CollectionContext.Provider>
+      </CollectionsContext.Provider>
     </>
   );
 }

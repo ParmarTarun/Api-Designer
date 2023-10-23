@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "./Modal";
 import { IoMdClose } from "react-icons/io";
 import { collectionBody } from "@/types";
-import { useCollection } from "@/context/collection";
+import { useCollections } from "@/context/collections";
 import { patchCollection, postCollection } from "@/lib/apiCall";
 import { collectionType } from "@/models/Collection";
 
@@ -15,7 +15,7 @@ const CollectionFormModal = ({
   collection,
   close,
 }: collectionFormModalProps) => {
-  const { collections, setCollections } = useCollection();
+  const { collections, setCollections } = useCollections();
 
   const [error, setError] = useState("");
   const [formData, setFormData] = useState<collectionBody>({

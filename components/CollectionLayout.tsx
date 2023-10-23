@@ -1,4 +1,4 @@
-import { CollectionProvider } from "@/context/collection";
+import { CollectionsProvider } from "@/context/collections";
 import { ReactChildrenProps } from "@/types";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -9,7 +9,7 @@ const CollectionLayout = ({ children }: ReactChildrenProps) => {
   const router = useRouter();
   const path = decodeURI(router.asPath).slice(1).split("/");
   return (
-    <CollectionProvider>
+    <CollectionsProvider>
       <>
         <div className="mt-2 mb-4">
           <div className="flex bg-primary rounded-md p-2 text-secondary font-semibold ">
@@ -32,7 +32,7 @@ const CollectionLayout = ({ children }: ReactChildrenProps) => {
         </div>
         <div>{children}</div>
       </>
-    </CollectionProvider>
+    </CollectionsProvider>
   );
 };
 

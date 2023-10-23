@@ -2,7 +2,7 @@ import { collectionType } from "@/models/Collection";
 import React, { useEffect, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import CollectionFormModal from "./CollectionFormModal";
-import { useCollection } from "@/context/collection";
+import { useCollections } from "@/context/collections";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { deleteCollection } from "@/lib/apiCall";
 import Link from "next/link";
@@ -16,7 +16,7 @@ const Collections = ({ collectionsData }: collectionsProps) => {
   const [editingCollection, setEditingColelction] = useState<
     collectionType | undefined
   >();
-  const { collections, setCollections } = useCollection();
+  const { collections, setCollections } = useCollections();
 
   const handleModalClose = () => {
     setEditingColelction(undefined);
