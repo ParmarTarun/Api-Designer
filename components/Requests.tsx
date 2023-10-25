@@ -1,28 +1,33 @@
 import { reqMethodColorMap } from "@/lib/utils";
-import { requestType } from "@/models/Request";
 import React, { useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import RequestFormModal from "./RequestFormModal";
+import { entityType } from "@/models/Entity";
 
 interface requestsProps {
-  requestsData: requestType[];
-  entityId: string;
+  entity: entityType | undefined;
 }
 
-const Requests = ({ requestsData, entityId }: requestsProps) => {
+const Requests = ({ entity }: requestsProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
 
   const handleModalClose = () => {
     setShowModal(false);
   };
+  if (!entity)
+    return (
+      <div className="my-2">
+        <p>Select an entity </p>
+      </div>
+    );
   return (
     <div className="my-2">
       <h5 className="mb-1">Requests:</h5>
       <div className="grid grid-cols-5">
         <div className="col-span-1 bg-primary ">
           <div className="text-secondary my-4">
-            {requestsData.map((req, i) => {
+            {entity.requests.map((req, i) => {
               const backgroundClass =
                 selectedIndex === i ? "bg-lightHighlight text-primary " : "";
               return (
@@ -87,7 +92,7 @@ const Requests = ({ requestsData, entityId }: requestsProps) => {
         <RequestFormModal
           close={handleModalClose}
           request={undefined}
-          entityId={entityId}
+          entityId={entity.id}
         />
       )}
     </div>

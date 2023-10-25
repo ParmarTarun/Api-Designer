@@ -1,4 +1,5 @@
 import { CollectionsProvider } from "@/context/collections";
+import { SingleCollectionProvider } from "@/context/currentCollection";
 import { ReactChildrenProps } from "@/types";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -30,7 +31,7 @@ const CollectionLayout = ({ children }: ReactChildrenProps) => {
             })}
           </div>
         </div>
-        <div>{children}</div>
+        <SingleCollectionProvider>{children}</SingleCollectionProvider>
       </>
     </CollectionsProvider>
   );

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Modal from "./Modal";
 import { IoMdClose } from "react-icons/io";
 import { postRequest } from "@/lib/apiCall";
+import { useSingleCollection } from "@/context/currentCollection";
 
 interface requestFormModalProps {
   request?: requestType;
@@ -17,6 +18,7 @@ const RequestFormModal = ({
   close,
 }: requestFormModalProps) => {
   const [error, setError] = useState("");
+  const { addRequest } = useSingleCollection();
   const [formData, setFormData] = useState<requestBody>({
     name: request?.name || "",
     path: request?.path || "",
@@ -53,10 +55,11 @@ const RequestFormModal = ({
     e.preventDefault();
     postRequest(formData)
       .then(({ request }) => {
-        // add to requests
+        addRequest(entityId, request);
         close();
       })
       .catch((e) => {
+        console.log(e);
         setError(e.response.data.message);
       });
   };

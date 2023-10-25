@@ -1,41 +1,20 @@
-import BaseUrl from "@/components/BaseUrl";
+import CollectionDetails from "@/components/CollectionDetails";
 import CollectionLayout from "@/components/CollectionLayout";
-import Entities from "@/components/Entities";
 import Layout from "@/components/Layout";
-import Requests from "@/components/Requests";
 import { getCollectionByName } from "@/lib/collections";
 import { collectionType } from "@/models/Collection";
 import { GetServerSideProps } from "next";
-import React, { useState } from "react";
+import React from "react";
 
 interface collectionPageProps {
   collectionData: collectionType;
 }
 
 const CollectionPage = ({ collectionData }: collectionPageProps) => {
-  const [collection, setCollection] = useState<collectionType>(collectionData);
-  const [selectedEntity, setSelectedEntity] = useState(
-    collection.entities[0] || null
-  );
-
   return (
     <Layout>
       <CollectionLayout>
-        <div className="text-primary">
-          <h3>{collection.name}</h3>
-          <BaseUrl baseUrl={collection.baseUrl} />
-          <Entities
-            entities={collection.entities || []}
-            currentEntity={selectedEntity}
-            setEntity={setSelectedEntity}
-          />
-          {!!selectedEntity && (
-            <Requests
-              requestsData={selectedEntity.requests}
-              entityId={selectedEntity.id}
-            />
-          )}
-        </div>
+        <CollectionDetails collectionData={collectionData} />
       </CollectionLayout>
     </Layout>
   );
