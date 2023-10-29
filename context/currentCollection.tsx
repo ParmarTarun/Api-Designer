@@ -15,6 +15,7 @@ type singleCollectionContextType = {
   setCollection: Dispatch<SetStateAction<collectionType>>;
   addEntity: (ent: entityType) => void;
   addRequest: (entId: string, req: requestType) => void;
+  updateEntity: (ent: entityType) => void;
 };
 
 const initialValues: singleCollectionContextType = {
@@ -22,6 +23,7 @@ const initialValues: singleCollectionContextType = {
   setCollection: () => {},
   addEntity: () => {},
   addRequest: () => {},
+  updateEntity: () => {},
 };
 
 const SingleCollectionContext =
@@ -33,13 +35,31 @@ export function useSingleCollection() {
 
 export function SingleCollectionProvider({ children }: ReactChildrenProps) {
   const [collection, setCollection] = useState(initialValues.collection);
-  const addEntity = (ent: entityType) => {};
+
+  const addEntity = (entity: entityType) => {
+    setCollection({
+      ...collection,
+      entities: [entity, ...collection.entities],
+    });
+  };
+
+  const updateEntity = (entity: entityType) => {
+    const updatedEntities = collection.entities.filter(
+      (ent: entityType) => ent.id !== entity.id
+    );
+    setCollection({
+      ...collection,
+      entities: [entity, ...updatedEntities],
+    });
+  };
+
   const addRequest = (entId: string, req: requestType) => {};
   const value = {
     collection,
     setCollection,
     addEntity,
     addRequest,
+    updateEntity,
   };
   return (
     <>

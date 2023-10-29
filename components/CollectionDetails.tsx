@@ -12,7 +12,9 @@ interface CollectionDetailsProps {
 
 const CollectionDetails = ({ collectionData }: CollectionDetailsProps) => {
   const { collection, setCollection } = useSingleCollection();
-  const [currentEntity] = useState<entityType>();
+  const [currentEntity, setCurrentEntity] = useState<entityType | undefined>(
+    collection.entities[0]
+  );
 
   useEffect(() => {
     setCollection(collectionData);
@@ -22,8 +24,13 @@ const CollectionDetails = ({ collectionData }: CollectionDetailsProps) => {
     <div className="text-primary">
       <h3>{collection?.name}</h3>
       <BaseUrl baseUrl={collection.baseUrl} />
-      <Entities entities={collection.entities} />
-      <Requests entity={currentEntity} />
+      <Entities
+        entities={collection.entities}
+        currentEntity={currentEntity}
+        setCurrentEntity={setCurrentEntity}
+      />
+
+      {/* <Requests entity={currentEntity} /> */}
     </div>
   );
 };
