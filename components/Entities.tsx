@@ -3,18 +3,13 @@ import React, { useEffect, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import EntityFormModal from "./EntityFormModal";
 import { MdModeEdit } from "react-icons/md";
+import { useCurrentCollection } from "@/context/currentCollection";
 
-interface entitiesProps {
-  entities: entityType[];
-  currentEntity?: entityType;
-  setCurrentEntity: (p: entityType) => void;
-}
+interface entitiesProps {}
 
-const Entities = ({
-  entities,
-  currentEntity,
-  setCurrentEntity,
-}: entitiesProps) => {
+const Entities = ({}: entitiesProps) => {
+  const { currentCollection, currentEntity, setCurrentEntity } =
+    useCurrentCollection();
   const [showModal, setShowModal] = useState(false);
   const [editingEntity, setEditingEntity] = useState<entityType | undefined>();
 
@@ -29,24 +24,20 @@ const Entities = ({
     setShowModal(true);
   };
 
-  useEffect(() => {
-    if (entities.length > 0) setCurrentEntity(entities[0]);
-  }, [entities]);
-
   return (
     <>
       <h5 className="mb-1">Entites:</h5>
       <div className="flex items-center gap-4 text-secondary">
-        {entities.map((entity, i) => (
-          <>
+        {currentCollection.entities.map((entity, i) => (
+          <div key={i}>
             <button
               key={i}
               className={`bg-primary rounded-md px-4 py-1 border-2 ${
-                currentEntity?.id === entity.id
+                currentCollection.entities[currentEntity]?.id === entity.id
                   ? "border-darkHighlight"
                   : "dark-transparent"
               }`}
-              onClick={() => setCurrentEntity(entity)}
+              onClick={() => setCurrentEntity(i)}
             >
               {entity.name}
             </button>
@@ -56,7 +47,7 @@ const Entities = ({
             >
               <MdModeEdit />
             </button>
-          </>
+          </div>
         ))}
         <div className="text-center mt-4">
           <button onClick={() => setShowModal(true)}>

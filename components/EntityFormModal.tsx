@@ -3,7 +3,7 @@ import Modal from "./Modal";
 import { IoMdClose } from "react-icons/io";
 import { entityBody } from "@/types";
 import { entityType } from "@/models/Entity";
-import { useSingleCollection } from "@/context/currentCollection";
+import { useCurrentCollection } from "@/context/currentCollection";
 import { patchEntity, postEntity } from "@/lib/apiCall";
 
 interface entityFormModalProps {
@@ -12,11 +12,11 @@ interface entityFormModalProps {
 }
 
 const EntityFormModal = ({ entity, close }: entityFormModalProps) => {
-  const { collection, addEntity, updateEntity } = useSingleCollection();
+  const { currentCollection, addEntity, updateEntity } = useCurrentCollection();
   const [error, setError] = useState("");
   const [formData, setFormData] = useState<entityBody>({
     name: entity?.name || "",
-    collectionId: collection.id,
+    collectionId: currentCollection.id,
     requests: entity?.requests || [],
   });
 

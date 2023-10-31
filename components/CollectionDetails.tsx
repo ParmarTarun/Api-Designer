@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Requests from "@/components/Requests";
-import { useSingleCollection } from "@/context/currentCollection";
+import { useCurrentCollection } from "@/context/currentCollection";
 import Entities from "@/components/Entities";
 import BaseUrl from "@/components/BaseUrl";
 import { collectionType } from "@/models/Collection";
@@ -11,26 +11,20 @@ interface CollectionDetailsProps {
 }
 
 const CollectionDetails = ({ collectionData }: CollectionDetailsProps) => {
-  const { collection, setCollection } = useSingleCollection();
-  const [currentEntity, setCurrentEntity] = useState<entityType | undefined>(
-    collection.entities[0]
-  );
+  const { currentCollection, setCurrentCollection, currentEntity } =
+    useCurrentCollection();
 
   useEffect(() => {
-    setCollection(collectionData);
+    setCurrentCollection(collectionData);
   }, []);
 
   return (
     <div className="text-primary">
-      <h3>{collection?.name}</h3>
-      <BaseUrl baseUrl={collection.baseUrl} />
-      <Entities
-        entities={collection.entities}
-        currentEntity={currentEntity}
-        setCurrentEntity={setCurrentEntity}
-      />
+      <h3>{currentCollection?.name}</h3>
+      <BaseUrl baseUrl={currentCollection.baseUrl} />
+      <Entities />
 
-      {/* <Requests entity={currentEntity} /> */}
+      <Requests />
     </div>
   );
 };
