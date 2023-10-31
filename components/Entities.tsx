@@ -8,7 +8,7 @@ import { useCurrentCollection } from "@/context/currentCollection";
 interface entitiesProps {}
 
 const Entities = ({}: entitiesProps) => {
-  const { currentCollection, currentEntity, setCurrentEntity } =
+  const { currentCollection, currentEntityIndex, setCurrentEntityIndex } =
     useCurrentCollection();
   const [showModal, setShowModal] = useState(false);
   const [editingEntity, setEditingEntity] = useState<entityType | undefined>();
@@ -33,11 +33,11 @@ const Entities = ({}: entitiesProps) => {
             <button
               key={i}
               className={`bg-primary rounded-md px-4 py-1 border-2 ${
-                currentCollection.entities[currentEntity]?.id === entity.id
+                currentCollection.entities[currentEntityIndex]?.id === entity.id
                   ? "border-darkHighlight"
                   : "dark-transparent"
               }`}
-              onClick={() => setCurrentEntity(i)}
+              onClick={() => setCurrentEntityIndex(i)}
             >
               {entity.name}
             </button>

@@ -12,10 +12,10 @@ import {
 
 type singleCollectionContextType = {
   currentCollection: collectionType;
-  currentEntity: number;
-  currentRequest: number;
-  setCurrentEntity: (n: number) => void;
-  setCurrentRequest: (n: number) => void;
+  currentEntityIndex: number;
+  currentRequestIndex: number;
+  setCurrentEntityIndex: (n: number) => void;
+  setCurrentRequestIndex: (n: number) => void;
   setCurrentCollection: Dispatch<SetStateAction<collectionType>>;
   addEntity: (ent: entityType) => void;
   addRequest: (entId: string, req: requestType) => void;
@@ -30,10 +30,10 @@ const initialValues: singleCollectionContextType = {
     entities: [],
     name: "",
   },
-  currentEntity: 0,
-  currentRequest: 0,
-  setCurrentEntity: () => {},
-  setCurrentRequest: () => {},
+  currentEntityIndex: 0,
+  currentRequestIndex: 0,
+  setCurrentEntityIndex: () => {},
+  setCurrentRequestIndex: () => {},
   setCurrentCollection: () => {},
   addEntity: () => {},
   addRequest: () => {},
@@ -51,15 +51,15 @@ export function SingleCollectionProvider({ children }: ReactChildrenProps) {
   const [currentCollection, setCurrentCollection] = useState(
     initialValues.currentCollection
   );
-  const [currentEntity, _setCurrentEntity] = useState<number>(0);
-  const [currentRequest, _setCurrentRequest] = useState<number>(0);
+  const [currentEntityIndex, _setCurrentEntityIndex] = useState<number>(0);
+  const [currentRequestIndex, _setCurrentRequestIndex] = useState<number>(0);
 
-  const setCurrentEntity = (n: number) => {
-    _setCurrentEntity(n);
-    _setCurrentRequest(0);
+  const setCurrentEntityIndex = (n: number) => {
+    _setCurrentEntityIndex(n);
+    _setCurrentRequestIndex(0);
   };
-  const setCurrentRequest = (n: number) => {
-    _setCurrentRequest(n);
+  const setCurrentRequestIndex = (n: number) => {
+    _setCurrentRequestIndex(n);
   };
 
   const addEntity = (entity: entityType) => {
@@ -96,16 +96,16 @@ export function SingleCollectionProvider({ children }: ReactChildrenProps) {
       ...currentCollection,
       entities: updatedEntities,
     });
-    _setCurrentRequest(
-      currentCollection.entities[currentEntity].requests.length
+    _setCurrentRequestIndex(
+      currentCollection.entities[currentEntityIndex].requests.length
     );
   };
   const value = {
     currentCollection,
-    currentEntity,
-    currentRequest,
-    setCurrentRequest,
-    setCurrentEntity,
+    currentEntityIndex,
+    currentRequestIndex,
+    setCurrentRequestIndex,
+    setCurrentEntityIndex,
     setCurrentCollection,
     addEntity,
     addRequest,
