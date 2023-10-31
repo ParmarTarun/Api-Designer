@@ -51,7 +51,7 @@ export const patchEntity: patchEntityType = async (id, { name, requests }) => {
   await mongooseConnect();
   const entity = await Entity.findByIdAndUpdate(id, {
     name,
-    requests,
+    // requests,
   });
   if (!entity) throw new InvalidEntityId();
 
