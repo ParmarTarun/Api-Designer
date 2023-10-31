@@ -11,8 +11,7 @@ interface CollectionDetailsProps {
 }
 
 const CollectionDetails = ({ collectionData }: CollectionDetailsProps) => {
-  const { currentCollection, setCurrentCollection, currentEntity } =
-    useCurrentCollection();
+  const { currentCollection, setCurrentCollection } = useCurrentCollection();
 
   useEffect(() => {
     setCurrentCollection(collectionData);
