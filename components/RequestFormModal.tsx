@@ -20,13 +20,15 @@ const RequestFormModal = ({
   const [error, setError] = useState("");
   const { addRequest } = useCurrentCollection();
   const [formData, setFormData] = useState<requestBody>({
-    name: request?.name || "",
-    path: request?.path || "",
-    method: request?.method || "",
+    name: request?.name || "New Request",
+    path: request?.path || "/",
+    method: request?.method || "GET",
     entityId: entityId,
   });
 
-  const handleFormInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFormInput = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setError("");
     setFormData({
       ...formData,
@@ -91,14 +93,16 @@ const RequestFormModal = ({
             <label htmlFor="collection-url" className="text-right mr-2">
               Method:
             </label>
-            <input
-              type="text"
+            <select
               className="basic-input col-span-2"
-              placeholder="POST"
               name="method"
-              value={formData.method}
+              defaultValue={formData.method}
               onChange={handleFormInput}
-            />
+            >
+              {["GET", "POST", "PATCH", "DELETE"].map((mtd) => (
+                <option value={mtd}>{mtd}</option>
+              ))}
+            </select>
           </div>
           <div className="grid grid-cols-6 items-center mt-2">
             <label htmlFor="collection-url" className="text-right mr-2">

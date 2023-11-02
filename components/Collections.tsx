@@ -47,13 +47,13 @@ const Collections = ({ collectionsData }: collectionsProps) => {
   useEffect(() => setCollections(collectionsData), []);
 
   return (
-    <div className="flex gap-4 flex-wrap  p-4">
+    <div className="flex gap-4 flex-wrap p-4">
       {collections.map((coll, i) => (
         <Link href={`/collections/${coll.name}`} key={i}>
           <div className=" rounded-lg bg-lightHighlight">
-            <div className="px-3 py-2 text-secondary bg-primary rounded-t-lg flex items-center justify-between">
-              <h5 className="text-lg">{coll.name}</h5>
-              <div className="flex gap-2">
+            <div className="text-secondary bg-primary rounded-t-lg grid grid-cols-5 px-2">
+              <h5 className="text-lg col-span-4 py-2">{coll.name}</h5>
+              <div className="col-span-1 text-xl flex justify-center gap-2 ">
                 <button onClick={(e) => handleEdit(e, coll)}>
                   <MdModeEdit className="text-secondary" />
                 </button>
@@ -62,8 +62,8 @@ const Collections = ({ collectionsData }: collectionsProps) => {
                 </button>
               </div>
             </div>
-            <div className="py-4 px-2 overflow-x-hidden">
-              <p>Url: {coll.baseUrl}</p>
+            <div className="py-2 px-4 font-semibold overflow-x-hidden text-primary">
+              <h6 className="italic">{coll.baseUrl}</h6>
             </div>
           </div>
         </Link>
@@ -71,6 +71,9 @@ const Collections = ({ collectionsData }: collectionsProps) => {
       <button className="w-20" onClick={() => setShowModal(true)}>
         <IoMdAddCircleOutline className="m-auto text-primary text-2xl" />
       </button>
+      {collections.length === 0 && (
+        <p className="text-primary">Add a collection</p>
+      )}
       {!!showModal && (
         <CollectionFormModal
           close={handleModalClose}

@@ -49,10 +49,13 @@ const Entities = ({}: entitiesProps) => {
             </button>
           </div>
         ))}
-        <div className="text-center mt-4">
+        <div className="text-center flex gap-4 items-center">
           <button onClick={() => setShowModal(true)}>
             <IoMdAddCircleOutline className=" text-primary text-2xl" />
           </button>
+          {currentCollection.entities.length === 0 && (
+            <p className="text-primary inline">Create a new Entity</p>
+          )}
         </div>
       </div>
       {!!showModal && (

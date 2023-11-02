@@ -4,7 +4,6 @@ import { useCurrentCollection } from "@/context/currentCollection";
 import Entities from "@/components/Entities";
 import BaseUrl from "@/components/BaseUrl";
 import { collectionType } from "@/models/Collection";
-import { entityType } from "@/models/Entity";
 
 interface CollectionDetailsProps {
   collectionData: collectionType;
@@ -23,7 +22,7 @@ const CollectionDetails = ({ collectionData }: CollectionDetailsProps) => {
       <BaseUrl baseUrl={currentCollection.baseUrl} />
       <Entities />
 
-      <Requests />
+      {!!currentCollection.entities.length && <Requests />}
     </div>
   );
 };
