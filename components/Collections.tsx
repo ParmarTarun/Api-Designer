@@ -62,10 +62,10 @@ const Collections = ({ collectionsData }: collectionsProps) => {
         <Link href={`/collections/${coll.name}`} key={i}>
           <div className=" rounded-lg bg-lightHighlight">
             <div className="text-secondary bg-primary rounded-t-lg grid grid-cols-5 px-2">
-              <h5 className="text-lg col-span-4 py-2">{coll.name}</h5>
+              <h5 className="text-lg col-span-4 py-2 pl-2">{coll.name}</h5>
               <MenuOptions id={coll.id} options={options} />
             </div>
-            <div className="py-2 px-4 font-semibold overflow-x-hidden text-primary">
+            <div className="py-2 px-4  overflow-x-hidden text-primary">
               <h6 className="italic">{coll.baseUrl}</h6>
             </div>
           </div>
