@@ -20,6 +20,7 @@ type singleCollectionContextType = {
   addEntity: (ent: entityType) => void;
   addRequest: (entId: string, req: requestType) => void;
   updateEntity: (ent: entityType) => void;
+  removeEntity: (ent: entityType) => void;
 };
 
 const initialValues: singleCollectionContextType = {
@@ -38,6 +39,7 @@ const initialValues: singleCollectionContextType = {
   addEntity: () => {},
   addRequest: () => {},
   updateEntity: () => {},
+  removeEntity: () => {},
 };
 
 const SingleCollectionContext =
@@ -82,6 +84,16 @@ export function SingleCollectionProvider({ children }: ReactChildrenProps) {
     });
   };
 
+  const removeEntity = (entity: entityType) => {
+    const updatedEntities = currentCollection.entities.filter(
+      (ent: entityType) => ent.id !== entity.id
+    );
+    setCurrentCollection({
+      ...currentCollection,
+      entities: updatedEntities,
+    });
+  };
+
   const addRequest = (entId: string, req: requestType) => {
     const updatedEntities = currentCollection.entities.map((ent) => {
       if (ent.id === entId) {
@@ -110,6 +122,7 @@ export function SingleCollectionProvider({ children }: ReactChildrenProps) {
     addEntity,
     addRequest,
     updateEntity,
+    removeEntity,
   };
   return (
     <>

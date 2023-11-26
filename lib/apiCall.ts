@@ -33,11 +33,11 @@ export const patchEntity = async (id: string, data: entityBody) => {
     .then((res) => res.data);
 };
 
-// export const deleteEntity = async (id: string) => {
-//   return axios
-//     .delete(process.env.NEXT_PUBLIC_BASE_API_URL + "/entities/" + id)
-//     .then((res) => res.data);
-// };
+export const deleteEntity = async (id: string) => {
+  return axios
+    .delete(process.env.NEXT_PUBLIC_BASE_API_URL + "/entities/" + id)
+    .then((res) => res.data);
+};
 
 // request
 export const postRequest = async (data: requestBody) => {

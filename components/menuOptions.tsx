@@ -38,7 +38,7 @@ const MenuOptions = ({ id, options }: menuOptionsProps) => {
   return (
     <div className=" flex flex-col justify-center items-center">
       <button
-        className="text-xl flex justify-center items-center pl-4 py-2 pr-2"
+        className="text-xl flex justify-center items-center pl-4 py-2 pr-2 text-secondary"
         onClick={toggleMenu}
       >
         <CiMenuKebab />

@@ -6,12 +6,17 @@ import { useCurrentCollection } from "@/context/currentCollection";
 import MenuOptions from "./menuOptions";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { menuOption } from "@/types";
+import { deleteEntity } from "@/lib/apiCall";
 
 interface entitiesProps {}
 
 const Entities = ({}: entitiesProps) => {
-  const { currentCollection, currentEntityIndex, setCurrentEntityIndex } =
-    useCurrentCollection();
+  const {
+    currentCollection,
+    currentEntityIndex,
+    setCurrentEntityIndex,
+    removeEntity,
+  } = useCurrentCollection();
   const [showModal, setShowModal] = useState(false);
   const [editingEntity, setEditingEntity] = useState<entityType | undefined>();
 
@@ -27,8 +32,14 @@ const Entities = ({}: entitiesProps) => {
   };
 
   const handleDelete = (id: string) => {
-    // deleteEntity(id)
-    // setEditingEntity(ent);
+    const ent = currentCollection.entities.find((en) => en.id === id);
+    if (!confirm("Are you sure:")) return;
+    deleteEntity(id)
+      .then(() => removeEntity(ent as entityType))
+      .catch((e) => {
+        alert(e.response.data.message);
+        console.log(e);
+      });
   };
   const menuOptions: menuOption[] = [
     {
@@ -50,7 +61,7 @@ const Entities = ({}: entitiesProps) => {
         {currentCollection.entities.map((entity, i) => (
           <div
             key={i}
-            className={`bg-primary flex items-center rounded-md pl-4 py-1 border-2${
+            className={`bg-primary flex items-center rounded-md pl-4 py-1 border-2 cursor-pointer ${
               currentCollection.entities[currentEntityIndex]?.id === entity.id
                 ? "border-darkHighlight"
                 : "dark-transparent"
