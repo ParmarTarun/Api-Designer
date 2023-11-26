@@ -99,8 +99,10 @@ const RequestFormModal = ({
               defaultValue={formData.method}
               onChange={handleFormInput}
             >
-              {["GET", "POST", "PATCH", "DELETE"].map((mtd) => (
-                <option value={mtd}>{mtd}</option>
+              {["GET", "POST", "PATCH", "DELETE"].map((mtd, i) => (
+                <option value={mtd} key={i}>
+                  {mtd}
+                </option>
               ))}
             </select>
           </div>
