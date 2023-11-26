@@ -1,9 +1,11 @@
 import { entityType } from "@/models/Entity";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import EntityFormModal from "./EntityFormModal";
-import { MdModeEdit } from "react-icons/md";
 import { useCurrentCollection } from "@/context/currentCollection";
+import MenuOptions from "./menuOptions";
+import { MdDelete, MdModeEdit } from "react-icons/md";
+import { menuOption } from "@/types";
 
 interface entitiesProps {}
 
@@ -18,35 +20,45 @@ const Entities = ({}: entitiesProps) => {
     setShowModal(false);
   };
 
-  const handleEdit = (e: React.MouseEvent, ent: entityType) => {
+  const handleEdit = (id: string) => {
+    const ent = currentCollection.entities.find((en) => en.id === id);
     setEditingEntity(ent);
-    e.preventDefault();
     setShowModal(true);
   };
+
+  const handleDelete = (id: string) => {
+    // deleteEntity(id)
+    // setEditingEntity(ent);
+  };
+  const menuOptions: menuOption[] = [
+    {
+      name: "Edit",
+      icon: <MdModeEdit />,
+      callback: (id) => handleEdit(id),
+    },
+    {
+      name: "Delete",
+      icon: <MdDelete className="text-error" />,
+      callback: handleDelete,
+    },
+  ];
 
   return (
     <>
       <h5 className="mb-1">Entites:</h5>
       <div className="flex items-center gap-4 text-secondary">
         {currentCollection.entities.map((entity, i) => (
-          <div key={i}>
-            <button
-              key={i}
-              className={`bg-primary rounded-md px-4 py-1 border-2 ${
-                currentCollection.entities[currentEntityIndex]?.id === entity.id
-                  ? "border-darkHighlight"
-                  : "dark-transparent"
-              }`}
-              onClick={() => setCurrentEntityIndex(i)}
-            >
-              {entity.name}
-            </button>
-            <button
-              className="text-primary"
-              onClick={(e) => handleEdit(e, entity)}
-            >
-              <MdModeEdit />
-            </button>
+          <div
+            key={i}
+            className={`bg-primary flex items-center rounded-md pl-4 py-1 border-2${
+              currentCollection.entities[currentEntityIndex]?.id === entity.id
+                ? "border-darkHighlight"
+                : "dark-transparent"
+            }`}
+            onClick={() => setCurrentEntityIndex(i)}
+          >
+            {entity.name}
+            <MenuOptions options={menuOptions} id={entity.id} />
           </div>
         ))}
         <div className="text-center flex gap-4 items-center">
