@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import CollectionFormModal from "./CollectionFormModal";
 import { useCollections } from "@/context/collections";
-import { MdDelete, MdModeEdit } from "react-icons/md";
 import { deleteCollection } from "@/lib/apiCall";
 import Link from "next/link";
+import CollectionMenuOptions from "./collectionMenuOptions";
 
 interface collectionsProps {
   collectionsData: collectionType[];
@@ -23,9 +23,7 @@ const Collections = ({ collectionsData }: collectionsProps) => {
     setShowModal(false);
   };
 
-  const handleDelete = (e: React.MouseEvent, collId: string) => {
-    e.stopPropagation();
-    e.preventDefault();
+  const handleDelete = (collId: string) => {
     if (!confirm("Are you sure:")) return;
     deleteCollection(collId)
       .then(() =>
@@ -37,9 +35,7 @@ const Collections = ({ collectionsData }: collectionsProps) => {
       });
   };
 
-  const handleEdit = (e: React.MouseEvent, coll: collectionType) => {
-    e.stopPropagation();
-    e.preventDefault();
+  const handleEdit = (coll: collectionType) => {
     setEditingColelction(coll);
     setShowModal(true);
   };
@@ -53,14 +49,11 @@ const Collections = ({ collectionsData }: collectionsProps) => {
           <div className=" rounded-lg bg-lightHighlight">
             <div className="text-secondary bg-primary rounded-t-lg grid grid-cols-5 px-2">
               <h5 className="text-lg col-span-4 py-2">{coll.name}</h5>
-              <div className="col-span-1 text-xl flex justify-center gap-2 ">
-                <button onClick={(e) => handleEdit(e, coll)}>
-                  <MdModeEdit className="text-secondary" />
-                </button>
-                <button onClick={(e) => handleDelete(e, coll.id)}>
-                  <MdDelete className="text-error" />
-                </button>
-              </div>
+              <CollectionMenuOptions
+                coll={coll}
+                handleDelete={handleDelete}
+                handleEdit={handleEdit}
+              />
             </div>
             <div className="py-2 px-4 font-semibold overflow-x-hidden text-primary">
               <h6 className="italic">{coll.baseUrl}</h6>
