@@ -1,49 +1,24 @@
-import { collectionType } from "@/models/Collection";
+import { menuOption } from "@/types";
 import React, { useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
-import { MdClose, MdDelete, MdModeEdit } from "react-icons/md";
+import { MdClose } from "react-icons/md";
 
-interface collectionMenuOptionsProps {
-  coll: collectionType;
-  handleDelete: (coll: string) => void;
-  handleEdit: (coll: collectionType) => void;
+interface menuOptionsProps {
+  options: menuOption[];
+  id: string;
 }
 
-const CollectionMenuOptions = ({
-  coll,
-  handleEdit,
-  handleDelete,
-}: collectionMenuOptionsProps) => {
+const MenuOptions = ({ id, options }: menuOptionsProps) => {
   const [openMenu, setOpenMenu] = useState(false);
+  // add close option to options
   const menuOptions = [
-    {
-      name: "Edit",
-      icon: <MdModeEdit />,
-      callback: async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handleEdit(coll);
-      },
-    },
-    {
-      name: "Delete",
-      icon: <MdDelete className="text-error" />,
-      callback: async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handleDelete(coll.id);
-      },
-    },
+    ...options,
     {
       name: "Close",
       icon: <MdClose />,
-      callback: async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-      },
+      callback: () => setOpenMenu(false),
     },
   ];
-
   const toggleMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
@@ -54,7 +29,10 @@ const CollectionMenuOptions = ({
     e: React.MouseEvent<HTMLButtonElement>,
     ind: number
   ) => {
-    menuOptions[ind].callback(e).then(() => setOpenMenu(false));
+    e.preventDefault();
+    e.stopPropagation();
+    menuOptions[ind].callback(id);
+    setOpenMenu(false);
   };
 
   return (
@@ -91,13 +69,4 @@ const CollectionMenuOptions = ({
   );
 };
 
-export default CollectionMenuOptions;
-
-{
-  /* <button onClick={(e) => handleEdit(e, coll)}>
-    <MdModeEdit className="text-secondary" />
-</button>
-<button onClick={(e) => handleDelete(e, coll.id)}>
-    <MdDelete className="text-error" />
-</button> */
-}
+export default MenuOptions;

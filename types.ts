@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import React, { ReactElement, ReactNode } from "react";
 import { entityType } from "./models/Entity";
 import { requestType } from "./models/Request";
 
@@ -22,4 +22,10 @@ export type requestBody = {
   method: string;
   path: string;
   entityId: string;
+};
+
+export type menuOption = {
+  name: string;
+  icon: ReactNode;
+  callback: (id: string) => void;
 };

@@ -5,7 +5,8 @@ import CollectionFormModal from "./CollectionFormModal";
 import { useCollections } from "@/context/collections";
 import { deleteCollection } from "@/lib/apiCall";
 import Link from "next/link";
-import CollectionMenuOptions from "./collectionMenuOptions";
+import MenuOptions from "./menuOptions";
+import { MdDelete, MdModeEdit } from "react-icons/md";
 
 interface collectionsProps {
   collectionsData: collectionType[];
@@ -35,10 +36,23 @@ const Collections = ({ collectionsData }: collectionsProps) => {
       });
   };
 
-  const handleEdit = (coll: collectionType) => {
+  const handleEdit = (collId: string) => {
+    const coll = collections.find((col) => col.id === collId);
     setEditingColelction(coll);
     setShowModal(true);
   };
+  const options = [
+    {
+      name: "Edit",
+      icon: <MdModeEdit />,
+      callback: handleEdit,
+    },
+    {
+      name: "Delete",
+      icon: <MdDelete className="text-error" />,
+      callback: handleDelete,
+    },
+  ];
 
   useEffect(() => setCollections(collectionsData), []);
 
@@ -49,11 +63,7 @@ const Collections = ({ collectionsData }: collectionsProps) => {
           <div className=" rounded-lg bg-lightHighlight">
             <div className="text-secondary bg-primary rounded-t-lg grid grid-cols-5 px-2">
               <h5 className="text-lg col-span-4 py-2">{coll.name}</h5>
-              <CollectionMenuOptions
-                coll={coll}
-                handleDelete={handleDelete}
-                handleEdit={handleEdit}
-              />
+              <MenuOptions id={coll.id} options={options} />
             </div>
             <div className="py-2 px-4 font-semibold overflow-x-hidden text-primary">
               <h6 className="italic">{coll.baseUrl}</h6>
