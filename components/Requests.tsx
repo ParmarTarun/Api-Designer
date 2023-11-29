@@ -1,5 +1,5 @@
-import { reqMethodColorMap } from "@/lib/utils";
-import React, { FC, useState } from "react";
+import { isNewRequest, reqMethodColorMap } from "@/lib/utils";
+import React, { FC } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { useCurrentCollection } from "@/context/currentCollection";
 import RequestForm from "./RequestDetails";
@@ -16,11 +16,13 @@ const Requests: FC<requestsProps> = ({}) => {
     setCurrentRequestIndex,
   } = useCurrentCollection();
 
-  const [editable, setEditable] = useState(false);
-
   const addNewRequest = () => {
     addRequest(currentCollection.entities[currentEntityIndex].id, {
-      id: "",
+      id:
+        "local_" +
+        currentCollection.entities[
+          currentEntityIndex
+        ].requests.length.toString(), // local id to help delete this request
       method: "GET",
       name: "New Request",
       path: "/",
@@ -57,10 +59,18 @@ const Requests: FC<requestsProps> = ({}) => {
                     >
                       {req.method}:
                     </h6>
-                    <h6 className="col-span-3">{req.name}</h6>
-                    <h6 className="col-span-1 flex justify-end items-center text-darkHighlight">
-                      <WiMoonAltNew />
+                    <h6
+                      className={`${
+                        isNewRequest(req.id) ? "col-span-3" : "col-span-4"
+                      }`}
+                    >
+                      {req.name}
                     </h6>
+                    {isNewRequest(req.id) && (
+                      <h6 className="col-span-1 flex justify-end items-center text-darkHighlight">
+                        <WiMoonAltNew />
+                      </h6>
+                    )}
                   </div>
                 </div>
               );
@@ -73,8 +83,12 @@ const Requests: FC<requestsProps> = ({}) => {
           </div>
         </div>
         <div className="col-span-4 px-4">
-          {requests[currentRequestIndex] && (
+          {requests[currentRequestIndex] ? (
             <RequestForm cRequest={requests[currentRequestIndex]} />
+          ) : (
+            <p className="italic">
+              Select/Create a request to display the details
+            </p>
           )}
         </div>
       </div>

@@ -18,9 +18,11 @@ type singleCollectionContextType = {
   setCurrentRequestIndex: (n: number) => void;
   setCurrentCollection: Dispatch<SetStateAction<collectionType>>;
   addEntity: (ent: entityType) => void;
-  addRequest: (entId: string, req: requestType) => void;
   updateEntity: (ent: entityType) => void;
   removeEntity: (ent: entityType) => void;
+  addRequest: (entId: string, req: requestType) => void;
+  updateRequest: (req: requestType) => void;
+  removeRequest: (req: requestType) => void;
 };
 
 const initialValues: singleCollectionContextType = {
@@ -37,9 +39,11 @@ const initialValues: singleCollectionContextType = {
   setCurrentRequestIndex: () => {},
   setCurrentCollection: () => {},
   addEntity: () => {},
-  addRequest: () => {},
   updateEntity: () => {},
   removeEntity: () => {},
+  addRequest: () => {},
+  updateRequest: () => {},
+  removeRequest: () => {},
 };
 
 const SingleCollectionContext =
@@ -112,6 +116,29 @@ export function SingleCollectionProvider({ children }: ReactChildrenProps) {
       currentCollection.entities[currentEntityIndex].requests.length
     );
   };
+  const updateRequest = (request: requestType) => {
+    const updatedEntities = [...currentCollection.entities];
+    updatedEntities[currentEntityIndex].requests = currentCollection.entities[
+      currentEntityIndex
+    ].requests.map((req: requestType) => {
+      if (req.id === request.id) return request; // replace the updated entity
+      return req;
+    });
+    setCurrentCollection({
+      ...currentCollection,
+      entities: updatedEntities,
+    });
+  };
+
+  const removeRequest = (req: requestType) => {
+    const updatedEntities = [...currentCollection.entities];
+    updatedEntities[currentEntityIndex].requests.splice(currentRequestIndex, 1);
+    setCurrentCollection({
+      ...currentCollection,
+      entities: updatedEntities,
+    });
+  };
+
   const value = {
     currentCollection,
     currentEntityIndex,
@@ -120,9 +147,11 @@ export function SingleCollectionProvider({ children }: ReactChildrenProps) {
     setCurrentEntityIndex,
     setCurrentCollection,
     addEntity,
-    addRequest,
     updateEntity,
     removeEntity,
+    addRequest,
+    updateRequest,
+    removeRequest,
   };
   return (
     <>

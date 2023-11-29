@@ -4,3 +4,7 @@ export const reqMethodColorMap: { [key: string]: string } = {
   PATCH: "#890EF2",
   DELETE: "#F08888",
 };
+
+export const isNewRequest = (reqId: string) => {
+  return reqId.startsWith("local");
+};

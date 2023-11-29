@@ -46,14 +46,14 @@ export const postRequest = async (data: requestBody) => {
     .then((res) => res.data);
 };
 
-// export const patchCollection = async (id: string, data: collectionBody) => {
-//   return axios
-//     .patch(process.env.NEXT_PUBLIC_BASE_API_URL + "/collections/" + id, data)
-//     .then((res) => res.data);
-// };
+export const patchRequest = async (id: string, data: requestBody) => {
+  return axios
+    .patch(process.env.NEXT_PUBLIC_BASE_API_URL + "/requests/" + id, data)
+    .then((res) => res.data);
+};
 
-// export const deleteCollection = async (id: string) => {
-//   return axios
-//     .delete(process.env.NEXT_PUBLIC_BASE_API_URL + "/collections/" + id)
-//     .then((res) => res.data);
-// };
+export const deleteRequest = async (id: string) => {
+  return axios
+    .delete(process.env.NEXT_PUBLIC_BASE_API_URL + "/requests/" + id)
+    .then((res) => res.data);
+};

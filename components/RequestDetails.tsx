@@ -1,3 +1,6 @@
+import { useCurrentCollection } from "@/context/currentCollection";
+import { deleteRequest, patchRequest, postRequest } from "@/lib/apiCall";
+import { isNewRequest } from "@/lib/utils";
 import { requestType } from "@/models/Request";
 import React, { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
@@ -8,6 +11,14 @@ interface requestDetailsProps {
 
 const RequestDetails = ({ cRequest }: requestDetailsProps) => {
   const [request, setRequest] = useState(cRequest);
+  const isNew = isNewRequest(cRequest.id); // check if its a new request or saved request
+  const {
+    currentCollection,
+    currentEntityIndex,
+    addRequest,
+    updateRequest,
+    removeRequest,
+  } = useCurrentCollection();
 
   useEffect(() => setRequest(cRequest), [cRequest]);
 
@@ -20,36 +31,61 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
     });
   };
 
-  // const handleUpdate = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   if (!collection?.id) return;
-  //   setError("");
-  //   e.preventDefault();
-  //   patchCollection(collection.id, formData)
-  //     .then(({ collection }) => {
-  //       const updatedCollections = collections.filter(
-  //         (coll) => coll.id !== collection.id
-  //       );
-  //       setCollections([collection, ...updatedCollections]);
-  //       close();
-  //     })
-  //     .catch((e) => {
-  //       setError(e.response.data.message);
-  //     });
-  // };
+  const handleUpdate = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const { name, path, method } = request;
+    const data = {
+      name,
+      path,
+      method,
+      entityId: currentCollection.entities[currentEntityIndex].id,
+    };
+    patchRequest(request.id, data)
+      .then(({ request }) => {
+        updateRequest(request);
+      })
+      .catch((e) => {
+        console.log(e);
+        alert("Failed to update the request");
+      });
+  };
 
-  // const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   setError("");
-  //   e.preventDefault();
-  //   postRequest(formData)
-  //     .then(({ request }) => {
-  //       addRequest(entityId, request);
-  //       close();
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //       setError(e.response.data.message);
-  //     });
-  // };
+  const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const { name, path, method } = request;
+    const data = {
+      name,
+      path,
+      method,
+      entityId: currentCollection.entities[currentEntityIndex].id,
+    };
+    postRequest(data)
+      .then(({ request }) => {
+        removeRequest(request);
+        addRequest(data.entityId, request);
+      })
+      .catch((e) => {
+        alert("Failed to save request");
+        console.log(e);
+      });
+  };
+
+  const handleDelete = () => {
+    // delete the unsaved request from context
+    if (isNew) {
+      removeRequest(request);
+      return;
+    }
+    // delete a saved request from server
+    deleteRequest(request.id)
+      .then((_) => removeRequest(request))
+      .catch((e) => {
+        alert("failed to delete request");
+        console.log(e);
+      });
+  };
+  // leep of track of user changes to requests
+  const isUpdated = JSON.stringify(cRequest) !== JSON.stringify(request);
 
   return (
     <>
@@ -70,7 +106,6 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
               name="method"
               className="text-xl bg-transparent focus:outline-none outline-none cursor-pointer border border-primary"
               value={request.method}
-              defaultValue={request.method}
               onChange={handleFormInput}
             >
               <option value="GET">GET</option>
@@ -91,16 +126,32 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
           </div>
         </div>
         <div className="text-4xl">
-          <button className="p-1 text-error">
+          <button className="p-1 text-error" onClick={handleDelete}>
             <MdDelete />
           </button>
         </div>
       </div>
       <div className="mb-4">
-        {request.id ? (
-          <button className="btn-secondary">Update</button>
+        {isNew ? (
+          <button className="btn-darkHighlight" onClick={handleSave}>
+            Create
+          </button>
         ) : (
-          <button className="btn-darkHighlight">Create</button>
+          <>
+            {isUpdated && (
+              <>
+                <button className="btn-secondary mr-2" onClick={handleUpdate}>
+                  Update
+                </button>
+                <button
+                  className="btn-primary"
+                  onClick={() => setRequest(cRequest)}
+                >
+                  Reset
+                </button>
+              </>
+            )}
+          </>
         )}
       </div>
     </>
