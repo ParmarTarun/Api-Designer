@@ -1,23 +1,31 @@
 import { reqMethodColorMap } from "@/lib/utils";
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
-import RequestFormModal from "./RequestFormModal";
-import { entityType } from "@/models/Entity";
 import { useCurrentCollection } from "@/context/currentCollection";
+import RequestForm from "./RequestDetails";
+import { WiMoonAltNew } from "react-icons/wi";
 
 interface requestsProps {}
 
-const Requests = ({}: requestsProps) => {
+const Requests: FC<requestsProps> = ({}) => {
   const {
     currentCollection,
     currentEntityIndex,
     currentRequestIndex,
+    addRequest,
     setCurrentRequestIndex,
   } = useCurrentCollection();
-  const [showModal, setShowModal] = useState(false);
 
-  const handleModalClose = () => {
-    setShowModal(false);
+  const [editable, setEditable] = useState(false);
+
+  const addNewRequest = () => {
+    addRequest(currentCollection.entities[currentEntityIndex].id, {
+      id: "",
+      method: "GET",
+      name: "New Request",
+      path: "/",
+      createdAt: "",
+    });
   };
 
   const requests =
@@ -40,22 +48,25 @@ const Requests = ({}: requestsProps) => {
                   key={i}
                   onClick={() => setCurrentRequestIndex(i)}
                 >
-                  <h6 className="py-2 pl-2 pr-4 grid grid-cols-4 font-semibold">
-                    <span
+                  <div className="py-2 pl-2 pr-4 grid grid-cols-5 font-semibold">
+                    <h6
                       className="col-span-1 text-right mr-2 "
                       style={{
                         color: `${reqMethodColorMap[req.method]}`,
                       }}
                     >
                       {req.method}:
-                    </span>
-                    <span className="col-span-3">{req.name}</span>
-                  </h6>
+                    </h6>
+                    <h6 className="col-span-3">{req.name}</h6>
+                    <h6 className="col-span-1 flex justify-end items-center text-darkHighlight">
+                      <WiMoonAltNew />
+                    </h6>
+                  </div>
                 </div>
               );
             })}
             <div className="text-center mt-4">
-              <button onClick={() => setShowModal(true)}>
+              <button onClick={addNewRequest}>
                 <IoMdAddCircleOutline className=" text-secondary text-2xl" />
               </button>
             </div>
@@ -63,40 +74,10 @@ const Requests = ({}: requestsProps) => {
         </div>
         <div className="col-span-4 px-4">
           {requests[currentRequestIndex] && (
-            <div className="grid grid-cols-8 border border-primary rounded-md">
-              <div className="col-span-1 pl-4 py-2 text-secondary bg-primary border-r border-primary">
-                <select
-                  name="method"
-                  className="text-2xl bg-transparent focus:outline-none"
-                  value={requests[currentRequestIndex].method}
-                  onChange={() => {}}
-                >
-                  <option value="GET">GET</option>
-                  <option value="POST">POST</option>
-                  <option value="PATCH">PATCH</option>
-                  <option value="DELETE">DELETE</option>
-                </select>
-              </div>
-              <div className="col-span-7 flex">
-                <input
-                  type="text"
-                  placeholder="/products"
-                  className="bg-transparent w-full px-2 focus:outline-none text-lg"
-                  value={requests[currentRequestIndex].path}
-                  onChange={() => {}}
-                />
-              </div>
-            </div>
+            <RequestForm cRequest={requests[currentRequestIndex]} />
           )}
         </div>
       </div>
-      {!!showModal && (
-        <RequestFormModal
-          close={handleModalClose}
-          request={undefined}
-          entityId={currentCollection.entities[currentEntityIndex].id}
-        />
-      )}
     </div>
   );
 };

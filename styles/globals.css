@@ -1,6 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
 
 h1 {
   @apply text-5xl;
@@ -32,6 +40,16 @@ p {
 
 label {
   font-size: 1rem;
+}
+
+.btn-primary {
+  @apply bg-primary text-secondary rounded-sm text-lg uppercase py-2 px-4 border border-primary;
+}
+.btn-secondary {
+  @apply bg-lightHighlight text-primary rounded-sm text-lg uppercase py-2 px-4 border border-primary;
+}
+.btn-darkHighlight {
+  @apply bg-darkHighlight text-primary font-semibold rounded-sm text-lg uppercase py-2 px-4 border border-primary;
 }
 
 .basic-input::placeholder {

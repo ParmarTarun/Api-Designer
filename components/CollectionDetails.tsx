@@ -21,8 +21,7 @@ const CollectionDetails = ({ collectionData }: CollectionDetailsProps) => {
       <h3>{currentCollection?.name}</h3>
       <BaseUrl baseUrl={currentCollection.baseUrl} />
       <Entities />
-      <p className="mt-4 italic">Entity details are under development</p>
-      {/* {!!currentCollection.entities.length && <Requests />} */}
+      {!!currentCollection.entities.length && <Requests />}
     </div>
   );
 };
