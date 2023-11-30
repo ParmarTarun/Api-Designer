@@ -1,11 +1,11 @@
-import React from "react";
+import { header } from "@/types";
+import React, { FC } from "react";
 
-const Headers = () => {
-  const params = [
-    { key: "Accept", value: "*/*", desc: "" },
-    { key: "User-Agent", value: "ApiDesigner/1.0", desc: "" },
-    { key: "Cache-Control", value: "no-cache", desc: "" },
-  ];
+interface headersProps {
+  headers: header[];
+}
+
+const Headers: FC<headersProps> = ({ headers }) => {
   return (
     <>
       <div className="grid grid-cols-3 border-b border-primary">
@@ -15,18 +15,18 @@ const Headers = () => {
       </div>
       <div className="grid grid-cols-3">
         <div className="col-span-1">
-          {params.map((p, i) => (
-            <h6 key={i}>{p["key"]}</h6>
+          {headers.map((h, i) => (
+            <h6 key={i}>{h["key"]}</h6>
           ))}
         </div>
         <div className="col-span-1">
-          {params.map((p, i) => (
-            <h6 key={i}>{p["value"]}</h6>
+          {headers.map((h, i) => (
+            <h6 key={i}>{h["value"]}</h6>
           ))}
         </div>
         <div className="col-span-1">
-          {params.map((p, i) => (
-            <h6 key={i}>{p["desc"]}</h6>
+          {headers.map((h, i) => (
+            <h6 key={i}>{h["desc"]}</h6>
           ))}
         </div>
       </div>

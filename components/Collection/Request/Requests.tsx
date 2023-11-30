@@ -1,9 +1,13 @@
-import { isNewRequest, reqMethodColorMap } from "@/lib/utils";
+import {
+  isNewRequest,
+  getNewRequestWithDefaults,
+  reqMethodColorMap,
+} from "@/lib/utils";
 import React, { FC } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { useCurrentCollection } from "@/context/currentCollection";
-import RequestDetails from "./RequestDetails";
 import { WiMoonAltNew } from "react-icons/wi";
+import RequestDetails from "./RequestDetails";
 
 interface requestsProps {}
 
@@ -17,17 +21,13 @@ const Requests: FC<requestsProps> = ({}) => {
   } = useCurrentCollection();
 
   const addNewRequest = () => {
-    addRequest(currentCollection.entities[currentEntityIndex].id, {
-      id:
-        "local_" +
-        currentCollection.entities[
-          currentEntityIndex
-        ].requests.length.toString(), // local id to help delete this request
-      method: "GET",
-      name: "New Request",
-      path: "/",
-      createdAt: "",
-    });
+    const newId =
+      "local_" +
+      currentCollection.entities[currentEntityIndex].requests.length.toString();
+    addRequest(
+      currentCollection.entities[currentEntityIndex].id,
+      getNewRequestWithDefaults(newId)
+    );
   };
 
   const requests =

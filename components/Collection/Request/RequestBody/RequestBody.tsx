@@ -4,13 +4,29 @@ import Tabs from "../Tabs";
 import Params from "./Params";
 import Authorization from "./Authorization";
 import Body from "./Body";
+import { authorization, body, header, param } from "@/types";
 
-const RequestBody: FC = () => {
+interface requestBodyProps {
+  body: body;
+  params: param[];
+  headers: header[];
+  authorizations: authorization[];
+}
+
+const RequestBody: FC<requestBodyProps> = ({
+  body,
+  authorizations,
+  headers,
+  params,
+}) => {
   const tabs = [
-    { name: "params", element: <Params /> },
-    { name: "authorization", element: <Authorization /> },
-    { name: "headers", element: <Headers /> },
-    { name: "body", element: <Body /> },
+    { name: "params", element: <Params params={params} /> },
+    {
+      name: "authorization",
+      element: <Authorization authorizations={authorizations} />,
+    },
+    { name: "headers", element: <Headers headers={headers} /> },
+    { name: "body", element: <Body body={body} /> },
   ];
   return (
     <div>

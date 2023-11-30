@@ -1,13 +1,11 @@
+import { body } from "@/types";
 import React, { FC, useState } from "react";
 
-const Body: FC = () => {
-  // dummy data
-  const data = {
-    name: "Fetch Users",
-    method: "GET",
-    path: "/user",
-    entityId: "6535a3f636dce07e58e34308",
-  };
+interface bodyProps {
+  body: body;
+}
+
+const Body: FC<bodyProps> = ({ body }) => {
   const bodyOptions = [
     {
       type: "json",
@@ -24,7 +22,7 @@ const Body: FC = () => {
     <div className="grid grid-cols-6">
       <div className="col-span-5">
         <pre id={currentOption["type"]}>
-          {currentOption["formatData"](data)}
+          {currentOption["formatData"](body)}
         </pre>
       </div>
       <div className="col-span-1 text-right">

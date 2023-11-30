@@ -1,10 +1,11 @@
-import React from "react";
+import { param } from "@/types";
+import React, { FC } from "react";
 
-const Params = () => {
-  const params = [
-    { key: "query1", value: "value1", desc: "" },
-    { key: "query2", value: "value2", desc: "" },
-  ];
+interface paramsProps {
+  params: param[];
+}
+
+const Params: FC<paramsProps> = ({ params }) => {
   return (
     <>
       <div className="grid grid-cols-3 border-b border-primary">

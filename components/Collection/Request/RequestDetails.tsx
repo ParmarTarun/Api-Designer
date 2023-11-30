@@ -149,7 +149,12 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
         </div>
       </div>
       <div className="">
-        <RequestBody />
+        <RequestBody
+          body={request.body}
+          authorizations={request.authorization}
+          headers={request.headers}
+          params={request.params}
+        />
       </div>
       <div className="mb-4">
         <ResponseBody />

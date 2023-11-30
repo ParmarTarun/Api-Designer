@@ -1,3 +1,4 @@
+import { authorization } from "@/types";
 import React, { FC, useState } from "react";
 
 const NoAuthElement: FC = () => {
@@ -12,7 +13,11 @@ const BearerTokenElement: FC = () => {
   );
 };
 
-const Authorization = () => {
+interface authorizationProps {
+  authorizations: authorization[];
+}
+
+const Authorization: FC<authorizationProps> = () => {
   const authOptions = [
     {
       name: "No Auth",

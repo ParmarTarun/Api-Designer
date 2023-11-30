@@ -20,7 +20,9 @@ const CollectionDetails = ({ collectionData }: CollectionDetailsProps) => {
   return (
     <div className="text-primary">
       <div className="flex justify-between items-center pr-4">
-        <h3>{currentCollection?.name}</h3>
+        <div>
+          <h3>{currentCollection?.name}</h3> <span>An example API design</span>
+        </div>
         <div className="flex gap-2 text-2xl">
           <button
             className="text-primary"
