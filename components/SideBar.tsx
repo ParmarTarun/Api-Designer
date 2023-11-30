@@ -10,6 +10,7 @@ import {
 } from "react-icons/ri";
 import { GoPasskeyFill } from "react-icons/go";
 import { BiSolidCollection } from "react-icons/bi";
+import { useRouter } from "next/router";
 
 interface SideBarProps {
   showNav: boolean;
@@ -18,9 +19,11 @@ interface SideBarProps {
 
 const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
   const { data: session } = useSession();
+  const fda = useRouter();
   const logout = async () => {
     await signOut({ callbackUrl: "/" });
   };
+  const page = fda.pathname.split("/")[1];
   return (
     <aside
       className={
@@ -43,11 +46,21 @@ const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
           <div className="border-b border-secondary mt-2"></div>
           {!!session && (
             <div className="mt-4">
-              <Link href={"/dashboard"} className="text-lg flex items-center">
+              <Link
+                href={"/dashboard"}
+                className={`text-lg flex items-center ${
+                  page === "dashboard" && "font-semibold"
+                }`}
+              >
                 <RiDashboardFill className="mr-2" />
                 Dashboard
               </Link>
-              <Link href={"/collections"} className="text-lg flex items-center">
+              <Link
+                href={"/collections"}
+                className={`text-lg flex items-center ${
+                  page === "collections" && "font-semibold"
+                }`}
+              >
                 <BiSolidCollection className="mr-2" />
                 Collections
               </Link>
@@ -67,11 +80,21 @@ const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
         {session && (
           <>
             {" "}
-            <Link href={"/profile"} className="text-lg flex items-center">
+            <Link
+              href={"/profile"}
+              className={`text-lg flex items-center ${
+                page === "profile" && "font-semibold"
+              }`}
+            >
               <RiUser3Fill className="mr-2" />
               Profile
             </Link>
-            <Link href={"/settings"} className="text-lg flex items-center">
+            <Link
+              href={"/settings"}
+              className={`text-lg flex items-center ${
+                page === "settings" && "font-semibold"
+              }`}
+            >
               <RiSettingsFill className="mr-2" />
               Settings
             </Link>

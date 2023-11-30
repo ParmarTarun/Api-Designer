@@ -42,6 +42,14 @@ label {
   font-size: 1rem;
 }
 
+.loader-primary span {
+  @apply bg-darkHighlight !important;
+}
+
+.loader-error span {
+  @apply bg-error !important;
+}
+
 .btn-primary {
   @apply bg-primary text-secondary rounded-sm text-lg uppercase py-2 px-4 border border-primary;
 }

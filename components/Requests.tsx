@@ -50,27 +50,23 @@ const Requests: FC<requestsProps> = ({}) => {
                   key={i}
                   onClick={() => setCurrentRequestIndex(i)}
                 >
-                  <div className="py-2 pl-2 pr-4 grid grid-cols-5 font-semibold">
-                    <h6
-                      className="col-span-1 text-right mr-2 "
+                  <div className="py-2 pl-2 pr-4 grid grid-cols-4 font-semibold">
+                    <p
+                      className="col-span-1 text-right text-xl"
                       style={{
                         color: `${reqMethodColorMap[req.method]}`,
                       }}
                     >
-                      {req.method}:
-                    </h6>
-                    <h6
-                      className={`${
-                        isNewRequest(req.id) ? "col-span-3" : "col-span-4"
-                      }`}
-                    >
+                      {req.method} :
+                    </p>
+                    <p className="col-span-3 flex justify-between ml-1 text-xl">
                       {req.name}
-                    </h6>
-                    {isNewRequest(req.id) && (
-                      <h6 className="col-span-1 flex justify-end items-center text-darkHighlight">
-                        <WiMoonAltNew />
-                      </h6>
-                    )}
+                      {isNewRequest(req.id) && (
+                        <p className="col-span-1 flex justify-end items-center text-darkHighlight">
+                          <WiMoonAltNew />
+                        </p>
+                      )}
+                    </p>
                   </div>
                 </div>
               );

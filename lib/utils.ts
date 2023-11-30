@@ -1,3 +1,5 @@
+import { requestType } from "@/models/Request";
+
 export const reqMethodColorMap: { [key: string]: string } = {
   GET: "#3eb6a1",
   POST: "#FFFF66",

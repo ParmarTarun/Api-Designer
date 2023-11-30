@@ -1,9 +1,10 @@
 import { useCurrentCollection } from "@/context/currentCollection";
 import { deleteRequest, patchRequest, postRequest } from "@/lib/apiCall";
-import { isNewRequest } from "@/lib/utils";
+import { isNewRequest, reqMethodColorMap } from "@/lib/utils";
 import { requestType } from "@/models/Request";
 import React, { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
+import { BounceLoader } from "react-spinners";
 
 interface requestDetailsProps {
   cRequest: requestType;
@@ -11,6 +12,8 @@ interface requestDetailsProps {
 
 const RequestDetails = ({ cRequest }: requestDetailsProps) => {
   const [request, setRequest] = useState(cRequest);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
   const isNew = isNewRequest(cRequest.id); // check if its a new request or saved request
   const {
     currentCollection,
@@ -40,6 +43,7 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
       method,
       entityId: currentCollection.entities[currentEntityIndex].id,
     };
+    setIsUpdating(true);
     patchRequest(request.id, data)
       .then(({ request }) => {
         updateRequest(request);
@@ -47,7 +51,8 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
       .catch((e) => {
         console.log(e);
         alert("Failed to update the request");
-      });
+      })
+      .finally(() => setIsUpdating(false));
   };
 
   const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -59,6 +64,7 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
       method,
       entityId: currentCollection.entities[currentEntityIndex].id,
     };
+    setIsUpdating(true);
     postRequest(data)
       .then(({ request }) => {
         removeRequest(request);
@@ -67,7 +73,8 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
       .catch((e) => {
         alert("Failed to save request");
         console.log(e);
-      });
+      })
+      .finally(() => setIsUpdating(false));
   };
 
   const handleDelete = () => {
@@ -77,15 +84,17 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
       return;
     }
     // delete a saved request from server
+    setIsDeleting(true);
     deleteRequest(request.id)
       .then((_) => removeRequest(request))
       .catch((e) => {
         alert("failed to delete request");
         console.log(e);
-      });
+      })
+      .finally(() => setIsDeleting(false));
   };
-  // leep of track of user changes to requests
-  const isUpdated = JSON.stringify(cRequest) !== JSON.stringify(request);
+  // keep of track of user changes to requests
+  const isChanged = JSON.stringify(cRequest) !== JSON.stringify(request);
 
   return (
     <>
@@ -101,17 +110,18 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
       </div>
       <div className="flex gap-2 mb-4">
         <div className="grid grid-cols-8 border border-primary rounded-md flex-grow">
-          <div className="col-span-1 pl-4 py-2 text-secondary bg-primary border-r border-primary flex">
+          <div className="col-span-1 text-secondary bg-primary border-r border-primary">
             <select
               name="method"
-              className="text-xl bg-transparent focus:outline-none outline-none cursor-pointer border border-primary"
+              className="text-xl bg-primary px-2 py-1 focus:outline-none outline-none cursor-pointer w-full h-full"
               value={request.method}
               onChange={handleFormInput}
             >
-              <option value="GET">GET</option>
-              <option value="POST">POST</option>
-              <option value="PATCH">PATCH</option>
-              <option value="DELETE">DELETE</option>
+              {Object.entries(reqMethodColorMap).map(([method, color], i) => (
+                <option value={method} style={{ color: color }} key={i}>
+                  {method}
+                </option>
+              ))}
             </select>
           </div>
           <div className="col-span-7 flex">
@@ -126,31 +136,33 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
           </div>
         </div>
         <div className="text-4xl">
-          <button className="p-1 text-error" onClick={handleDelete}>
-            <MdDelete />
-          </button>
+          {isDeleting ? (
+            <BounceLoader size={44} color="red" />
+          ) : (
+            <button className="p-1 text-error" onClick={handleDelete}>
+              <MdDelete />
+            </button>
+          )}
         </div>
       </div>
       <div className="mb-4">
-        {isNew ? (
+        {isUpdating && <BounceLoader className="loader-primary" size={44} />}
+        {!isUpdating && isNew && (
           <button className="btn-darkHighlight" onClick={handleSave}>
             Create
           </button>
-        ) : (
+        )}
+        {isChanged && (
           <>
-            {isUpdated && (
-              <>
-                <button className="btn-secondary mr-2" onClick={handleUpdate}>
-                  Update
-                </button>
-                <button
-                  className="btn-primary"
-                  onClick={() => setRequest(cRequest)}
-                >
-                  Reset
-                </button>
-              </>
-            )}
+            <button className="btn-secondary mr-2" onClick={handleUpdate}>
+              Update
+            </button>
+            <button
+              className="btn-primary"
+              onClick={() => setRequest(cRequest)}
+            >
+              Reset
+            </button>
           </>
         )}
       </div>
