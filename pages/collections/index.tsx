@@ -1,6 +1,6 @@
-import CollectionLayout from "@/components/CollectionLayout";
-import Collections from "@/components/Collections";
-import Layout from "@/components/Layout";
+import CollectionLayout from "@/components/Collection/CollectionLayout";
+import Collections from "@/components/Collection/Collections";
+import Layout from "@/components/Shared/Layout";
 import { getCollections } from "@/lib/collections";
 import { collectionType } from "@/models/Collection";
 import { GetServerSideProps } from "next";

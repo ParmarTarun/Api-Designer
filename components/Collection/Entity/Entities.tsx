@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import EntityFormModal from "./EntityFormModal";
 import { useCurrentCollection } from "@/context/currentCollection";
-import MenuOptions from "./menuOptions";
+import MenuOptions from "../menuOptions";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { menuOption } from "@/types";
 import { deleteEntity } from "@/lib/apiCall";

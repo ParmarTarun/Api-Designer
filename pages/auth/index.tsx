@@ -1,6 +1,6 @@
-import Layout from "@/components/Layout";
-import LoginForm from "@/components/LoginForm";
-import SignUpForm from "@/components/SignUpForm";
+import Layout from "@/components/Shared/Layout";
+import LoginForm from "@/components/Auth/LoginForm";
+import SignUpForm from "@/components/Auth/SignUpForm";
 import { signIn } from "next-auth/react";
 import React, { useState } from "react";
 import { RiGithubFill, RiGoogleFill } from "react-icons/ri";

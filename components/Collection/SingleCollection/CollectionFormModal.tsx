@@ -1,23 +1,27 @@
 import React, { useState } from "react";
-import Modal from "./Modal";
+import Modal from "../../Shared/Modal";
 import { IoMdClose } from "react-icons/io";
-import { entityBody } from "@/types";
-import { entityType } from "@/models/Entity";
-import { useCurrentCollection } from "@/context/currentCollection";
-import { patchEntity, postEntity } from "@/lib/apiCall";
+import { collectionBody } from "@/types";
+import { useCollections } from "@/context/collections";
+import { patchCollection, postCollection } from "@/lib/apiCall";
+import { collectionType } from "@/models/Collection";
 
-interface entityFormModalProps {
-  entity?: entityType;
+interface collectionFormModalProps {
+  collection?: collectionType;
   close: () => void;
 }
 
-const EntityFormModal = ({ entity, close }: entityFormModalProps) => {
-  const { currentCollection, addEntity, updateEntity } = useCurrentCollection();
+const CollectionFormModal = ({
+  collection,
+  close,
+}: collectionFormModalProps) => {
+  const { collections, setCollections } = useCollections();
+
   const [error, setError] = useState("");
-  const [formData, setFormData] = useState<entityBody>({
-    name: entity?.name || "",
-    collectionId: currentCollection.id,
-    requests: entity?.requests || [],
+  const [formData, setFormData] = useState<collectionBody>({
+    name: collection?.name || "",
+    baseUrl: collection?.baseUrl || "",
+    entities: collection?.entities || [],
   });
 
   const handleFormInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,12 +33,15 @@ const EntityFormModal = ({ entity, close }: entityFormModalProps) => {
   };
 
   const handleUpdate = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!entity?.id) return;
+    if (!collection?.id) return;
     setError("");
     e.preventDefault();
-    patchEntity(entity.id, formData)
-      .then(({ entity }) => {
-        updateEntity(entity);
+    patchCollection(collection.id, formData)
+      .then(({ collection }) => {
+        const updatedCollections = collections.filter(
+          (coll: collectionType) => coll.id !== collection.id
+        );
+        setCollections([collection, ...updatedCollections]);
         close();
       })
       .catch((e) => {
@@ -44,9 +51,9 @@ const EntityFormModal = ({ entity, close }: entityFormModalProps) => {
   const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
     setError("");
     e.preventDefault();
-    postEntity(formData)
-      .then(({ entity }) => {
-        addEntity(entity);
+    postCollection(formData)
+      .then(({ collection }) => {
+        setCollections([collection, ...collections]);
         close();
       })
       .catch((e) => {
@@ -58,7 +65,7 @@ const EntityFormModal = ({ entity, close }: entityFormModalProps) => {
     <Modal>
       <div className="text-left bg-secondary rounded-md w-2/5">
         <div className="bg-primary text-secondary px-4 py-2 flex items-center justify-between">
-          <h4>New Entity</h4>
+          <h4>New Collection</h4>
           <button onClick={close}>
             <IoMdClose />
           </button>
@@ -77,6 +84,19 @@ const EntityFormModal = ({ entity, close }: entityFormModalProps) => {
               onChange={handleFormInput}
             />
           </div>
+          <div className="grid grid-cols-6 items-center mt-2">
+            <label htmlFor="collection-url" className="text-right mr-2">
+              Base URL:
+            </label>
+            <input
+              type="text"
+              className="basic-input col-span-2"
+              placeholder="https://newcollection.com/api"
+              name="baseUrl"
+              value={formData.baseUrl}
+              onChange={handleFormInput}
+            />
+          </div>
           {error && <p className="text-center text-error mt-4">{error}</p>}
           <div className="text-right font-medium mt-4">
             <button
@@ -86,7 +106,7 @@ const EntityFormModal = ({ entity, close }: entityFormModalProps) => {
             >
               CANCEL
             </button>
-            {entity ? (
+            {collection ? (
               <button
                 className="border px-2 py-1 rounded-md bg-lightHighlight"
                 onClick={handleUpdate}
@@ -108,4 +128,4 @@ const EntityFormModal = ({ entity, close }: entityFormModalProps) => {
   );
 };
 
-export default EntityFormModal;
+export default CollectionFormModal;

@@ -1,5 +1,5 @@
-import GetStarted from "@/components/GetStarted";
-import Layout from "@/components/Layout";
+import GetStarted from "@/components/Home/GetStarted";
+import Layout from "@/components/Shared/Layout";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";

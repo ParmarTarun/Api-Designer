@@ -1,7 +1,7 @@
 import { collectionType } from "@/models/Collection";
 import React, { useEffect, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
-import CollectionFormModal from "./CollectionFormModal";
+import CollectionFormModal from "./SingleCollection/CollectionFormModal";
 import { useCollections } from "@/context/collections";
 import { deleteCollection } from "@/lib/apiCall";
 import Link from "next/link";
