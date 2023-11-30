@@ -2,7 +2,7 @@ import { isNewRequest, reqMethodColorMap } from "@/lib/utils";
 import React, { FC } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { useCurrentCollection } from "@/context/currentCollection";
-import RequestForm from "./RequestDetails";
+import RequestDetails from "./RequestDetails";
 import { WiMoonAltNew } from "react-icons/wi";
 
 interface requestsProps {}
@@ -80,7 +80,7 @@ const Requests: FC<requestsProps> = ({}) => {
         </div>
         <div className="col-span-4 px-4">
           {requests[currentRequestIndex] ? (
-            <RequestForm cRequest={requests[currentRequestIndex]} />
+            <RequestDetails cRequest={requests[currentRequestIndex]} />
           ) : (
             <p className="italic">
               Select/Create a request to display the details

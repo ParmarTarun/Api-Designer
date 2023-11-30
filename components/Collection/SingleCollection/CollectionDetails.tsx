@@ -5,7 +5,6 @@ import Entities from "../Entity/Entities";
 import BaseUrl from "./BaseUrl";
 import { collectionType } from "@/models/Collection";
 import { FaShare } from "react-icons/fa";
-import { MdDelete, MdModeEdit } from "react-icons/md";
 
 interface CollectionDetailsProps {
   collectionData: collectionType;
@@ -23,16 +22,11 @@ const CollectionDetails = ({ collectionData }: CollectionDetailsProps) => {
       <div className="flex justify-between items-center pr-4">
         <h3>{currentCollection?.name}</h3>
         <div className="flex gap-2 text-2xl">
-          <button className="text-primary">
+          <button
+            className="text-primary"
+            onClick={() => alert("To be implenented")}
+          >
             <FaShare />
-          </button>
-          |
-          <button className="text-primary">
-            <MdModeEdit />
-          </button>
-          |
-          <button className="text-error">
-            <MdDelete />
           </button>
         </div>
       </div>

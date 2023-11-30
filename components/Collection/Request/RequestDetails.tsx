@@ -5,6 +5,8 @@ import { requestType } from "@/models/Request";
 import React, { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { BounceLoader } from "react-spinners";
+import RequestBody from "./RequestBody/RequestBody";
+import ResponseBody from "./ResponseBody/ResponseBody";
 
 interface requestDetailsProps {
   cRequest: requestType;
@@ -108,7 +110,7 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
           onChange={handleFormInput}
         />
       </div>
-      <div className="flex gap-2 mb-4">
+      <div className="flex gap-2">
         <div className="grid grid-cols-8 border border-primary rounded-md flex-grow">
           <div className="col-span-1 text-secondary bg-primary border-r border-primary">
             <select
@@ -144,6 +146,12 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
             </button>
           )}
         </div>
+      </div>
+      <div className="">
+        <RequestBody />
+      </div>
+      <div className="mb-4">
+        <ResponseBody />
       </div>
       <div className="mb-4">
         {isUpdating && <BounceLoader className="loader-primary" size={44} />}
