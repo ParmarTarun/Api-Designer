@@ -14,10 +14,10 @@ const BearerTokenElement: FC = () => {
 };
 
 interface authorizationProps {
-  authorizations: authorization[];
+  authorization: authorization;
 }
 
-const Authorization: FC<authorizationProps> = () => {
+const Authorization: FC<authorizationProps> = ({ authorization }) => {
   const authOptions = [
     {
       name: "No Auth",
@@ -48,7 +48,11 @@ const Authorization: FC<authorizationProps> = () => {
             onChange={handleSelectUpdate}
           >
             {authOptions.map((op, i) => (
-              <option value={op["value"]} key={i}>
+              <option
+                value={op["value"]}
+                selected={op.value === authorization.type}
+                key={i}
+              >
                 {op["name"]}
               </option>
             ))}

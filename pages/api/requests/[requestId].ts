@@ -1,6 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { deleteEntity, patchEntity } from "@/lib/entities";
-import { InvalidEntityId, InvalidRequestId } from "@/lib/customErrors";
+import { InvalidRequestId } from "@/lib/customErrors";
 import { isValidObjectId } from "mongoose";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { deleteRequest, patchRequest } from "@/lib/requests";
@@ -21,7 +20,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   switch (req.method) {
     case "PATCH": {
       try {
-        const { name, method, path } = req.body;
+        const { name, method, path, authorization, body, headers, params } =
+          req.body;
 
         if (!name || !method || !path) {
           return res.status(400).json({ message: "Invalid request" });
@@ -31,6 +31,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
           name,
           method,
           path,
+          authorization,
+          body,
+          headers,
+          params,
           entityId: "", // entity id not needed for patch but mentioned in types because needed in post call
         });
         return res.status(200).json({ message: "Success", request });

@@ -36,4 +36,21 @@ EntitySchema.post("findOneAndDelete", (entity) => {
   });
 });
 
+// TODO: delete all the requests on entity delete
+// EntitySchema.post("fi", (entity) => {
+//   if (!entity) return;
+//   const enId = entity._id;
+//   Collection.find({ entities: { $in: [enId] } }).then((collections) => {
+//     Promise.all(
+//       collections.map((coll) =>
+//         Collection.findByIdAndUpdate(
+//           coll._id,
+//           { $pull: { entities: enId } },
+//           { new: true }
+//         )
+//       )
+//     );
+//   });
+// });
+
 export const Entity = models.Entity || model("Entity", EntitySchema);

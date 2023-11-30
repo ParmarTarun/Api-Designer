@@ -24,15 +24,32 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
     case "POST": {
       try {
-        const { name, method, path, entityId } = req.body;
-
+        const {
+          name,
+          method,
+          path,
+          authorization,
+          body,
+          headers,
+          params,
+          entityId,
+        } = req.body;
         if (!name || !method || !path || !entityId) {
           return res.status(400).json({ message: "Invalid request" });
         }
         if (!isValidObjectId(entityId))
           return res.status(400).json({ message: "Invalid entity Id" });
 
-        const request = await postRequest({ name, path, method, entityId });
+        const request = await postRequest({
+          name,
+          path,
+          method,
+          authorization,
+          body,
+          headers,
+          params,
+          entityId,
+        });
         return res.status(201).json({ message: "Success", request });
       } catch (e) {
         if (e instanceof InvalidEntityId) {

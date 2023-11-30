@@ -21,6 +21,10 @@ export type requestBody = {
   name: string;
   method: string;
   path: string;
+  body: body;
+  params: param[];
+  authorization: authorization;
+  headers: header[];
   entityId: string;
 };
 export type body = { [key: string]: string } | string;

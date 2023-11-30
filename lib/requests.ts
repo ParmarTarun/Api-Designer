@@ -20,6 +20,10 @@ export const getRequests: getRequestsType = async () => {
       name: row.name,
       method: row.method,
       path: row.path,
+      authorization: row.authorization,
+      body: row.body,
+      headers: row.headers,
+      params: row.params,
       createdAt: row.createdAt,
     });
   });
@@ -31,6 +35,10 @@ export const postRequest: postRequestType = async ({
   name,
   method,
   path,
+  authorization,
+  body,
+  headers,
+  params,
   entityId,
 }) => {
   await mongooseConnect();
@@ -38,7 +46,16 @@ export const postRequest: postRequestType = async ({
   const entity = await Entity.findById(entityId);
   if (!entity) throw new InvalidEntityId();
   // create request
-  const request = await Request.create({ name, method, path });
+  console.log("db", authorization);
+  const request = await Request.create({
+    name,
+    method,
+    path,
+    authorization,
+    body,
+    headers,
+    params,
+  });
   // add new request Id in entity
   const res = await Entity.updateOne(
     { _id: entityId },
@@ -49,6 +66,10 @@ export const postRequest: postRequestType = async ({
     name,
     method: request.method,
     path: request.path,
+    authorization: request.authorization,
+    body: request.body,
+    headers: request.headers,
+    params: request.params,
     createdAt: request.createdAt,
     id: request._id,
   };
@@ -57,13 +78,17 @@ export const postRequest: postRequestType = async ({
 // @ts-ignore   path is coming in as a string from request body and Literal type is expected here
 export const patchRequest: patchRequestType = async (
   id,
-  { name, method, path }
+  { name, method, path, authorization, body, headers, params }
 ) => {
   await mongooseConnect();
   const request = await Request.findByIdAndUpdate(id, {
     name,
     method,
     path,
+    authorization,
+    body,
+    headers,
+    params,
   });
   if (!request) throw new InvalidRequestId();
 
@@ -71,6 +96,10 @@ export const patchRequest: patchRequestType = async (
     name,
     method,
     path,
+    authorization,
+    headers,
+    body,
+    params,
     createdAt: request.createdAt,
     id: request._id,
   };

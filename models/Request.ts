@@ -1,15 +1,16 @@
 import { Schema, model, models } from "mongoose";
 import { Entity } from "./Entity";
+import { authorization, body, header, param } from "@/types";
 
 export type requestType = {
   id: string;
   name: string;
   method: "GET" | "POST" | "PATCH" | "DELETE";
   path: string;
-  params: { key: string; value: string; desc: string }[];
-  authorization: { type: "NO_AUTH" | "BEARER_TOKEN"; value: any }[];
-  headers: { key: string; value: string; desc: string }[];
-  body: { [key: string]: string } | string;
+  params: param[];
+  authorization: authorization;
+  headers: header[];
+  body: body;
   createdAt: string;
 };
 
@@ -18,13 +19,17 @@ const RequestSchema = new Schema<requestType>(
     name: String,
     method: String,
     path: String,
+    params: [Object],
+    authorization: Object,
+    headers: [Object],
+    body: Object,
   },
   {
     timestamps: true,
   }
 );
 
-// hook to delete all referenced entities in the collection on delete entity
+// hook to delete all referenced requests in the entity on delete request
 RequestSchema.post("findOneAndDelete", (request) => {
   if (!request) return;
   const reqId = request._id;

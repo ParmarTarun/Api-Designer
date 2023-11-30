@@ -10,12 +10,12 @@ interface requestBodyProps {
   body: body;
   params: param[];
   headers: header[];
-  authorizations: authorization[];
+  authorization: authorization;
 }
 
 const RequestBody: FC<requestBodyProps> = ({
   body,
-  authorizations,
+  authorization,
   headers,
   params,
 }) => {
@@ -23,7 +23,7 @@ const RequestBody: FC<requestBodyProps> = ({
     { name: "params", element: <Params params={params} /> },
     {
       name: "authorization",
-      element: <Authorization authorizations={authorizations} />,
+      element: <Authorization authorization={authorization} />,
     },
     { name: "headers", element: <Headers headers={headers} /> },
     { name: "body", element: <Body body={body} /> },

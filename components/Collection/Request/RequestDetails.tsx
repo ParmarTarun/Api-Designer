@@ -38,11 +38,16 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
 
   const handleUpdate = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const { name, path, method } = request;
+    const { name, path, method, params, body, headers, authorization } =
+      request;
     const data = {
       name,
       path,
       method,
+      params,
+      body,
+      headers,
+      authorization,
       entityId: currentCollection.entities[currentEntityIndex].id,
     };
     setIsUpdating(true);
@@ -59,11 +64,16 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
 
   const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const { name, path, method } = request;
+    const { name, path, method, params, body, headers, authorization } =
+      request;
     const data = {
       name,
       path,
       method,
+      params,
+      body,
+      headers,
+      authorization,
       entityId: currentCollection.entities[currentEntityIndex].id,
     };
     setIsUpdating(true);
@@ -151,7 +161,7 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
       <div className="">
         <RequestBody
           body={request.body}
-          authorizations={request.authorization}
+          authorization={request.authorization}
           headers={request.headers}
           params={request.params}
         />
