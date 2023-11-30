@@ -5,6 +5,8 @@ import { requestType } from "@/models/Request";
 import React, { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { BounceLoader } from "react-spinners";
+import RequestBody from "./RequestBody/RequestBody";
+import ResponseBody from "./ResponseBody/ResponseBody";
 
 interface requestDetailsProps {
   cRequest: requestType;
@@ -78,6 +80,7 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
   };
 
   const handleDelete = () => {
+    if (!confirm("Are you sure?")) return;
     // delete the unsaved request from context
     if (isNew) {
       removeRequest(request);
@@ -108,7 +111,7 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
           onChange={handleFormInput}
         />
       </div>
-      <div className="flex gap-2 mb-4">
+      <div className="flex gap-2">
         <div className="grid grid-cols-8 border border-primary rounded-md flex-grow">
           <div className="col-span-1 text-secondary bg-primary border-r border-primary">
             <select
@@ -145,6 +148,17 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
           )}
         </div>
       </div>
+      <div className="">
+        <RequestBody
+          body={request.body}
+          authorizations={request.authorization}
+          headers={request.headers}
+          params={request.params}
+        />
+      </div>
+      <div className="mb-4">
+        <ResponseBody />
+      </div>
       <div className="mb-4">
         {isUpdating && <BounceLoader className="loader-primary" size={44} />}
         {!isUpdating && isNew && (
@@ -152,7 +166,7 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
             Create
           </button>
         )}
-        {isChanged && (
+        {!isUpdating && !isNew && isChanged && (
           <>
             <button className="btn-secondary mr-2" onClick={handleUpdate}>
               Update

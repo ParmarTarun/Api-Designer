@@ -1,6 +1,6 @@
 import { Collection, collectionType } from "@/models/Collection";
 import { mongooseConnect } from "./mongoose";
-import { collectionBody, entityBody } from "@/types";
+import { collectionBody } from "@/types";
 import { InvalidCollectionId } from "./customErrors";
 import { entityType } from "@/models/Entity";
 import { requestType } from "@/models/Request";
@@ -64,6 +64,10 @@ export const getCollectionByName: getCollectionByNameType = async (
         name: req.name,
         path: req.path,
         method: req.method,
+        authorization: req.authorization,
+        body: req.body,
+        headers: req.headers,
+        params: req.params,
         createdAt: req.createdAt,
       });
     });

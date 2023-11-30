@@ -23,7 +23,23 @@ export type requestBody = {
   path: string;
   entityId: string;
 };
+export type body = { [key: string]: string } | string;
 
+export type param = {
+  key: string;
+  value: string;
+  desc: string;
+};
+
+export type authorization = {
+  type: "NO_AUTH" | "BEARER_TOKEN";
+  value: any;
+};
+export type header = {
+  key: string;
+  value: string;
+  desc: string;
+};
 export type menuOption = {
   name: string;
   icon: ReactNode;

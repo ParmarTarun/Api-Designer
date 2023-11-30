@@ -6,6 +6,10 @@ export type requestType = {
   name: string;
   method: "GET" | "POST" | "PATCH" | "DELETE";
   path: string;
+  params: { key: string; value: string; desc: string }[];
+  authorization: { type: "NO_AUTH" | "BEARER_TOKEN"; value: any }[];
+  headers: { key: string; value: string; desc: string }[];
+  body: { [key: string]: string } | string;
   createdAt: string;
 };
 
