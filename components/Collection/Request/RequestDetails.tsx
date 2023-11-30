@@ -80,6 +80,7 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
   };
 
   const handleDelete = () => {
+    if (!confirm("Are you sure?")) return;
     // delete the unsaved request from context
     if (isNew) {
       removeRequest(request);
@@ -160,7 +161,7 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
             Create
           </button>
         )}
-        {isChanged && (
+        {!isUpdating && !isNew && isChanged && (
           <>
             <button className="btn-secondary mr-2" onClick={handleUpdate}>
               Update

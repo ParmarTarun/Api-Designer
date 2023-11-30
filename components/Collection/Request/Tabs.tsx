@@ -22,7 +22,7 @@ const Tabs: FC<tabsProps> = ({ tabs, defaultActive }) => {
           </button>
         ))}
       </div>
-      <div className="bg-lightHighlight p-2 pl-4">
+      <div className="bg-lightHighlight py-2 px-4">
         {tabs[activeTabIndex].element}
       </div>
     </div>
