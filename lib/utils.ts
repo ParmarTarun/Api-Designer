@@ -26,10 +26,7 @@ export const getNewRequestWithDefaults: (id: string) => requestType = (id) => {
       { key: "User-Agent", value: "ApiDesigner/1.0", desc: "" },
       { key: "Cache-Control", value: "no-cache", desc: "" },
     ],
-    authorization: [
-      { type: "NO_AUTH", value: "" },
-      { type: "BEARER_TOKEN", value: { token: "" } },
-    ],
+    authorization: { type: "NO_AUTH", value: "" },
     body: {
       name: "Fetch Users",
       method: "GET",
@@ -37,4 +34,13 @@ export const getNewRequestWithDefaults: (id: string) => requestType = (id) => {
     },
     createdAt: "",
   };
+};
+
+export const isJson = (s: string) => {
+  try {
+    JSON.parse(s);
+    return true;
+  } catch (e) {
+    return false;
+  }
 };

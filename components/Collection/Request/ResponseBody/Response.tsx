@@ -1,9 +1,9 @@
 import React from "react";
 
-const ResponseBody = () => {
+const Response = () => {
   const jsonResponse = JSON.stringify(
     {
-      message: "Success",
+      message: "Success: An example Json Response",
       requests: [
         {
           id: "6567ce66c2ec75bccd7b0c5c",
@@ -39,4 +39,4 @@ const ResponseBody = () => {
   );
 };
 
-export default ResponseBody;
+export default Response;

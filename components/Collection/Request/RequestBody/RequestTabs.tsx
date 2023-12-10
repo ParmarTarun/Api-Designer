@@ -6,14 +6,14 @@ import Authorization from "./Authorization";
 import Body from "./Body";
 import { authorization, body, header, param } from "@/types";
 
-interface requestBodyProps {
+interface requestTabsProps {
   body: body;
   params: param[];
   headers: header[];
   authorization: authorization;
 }
 
-const RequestBody: FC<requestBodyProps> = ({
+const RequestTabs: FC<requestTabsProps> = ({
   body,
   authorization,
   headers,
@@ -26,7 +26,7 @@ const RequestBody: FC<requestBodyProps> = ({
       element: <Authorization authorization={authorization} />,
     },
     { name: "headers", element: <Headers headers={headers} /> },
-    { name: "body", element: <Body body={body} /> },
+    { name: "body", element: <Body cBody={body} /> },
   ];
   return (
     <div>
@@ -35,4 +35,4 @@ const RequestBody: FC<requestBodyProps> = ({
   );
 };
 
-export default RequestBody;
+export default RequestTabs;

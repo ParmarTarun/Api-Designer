@@ -1,18 +1,19 @@
 import { useCurrentCollection } from "@/context/currentCollection";
 import { deleteRequest, patchRequest, postRequest } from "@/lib/apiCall";
-import { isNewRequest, reqMethodColorMap } from "@/lib/utils";
+import { isNewRequest } from "@/lib/utils";
 import { requestType } from "@/models/Request";
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { BounceLoader } from "react-spinners";
-import RequestBody from "./RequestBody/RequestBody";
-import ResponseBody from "./ResponseBody/ResponseBody";
+import RequestMethodAndPath from "./RequestBody/RequestMethodAndPath";
+import RequestTabs from "./RequestBody/RequestTabs";
+import Response from "./ResponseBody/Response";
 
-interface requestDetailsProps {
+interface singleRequestProps {
   cRequest: requestType;
 }
 
-const RequestDetails = ({ cRequest }: requestDetailsProps) => {
+const SingleRequest: FC<singleRequestProps> = ({ cRequest }) => {
   const [request, setRequest] = useState(cRequest);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -122,32 +123,10 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
         />
       </div>
       <div className="flex gap-2">
-        <div className="grid grid-cols-8 border border-primary rounded-md flex-grow">
-          <div className="col-span-1 text-secondary bg-primary border-r border-primary">
-            <select
-              name="method"
-              className="text-xl bg-primary px-2 py-1 focus:outline-none outline-none cursor-pointer w-full h-full"
-              value={request.method}
-              onChange={handleFormInput}
-            >
-              {Object.entries(reqMethodColorMap).map(([method, color], i) => (
-                <option value={method} style={{ color: color }} key={i}>
-                  {method}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="col-span-7 flex">
-            <input
-              type="text"
-              placeholder="/products"
-              name="path"
-              className="bg-transparent w-full px-2 focus:outline-none text-lg"
-              value={request.path}
-              onChange={handleFormInput}
-            />
-          </div>
-        </div>
+        <RequestMethodAndPath
+          request={request}
+          handleFormInput={handleFormInput}
+        />
         <div className="text-4xl">
           {isDeleting ? (
             <BounceLoader size={44} color="red" />
@@ -159,7 +138,7 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
         </div>
       </div>
       <div className="">
-        <RequestBody
+        <RequestTabs
           body={request.body}
           authorization={request.authorization}
           headers={request.headers}
@@ -167,7 +146,7 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
         />
       </div>
       <div className="mb-4">
-        <ResponseBody />
+        <Response />
       </div>
       <div className="mb-4">
         {isUpdating && <BounceLoader className="loader-primary" size={44} />}
@@ -194,4 +173,4 @@ const RequestDetails = ({ cRequest }: requestDetailsProps) => {
   );
 };
 
-export default RequestDetails;
+export default SingleRequest;
