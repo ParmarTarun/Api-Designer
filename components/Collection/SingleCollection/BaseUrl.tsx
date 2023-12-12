@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { MdContentCopy } from "react-icons/md";
 import { FiExternalLink } from "react-icons/fi";
 import Link from "next/link";
@@ -7,6 +7,14 @@ interface baseUrlProps {
 }
 
 const BaseUrl = ({ baseUrl }: baseUrlProps) => {
+  const [copied, setCopied] = useState<boolean>(false);
+
+  const handleCopy = () => {
+    setCopied(true);
+    navigator.clipboard.writeText(baseUrl);
+    setTimeout(() => setCopied(false), 3000);
+  };
+
   return (
     <div className="my-3">
       <h5 className="mb-1">Base Url:</h5>
@@ -19,7 +27,16 @@ const BaseUrl = ({ baseUrl }: baseUrlProps) => {
         >
           <FiExternalLink className="inline" /> {baseUrl}
         </Link>
-        <MdContentCopy className="inline ml-4 cursor-pointer" />
+        <div className="ml-4">
+          {copied ? (
+            <p className="italic">Copied to clipboard!</p>
+          ) : (
+            <MdContentCopy
+              className="inline cursor-pointer"
+              onClick={handleCopy}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
