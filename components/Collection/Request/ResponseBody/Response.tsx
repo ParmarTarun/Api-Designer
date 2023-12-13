@@ -27,7 +27,7 @@ const Response = () => {
   return (
     <div className="">
       <div className="flex justify-between items-center pl-4 py-2">
-        <h6>Response</h6>
+        <h6 className="font-semibold uppercase">Response</h6>
         <p>
           <span>Status: 200 OK</span>
         </p>

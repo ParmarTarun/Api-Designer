@@ -13,7 +13,6 @@ type Data = {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   const { requestId = "" } = req.query;
-  console.log(req.body);
   if (!isValidObjectId(requestId))
     return res.status(400).json({ message: "Invalid request Id" });
 

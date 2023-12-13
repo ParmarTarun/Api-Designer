@@ -46,7 +46,6 @@ export const postRequest: postRequestType = async ({
   const entity = await Entity.findById(entityId);
   if (!entity) throw new InvalidEntityId();
   // create request
-  console.log("db", authorization);
   const request = await Request.create({
     name,
     method,

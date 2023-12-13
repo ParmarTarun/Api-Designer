@@ -1,4 +1,5 @@
 import { requestType } from "@/models/Request";
+import { param } from "../types";
 
 export const reqMethodColorMap: { [key: string]: string } = {
   GET: "#3eb6a1",
@@ -17,10 +18,7 @@ export const getNewRequestWithDefaults: (id: string) => requestType = (id) => {
     method: "GET",
     name: "New Request",
     path: "/",
-    params: [
-      { key: "query1", value: "value1", desc: "" },
-      { key: "query2", value: "value2", desc: "" },
-    ],
+    params: [],
     headers: [
       { key: "Accept", value: "*/*", desc: "" },
       { key: "User-Agent", value: "ApiDesigner/1.0", desc: "" },
@@ -43,4 +41,17 @@ export const isJson = (s: string) => {
   } catch (e) {
     return false;
   }
+};
+
+export const addParamsToPath = (path: string, params: param[]) => {
+  // console.log(path, params);
+  let qparams = "";
+  params.forEach((p) => {
+    if (p.key) {
+      qparams += "&" + p.key + "=" + p.value;
+    }
+  });
+  const res = encodeURI(path.split("?")[0] + "?" + qparams);
+  // console.log(res);
+  return res;
 };

@@ -1,6 +1,6 @@
 import { useCurrentCollection } from "@/context/currentCollection";
 import { deleteRequest, patchRequest, postRequest } from "@/lib/apiCall";
-import { isNewRequest } from "@/lib/utils";
+import { addParamsToPath, isNewRequest } from "@/lib/utils";
 import { requestType } from "@/models/Request";
 import React, { FC, useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
@@ -14,10 +14,6 @@ interface singleRequestProps {
 }
 
 const SingleRequest: FC<singleRequestProps> = ({ cRequest }) => {
-  const [request, setRequest] = useState(cRequest);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false);
-  const isNew = isNewRequest(cRequest.id); // check if its a new request or saved request
   const {
     currentCollection,
     currentEntityIndex,
@@ -25,16 +21,27 @@ const SingleRequest: FC<singleRequestProps> = ({ cRequest }) => {
     updateRequest,
     removeRequest,
   } = useCurrentCollection();
+  const [request, setRequest] = useState(cRequest);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const isNew = isNewRequest(cRequest.id); // check if its a new request or saved request
 
   useEffect(() => setRequest(cRequest), [cRequest]);
 
-  const handleFormInput = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setRequest({
-      ...request,
-      [e.target.name]: e.target.value,
-    });
+  const handleRequestChange = (key: string, value: any) => {
+    if (key === "params") {
+      // update path as well incase of param update
+      setRequest({
+        ...request,
+        params: value,
+        path: addParamsToPath(request.path, value),
+      });
+    } else {
+      setRequest({
+        ...request,
+        [key]: value,
+      });
+    }
   };
 
   const handleUpdate = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -119,13 +126,14 @@ const SingleRequest: FC<singleRequestProps> = ({ cRequest }) => {
           name="name"
           className="basic-input ml-4"
           value={request.name}
-          onChange={handleFormInput}
+          onChange={(e) => handleRequestChange("name", e.target.value)}
         />
       </div>
       <div className="flex gap-2">
         <RequestMethodAndPath
-          request={request}
-          handleFormInput={handleFormInput}
+          path={request.path}
+          method={request.method}
+          handleRequestChange={handleRequestChange}
         />
         <div className="text-4xl">
           {isDeleting ? (
@@ -143,6 +151,7 @@ const SingleRequest: FC<singleRequestProps> = ({ cRequest }) => {
           authorization={request.authorization}
           headers={request.headers}
           params={request.params}
+          handleRequestChange={handleRequestChange}
         />
       </div>
       <div className="mb-4">

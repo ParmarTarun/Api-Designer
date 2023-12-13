@@ -11,6 +11,7 @@ interface requestTabsProps {
   params: param[];
   headers: header[];
   authorization: authorization;
+  handleRequestChange: (k: string, v: string) => void;
 }
 
 const RequestTabs: FC<requestTabsProps> = ({
@@ -18,9 +19,15 @@ const RequestTabs: FC<requestTabsProps> = ({
   authorization,
   headers,
   params,
+  handleRequestChange,
 }) => {
   const tabs = [
-    { name: "params", element: <Params params={params} /> },
+    {
+      name: "params",
+      element: (
+        <Params cParams={params} handleRequestChange={handleRequestChange} />
+      ),
+    },
     {
       name: "authorization",
       element: <Authorization authorization={authorization} />,
@@ -30,7 +37,7 @@ const RequestTabs: FC<requestTabsProps> = ({
   ];
   return (
     <div>
-      <Tabs tabs={tabs} defaultActive={3} />
+      <Tabs tabs={tabs} defaultActive={0} />
     </div>
   );
 };

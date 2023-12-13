@@ -1,17 +1,16 @@
 import { reqMethodColorMap } from "@/lib/utils";
-import { requestType } from "@/models/Request";
 import React, { FC } from "react";
 
 interface requestMethodAndPathProps {
-  request: requestType;
-  handleFormInput: (
-    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
-  ) => void;
+  path: string;
+  method: string;
+  handleRequestChange: (k: string, v: string) => void;
 }
 
 const RequestMethodAndPath: FC<requestMethodAndPathProps> = ({
-  request,
-  handleFormInput,
+  path,
+  method,
+  handleRequestChange,
 }) => {
   return (
     <div className="grid grid-cols-8 border border-primary rounded-md flex-grow">
@@ -19,8 +18,8 @@ const RequestMethodAndPath: FC<requestMethodAndPathProps> = ({
         <select
           name="method"
           className="text-xl bg-primary px-2 py-1 focus:outline-none outline-none cursor-pointer w-full h-full"
-          value={request.method}
-          onChange={handleFormInput}
+          value={method}
+          onChange={(e) => handleRequestChange("method", e.target.value)}
         >
           {Object.entries(reqMethodColorMap).map(([method, color], i) => (
             <option value={method} style={{ color: color }} key={i}>
@@ -35,8 +34,8 @@ const RequestMethodAndPath: FC<requestMethodAndPathProps> = ({
           placeholder="/products"
           name="path"
           className="bg-transparent w-full px-2 focus:outline-none text-lg"
-          value={request.path}
-          onChange={handleFormInput}
+          value={path}
+          onChange={(e) => handleRequestChange("path", e.target.value)}
         />
       </div>
     </div>

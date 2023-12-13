@@ -48,11 +48,7 @@ const Authorization: FC<authorizationProps> = ({ authorization }) => {
             onChange={handleSelectUpdate}
           >
             {authOptions.map((op, i) => (
-              <option
-                value={op["value"]}
-                selected={op.value === authorization.type}
-                key={i}
-              >
+              <option value={op["value"]} key={i}>
                 {op["name"]}
               </option>
             ))}
