@@ -25,7 +25,7 @@ const RequestTabs: FC<requestTabsProps> = ({
     {
       name: "params",
       element: (
-        <Params cParams={params} handleRequestChange={handleRequestChange} />
+        <Params params={params} handleRequestChange={handleRequestChange} />
       ),
     },
     {
@@ -40,7 +40,7 @@ const RequestTabs: FC<requestTabsProps> = ({
     {
       name: "headers",
       element: (
-        <Headers cHeaders={headers} handleRequestChange={handleRequestChange} />
+        <Headers headers={headers} handleRequestChange={handleRequestChange} />
       ),
     },
     { name: "body", element: <Body cBody={body} /> },

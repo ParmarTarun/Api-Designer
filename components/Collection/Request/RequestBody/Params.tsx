@@ -4,21 +4,21 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
 
 interface paramsProps {
-  cParams: param[];
+  params: param[];
   handleRequestChange: (k: string, v: any) => void;
 }
 
-const Params: FC<paramsProps> = ({ cParams, handleRequestChange }) => {
-  const [params, setParams] = useState<param[]>(cParams);
-
+const Params: FC<paramsProps> = ({ params: params, handleRequestChange }) => {
   const addNewParam = () => {
-    setParams([...params, { key: "", value: "", desc: "" }]);
+    handleRequestChange("params", [
+      ...params,
+      { key: "", value: "", desc: "" },
+    ]);
   };
 
   const removeParam = (ind: number) => {
     const updatedParams = params.filter((p, i) => i !== ind);
     handleRequestChange("params", updatedParams);
-    setParams(updatedParams);
   };
 
   const handleParamChange = (
@@ -32,11 +32,7 @@ const Params: FC<paramsProps> = ({ cParams, handleRequestChange }) => {
       return p;
     });
     handleRequestChange("params", updatedParams);
-    setParams(updatedParams);
   };
-
-  useEffect(() => setParams(cParams), [cParams]);
-
   return (
     <>
       <div className="grid grid-cols-3 border-b border-primary uppercase font-semibold">

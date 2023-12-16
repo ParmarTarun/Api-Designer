@@ -4,21 +4,21 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
 
 interface headersProps {
-  cHeaders: header[];
+  headers: header[];
   handleRequestChange: (k: string, v: any) => void;
 }
 
-const Headers: FC<headersProps> = ({ cHeaders, handleRequestChange }) => {
-  const [headers, setHeaders] = useState<header[]>(cHeaders);
-
+const Headers: FC<headersProps> = ({ headers, handleRequestChange }) => {
   const addNewHeader = () => {
-    setHeaders([...headers, { key: "", value: "", desc: "" }]);
+    handleRequestChange("headers", [
+      ...headers,
+      { key: "", value: "", desc: "" },
+    ]);
   };
 
   const removeParam = (ind: number) => {
     const updatedHeaders = headers.filter((h, i) => i !== ind);
     handleRequestChange("headers", updatedHeaders);
-    setHeaders(updatedHeaders);
   };
 
   const handlerHeaderChange = (
@@ -32,7 +32,6 @@ const Headers: FC<headersProps> = ({ cHeaders, handleRequestChange }) => {
       return h;
     });
     handleRequestChange("headers", updatedHeaders);
-    setHeaders(updatedHeaders);
   };
   return (
     <>
