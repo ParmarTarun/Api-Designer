@@ -37,7 +37,12 @@ const RequestTabs: FC<requestTabsProps> = ({
         />
       ),
     },
-    { name: "headers", element: <Headers headers={headers} /> },
+    {
+      name: "headers",
+      element: (
+        <Headers cHeaders={headers} handleRequestChange={handleRequestChange} />
+      ),
+    },
     { name: "body", element: <Body cBody={body} /> },
   ];
   return (
