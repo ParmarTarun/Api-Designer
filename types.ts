@@ -35,8 +35,10 @@ export type param = {
   desc: string;
 };
 
+export type authTypes = "NO_AUTH" | "BEARER_TOKEN";
+
 export type authorization = {
-  type: "NO_AUTH" | "BEARER_TOKEN";
+  type: authTypes;
   value: any;
 };
 export type header = {

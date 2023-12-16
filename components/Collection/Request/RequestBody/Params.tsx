@@ -71,9 +71,8 @@ const Params: FC<paramsProps> = ({ cParams, handleRequestChange }) => {
         </div>
         <div className="col-span-1">
           {params.map((p, i) => (
-            <>
+            <div key={i}>
               <input
-                key={i}
                 type="text"
                 className="basic-input"
                 name="desc"
@@ -85,7 +84,7 @@ const Params: FC<paramsProps> = ({ cParams, handleRequestChange }) => {
                 className="inline ml-4 text-2xl text-error cursor-pointer"
                 onClick={() => removeParam(i)}
               />
-            </>
+            </div>
           ))}
         </div>
       </div>

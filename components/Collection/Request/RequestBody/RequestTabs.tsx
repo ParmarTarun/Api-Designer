@@ -30,7 +30,12 @@ const RequestTabs: FC<requestTabsProps> = ({
     },
     {
       name: "authorization",
-      element: <Authorization authorization={authorization} />,
+      element: (
+        <Authorization
+          authorization={authorization}
+          handleRequestChange={handleRequestChange}
+        />
+      ),
     },
     { name: "headers", element: <Headers headers={headers} /> },
     { name: "body", element: <Body cBody={body} /> },
