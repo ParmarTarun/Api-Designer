@@ -25,14 +25,22 @@ const GetStarted = () => {
   return (
     <div className="w-4/5 text-center">
       <h2 className="text-4xl font-bold underline mb-4">API Designer</h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quistailz nostrud exercitation ullamco laboris nisi ut aliquip
-        ex ea commodo consequat.
+      <p className="text-2xl my-4">
+        An Online tool to design your awesome{" "}
+        <span className="font-semibold text-darkHighlight">APIs</span>. Create
+        <span className="font-semibold"> Collections</span>,{" "}
+        <span className="font-semibold">Entities</span> &{" "}
+        <span className="font-semibold">Endpoints</span> along with{" "}
+        <span className="font-semibold">Headers</span>,{" "}
+        <span className="font-semibold">Authorizations</span>,{" "}
+        <span className="font-semibold">Query Params</span> and{" "}
+        <span className="font-semibold">Body</span>. Furthermore, design the{" "}
+        <span className="font-semibold">Responses</span> as well!
+        <br /> Share your work with frontend team and let them know how your
+        APIs are going to look, even before you actually develop them!
       </p>
       <button
-        className="bg-darkHighlight font-semibold  text-secondary px-4 py-2 rounded-md mt-4"
+        className="bg-darkHighlight font-semibold  text-secondary px-4 py-2 rounded-md mt-4 text-2xl"
         onClick={handleGetStarted}
       >
         GET STARTED
@@ -42,7 +50,7 @@ const GetStarted = () => {
           <ScaleLoader className="sm:my-10 my-5" />
         ) : (
           <button
-            className="bg-primary font-semibold uppercase text-secondary px-4 py-2 rounded-md mt-4"
+            className="bg-primary font-semibold uppercase text-secondary px-4 py-2 rounded-md mt-4 text-2xl"
             onClick={handleGuestLogin}
           >
             Try as a guest
