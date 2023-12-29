@@ -20,16 +20,12 @@ export const getNewRequestWithDefaults: (id: string) => requestType = (id) => {
     path: "/",
     params: [],
     headers: [
-      { key: "Accept", value: "*/*", desc: "" },
-      { key: "User-Agent", value: "ApiDesigner/1.0", desc: "" },
-      { key: "Cache-Control", value: "no-cache", desc: "" },
+      { key: "Accept", value: "*/*", desc: "default" },
+      { key: "User-Agent", value: "ApiDesigner/1.0", desc: "default" },
+      { key: "Cache-Control", value: "no-cache", desc: "default" },
     ],
     authorization: { type: "NO_AUTH", value: "" },
-    body: {
-      name: "Fetch Users",
-      method: "GET",
-      path: "/user",
-    },
+    body: "",
     createdAt: "",
   };
 };
@@ -54,4 +50,12 @@ export const addParamsToPath = (path: string, params: param[]) => {
   const res = encodeURI(path.split("?")[0] + "?" + qparams);
   // console.log(res);
   return res;
+};
+
+export const beautify = (body: string) => {
+  try {
+    return JSON.stringify(JSON.parse(body), null, 4);
+  } catch (e) {
+    return false;
+  }
 };

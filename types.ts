@@ -27,7 +27,7 @@ export type requestBody = {
   headers: header[];
   entityId: string;
 };
-export type body = { [key: string]: string } | string;
+export type body = string;
 
 export type param = {
   key: string;
