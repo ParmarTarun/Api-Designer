@@ -10,14 +10,16 @@ const Layout = ({ children }: ReactChildrenProps) => {
     <div className="bg-secondary">
       <div className="flex">
         <SideBar showNav={showNav} setShowNav={setShowNav} />
-        <div className="w-full flex flex-col h-screen overflow-scroll">
-          <div className="w-full bg-primary text-secondary text-2xl flex items-center lg:hidden md:hidden sm:block">
-            <button onClick={() => setShowNav(!showNav)} className=" p-6 ">
-              <RiMenuUnfoldFill />
-            </button>
-            <h2 className="">API Designer</h2>
+        <div className="w-full flex flex-col h-screen ">
+          <div className="overflow-scroll">
+            <div className="w-full bg-primary text-secondary text-2xl flex items-center lg:hidden md:hidden sm:block">
+              <button onClick={() => setShowNav(!showNav)} className=" p-6 ">
+                <RiMenuUnfoldFill />
+              </button>
+              <h2 className="">API Designer</h2>
+            </div>
+            <div className="p-6 min-h-screen">{children}</div>
           </div>
-          <div className="p-6 min-h-screen">{children}</div>
         </div>
       </div>
     </div>

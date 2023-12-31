@@ -47,7 +47,7 @@ const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
           <div className="border-b border-secondary mt-2"></div>
           <SignedIn>
             <div className="mt-4">
-              <Link
+              {/* <Link
                 href={"/dashboard"}
                 className={`text-lg flex items-center ${
                   page === "dashboard" && "font-semibold"
@@ -55,7 +55,7 @@ const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
               >
                 <RiDashboardFill className="mr-2" />
                 Dashboard
-              </Link>
+              </Link> */}
               <Link
                 href={"/collections"}
                 className={`text-lg flex items-center ${
@@ -90,7 +90,7 @@ const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
             <RiUser3Fill className="mr-2" />
             Profile
           </Link>
-          <Link
+          {/* <Link
             href={"/settings"}
             className={`text-lg flex items-center ${
               page === "settings" && "font-semibold"
@@ -98,7 +98,7 @@ const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
           >
             <RiSettingsFill className="mr-2" />
             Settings
-          </Link>
+          </Link> */}
           <SignOutButton>
             <button className="text-lg flex items-center">
               <RiLogoutCircleLine className="mr-2" />
