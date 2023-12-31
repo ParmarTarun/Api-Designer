@@ -155,7 +155,10 @@ const SingleRequest: FC<singleRequestProps> = ({ cRequest }) => {
         />
       </div>
       <div className="mb-4">
-        <Response />
+        <Response
+          response={request.response}
+          handleRequestChange={handleRequestChange}
+        />
       </div>
       <div className="mb-4">
         {isUpdating && <BounceLoader className="loader-primary" size={44} />}

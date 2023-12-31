@@ -1,6 +1,6 @@
 import { Schema, model, models } from "mongoose";
 import { Entity } from "./Entity";
-import { authorization, body, header, param } from "@/types";
+import { authorization, body, header, param, response } from "@/types";
 
 export type requestType = {
   id: string;
@@ -11,6 +11,7 @@ export type requestType = {
   authorization: authorization;
   headers: header[];
   body: body;
+  response: response;
   createdAt: string;
 };
 
@@ -22,7 +23,8 @@ const RequestSchema = new Schema<requestType>(
     params: [Object],
     authorization: Object,
     headers: [Object],
-    body: Object,
+    body: String,
+    response: Object,
   },
   {
     timestamps: true,

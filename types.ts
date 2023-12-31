@@ -29,6 +29,11 @@ export type requestBody = {
 };
 export type body = string;
 
+export type response = {
+  content: string;
+  status: number;
+};
+
 export type param = {
   key: string;
   value: string;

@@ -25,8 +25,12 @@ export const getNewRequestWithDefaults: (id: string) => requestType = (id) => {
       { key: "Cache-Control", value: "no-cache", desc: "default" },
     ],
     authorization: { type: "NO_AUTH", value: "" },
-    body: "",
+    body: '{"key":"value"}',
     createdAt: "",
+    response: {
+      content: '{"key":"value"}',
+      status: 200,
+    },
   };
 };
 
@@ -54,7 +58,7 @@ export const addParamsToPath = (path: string, params: param[]) => {
 
 export const beautify = (body: string) => {
   try {
-    return JSON.stringify(JSON.parse(body), null, 4);
+    return JSON.stringify(JSON.parse(body), null, 2);
   } catch (e) {
     return false;
   }
