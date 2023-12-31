@@ -1,16 +1,20 @@
 import { beautify, isJson } from "@/lib/utils";
-import { body } from "@/types";
+import { response } from "@/types";
 import React, { FC, useState } from "react";
 
 interface bodyProps {
-  body: body;
-  handleRequestChange: (k: string, v: string) => void;
+  response: response;
+  handleRequestChange: (k: string, v: any) => void;
 }
 
-const Body: FC<bodyProps> = ({ body, handleRequestChange }) => {
+const Body: FC<bodyProps> = ({ response, handleRequestChange }) => {
+  const body = response.content;
   const [editing, setEditing] = useState(body.length ? false : true);
   const handleBodyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    handleRequestChange("body", e.target.value);
+    handleRequestChange("response", {
+      content: e.target.value,
+      status: response.status,
+    });
   };
 
   const jsonBody = beautify(body) || body;
@@ -31,7 +35,7 @@ const Body: FC<bodyProps> = ({ body, handleRequestChange }) => {
           )}
         </div>
         {!isValidJson && body && (
-          <span className="text-error">Body is not a valid json</span>
+          <span className="text-error">Response is not a valid json</span>
         )}
         <br />
         {!editing && (

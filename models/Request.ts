@@ -23,8 +23,8 @@ const RequestSchema = new Schema<requestType>(
     params: [Object],
     authorization: Object,
     headers: [Object],
+    body: String,
     response: Object,
-    body: Object,
   },
   {
     timestamps: true,

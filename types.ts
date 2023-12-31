@@ -28,7 +28,12 @@ export type requestBody = {
   response: response;
   entityId: string;
 };
-export type body = { [key: string]: string } | string;
+export type body = string;
+
+export type response = {
+  content: string;
+  status: number;
+};
 
 export type response = {
   content: string;
@@ -41,8 +46,10 @@ export type param = {
   desc: string;
 };
 
+export type authTypes = "NO_AUTH" | "BEARER_TOKEN";
+
 export type authorization = {
-  type: "NO_AUTH" | "BEARER_TOKEN";
+  type: authTypes;
   value: any;
 };
 export type header = {

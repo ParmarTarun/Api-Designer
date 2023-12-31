@@ -1,40 +1,53 @@
-import { authorization } from "@/types";
-import React, { FC, useState } from "react";
-
-const NoAuthElement: FC = () => {
-  return <></>;
-};
-const BearerTokenElement: FC = () => {
-  return (
-    <>
-      <h6>Token:</h6>
-      <input className="basic-input ml-4" placeholder="your token here..." />
-    </>
-  );
-};
+import { authTypes, authorization } from "@/types";
+import React, { FC, useEffect, useState } from "react";
+import { BearerTokenElement, NoAuthElement } from "./AuthElements";
 
 interface authorizationProps {
   authorization: authorization;
+  handleRequestChange: (k: string, v: any) => void;
 }
 
-const Authorization: FC<authorizationProps> = ({ authorization }) => {
-  const authOptions = [
-    {
-      name: "No Auth",
-      value: "NO_AUTH",
-      element: <NoAuthElement />,
-    },
-    {
-      name: "Bearer Token",
-      value: "BEARER_TOKEN",
-      element: <BearerTokenElement />,
-    },
-  ];
-
-  const [currentIndex, setCurrentIndex] = useState(0);
+const Authorization: FC<authorizationProps> = ({
+  authorization,
+  handleRequestChange,
+}) => {
+  const [currentAuthType, setCurrentAuthType] = useState<authTypes>(
+    authorization["type"]
+  );
+  const [currentAuthValue, setCurrentAuthValue] = useState<any>(
+    authorization["value"]
+  );
   const handleSelectUpdate = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const index = authOptions.findIndex((op) => op.value === e.target.value);
-    setCurrentIndex(index);
+    setCurrentAuthType(e.target.value as authTypes);
+  };
+  useEffect(() => {
+    handleRequestChange("authorization", {
+      type: currentAuthType,
+      value: currentAuthValue,
+    });
+  }, [currentAuthValue, currentAuthType]);
+
+  useEffect(() => setCurrentAuthType(authorization["type"]), [authorization]);
+
+  const authElements = {
+    NO_AUTH: {
+      element: (
+        <NoAuthElement
+          cValue={currentAuthValue}
+          setCValue={setCurrentAuthValue}
+        />
+      ),
+      name: "No Auth",
+    },
+    BEARER_TOKEN: {
+      name: "Bearer Token",
+      element: (
+        <BearerTokenElement
+          cValue={currentAuthValue}
+          setCValue={setCurrentAuthValue}
+        />
+      ),
+    },
   };
   return (
     <div className="py-2">
@@ -44,18 +57,18 @@ const Authorization: FC<authorizationProps> = ({ authorization }) => {
           <select
             className="bg-lightHighlight border border-primary rounded-sm p-2 focus:outline-none"
             name="authType"
-            value={authOptions[currentIndex]["value"]}
+            value={currentAuthType}
             onChange={handleSelectUpdate}
           >
-            {authOptions.map((op, i) => (
-              <option value={op["value"]} key={i}>
-                {op["name"]}
+            {Object.entries(authElements).map(([t, d], i) => (
+              <option value={t} key={i}>
+                {d["name"]}
               </option>
             ))}
           </select>
         </div>
         <div className="col-span-3 flex items-center">
-          {authOptions[currentIndex]["element"]}
+          {authElements[currentAuthType]["element"]}
         </div>
       </div>
     </div>

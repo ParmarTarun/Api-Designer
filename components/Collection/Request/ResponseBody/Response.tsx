@@ -1,39 +1,24 @@
-import React from "react";
+import React, { FC } from "react";
+import Body from "./Body";
+import { response } from "@/types";
 
-const Response = () => {
-  const jsonResponse = JSON.stringify(
-    {
-      message: "Success: An example Json Response",
-      requests: [
-        {
-          id: "6567ce66c2ec75bccd7b0c5c",
-          name: "New Request",
-          method: "GET",
-          path: "/test",
-          createdAt: "2023-11-29T23:51:02.239Z",
-        },
-        {
-          id: "6567ce5ac2ec75bccd7b0c58",
-          name: "New Request",
-          method: "GET",
-          path: "/text",
-          createdAt: "2023-11-29T23:50:50.366Z",
-        },
-      ],
-    },
-    undefined,
-    2
-  );
+interface responseProps {
+  response: response;
+  handleRequestChange: (k: string, v: string) => void;
+}
+
+const Response: FC<responseProps> = ({ response, handleRequestChange }) => {
   return (
     <div className="">
       <div className="flex justify-between items-center pl-4 py-2">
         <h6 className="font-semibold uppercase">Response</h6>
         <p>
-          <span>Status: 200 OK</span>
+          <span>Status: {response.status}</span>
         </p>
       </div>
       <div className="bg-lightHighlight p-2 pl-4">
-        <pre id="json">{jsonResponse}</pre>
+        {/* TODO: Send only the content not whole response */}
+        <Body response={response} handleRequestChange={handleRequestChange} />
       </div>
     </div>
   );

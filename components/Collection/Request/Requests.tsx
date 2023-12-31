@@ -62,9 +62,9 @@ const Requests: FC<requestsProps> = ({}) => {
                     <p className="col-span-3 flex justify-between ml-1 text-xl">
                       {req.name}
                       {isNewRequest(req.id) && (
-                        <p className="col-span-1 flex justify-end items-center text-darkHighlight">
+                        <span className="col-span-1 flex justify-end items-center text-darkHighlight">
                           <WiMoonAltNew />
-                        </p>
+                        </span>
                       )}
                     </p>
                   </div>

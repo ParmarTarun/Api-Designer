@@ -25,15 +25,28 @@ const RequestTabs: FC<requestTabsProps> = ({
     {
       name: "params",
       element: (
-        <Params cParams={params} handleRequestChange={handleRequestChange} />
+        <Params params={params} handleRequestChange={handleRequestChange} />
       ),
     },
     {
       name: "authorization",
-      element: <Authorization authorization={authorization} />,
+      element: (
+        <Authorization
+          authorization={authorization}
+          handleRequestChange={handleRequestChange}
+        />
+      ),
     },
-    { name: "headers", element: <Headers headers={headers} /> },
-    { name: "body", element: <Body cBody={body} /> },
+    {
+      name: "headers",
+      element: (
+        <Headers headers={headers} handleRequestChange={handleRequestChange} />
+      ),
+    },
+    {
+      name: "body",
+      element: <Body body={body} handleRequestChange={handleRequestChange} />,
+    },
   ];
   return (
     <div>
