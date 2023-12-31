@@ -1,6 +1,6 @@
 import { beautify, isJson } from "@/lib/utils";
 import { body } from "@/types";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 interface bodyProps {
   body: body;
@@ -15,6 +15,9 @@ const Body: FC<bodyProps> = ({ body, handleRequestChange }) => {
 
   const jsonBody = beautify(body) || body;
   const isValidJson = isJson(body);
+  useEffect(() => {
+    setEditing(body.length ? false : true);
+  }, [body]);
   return (
     <div className="grid grid-cols-6">
       <div className="col-span-5">

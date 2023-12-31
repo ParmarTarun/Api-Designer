@@ -46,13 +46,22 @@ const SingleRequest: FC<singleRequestProps> = ({ cRequest }) => {
 
   const handleUpdate = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const { name, path, method, params, body, headers, authorization } =
-      request;
+    const {
+      name,
+      path,
+      method,
+      params,
+      body,
+      headers,
+      authorization,
+      response,
+    } = request;
     const data = {
       name,
       path,
       method,
       params,
+      response,
       body,
       headers,
       authorization,
@@ -72,8 +81,16 @@ const SingleRequest: FC<singleRequestProps> = ({ cRequest }) => {
 
   const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const { name, path, method, params, body, headers, authorization } =
-      request;
+    const {
+      name,
+      path,
+      method,
+      params,
+      body,
+      headers,
+      authorization,
+      response,
+    } = request;
     const data = {
       name,
       path,
@@ -81,6 +98,7 @@ const SingleRequest: FC<singleRequestProps> = ({ cRequest }) => {
       params,
       body,
       headers,
+      response,
       authorization,
       entityId: currentCollection.entities[currentEntityIndex].id,
     };

@@ -68,6 +68,7 @@ export const getCollectionByName: getCollectionByNameType = async (
         body: req.body,
         headers: req.headers,
         params: req.params,
+        response: req.response,
         createdAt: req.createdAt,
       });
     });
