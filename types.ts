@@ -35,11 +35,6 @@ export type response = {
   status: number;
 };
 
-export type response = {
-  content: string;
-  status: number;
-};
-
 export type param = {
   key: string;
   value: string;

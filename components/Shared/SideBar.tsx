@@ -1,4 +1,3 @@
-import { signOut } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import {
@@ -6,9 +5,17 @@ import {
   RiUser3Fill,
   RiDashboardFill,
   RiMenuFoldFill,
+  RiLogoutCircleLine,
 } from "react-icons/ri";
+import { GoPasskeyFill } from "react-icons/go";
 import { BiSolidCollection } from "react-icons/bi";
 import { useRouter } from "next/router";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignOutButton,
+} from "@clerk/nextjs";
 
 interface SideBarProps {
   showNav: boolean;
@@ -17,9 +24,6 @@ interface SideBarProps {
 
 const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
   const fda = useRouter();
-  const logout = async () => {
-    await signOut({ callbackUrl: "/" });
-  };
   const page = fda.pathname.split("/")[1];
   return (
     <aside
@@ -41,47 +45,67 @@ const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
             <h5 className="text-2xl">Designer</h5>
           </Link>
           <div className="border-b border-secondary mt-2"></div>
-          <div className="mt-4">
-            <Link
-              href={"/dashboard"}
-              className={`text-lg flex items-center ${
-                page === "dashboard" && "font-semibold"
-              }`}
-            >
-              <RiDashboardFill className="mr-2" />
-              Dashboard
-            </Link>
-            <Link
-              href={"/collections"}
-              className={`text-lg flex items-center ${
-                page === "collections" && "font-semibold"
-              }`}
-            >
-              <BiSolidCollection className="mr-2" />
-              Collections
-            </Link>
-          </div>
+          <SignedIn>
+            <div className="mt-4">
+              <Link
+                href={"/dashboard"}
+                className={`text-lg flex items-center ${
+                  page === "dashboard" && "font-semibold"
+                }`}
+              >
+                <RiDashboardFill className="mr-2" />
+                Dashboard
+              </Link>
+              <Link
+                href={"/collections"}
+                className={`text-lg flex items-center ${
+                  page === "collections" && "font-semibold"
+                }`}
+              >
+                <BiSolidCollection className="mr-2" />
+                Collections
+              </Link>
+            </div>
+          </SignedIn>
+          <SignedOut>
+            <div className="mt-4">
+              <SignInButton>
+                <button className="btn-unstyled">
+                  <GoPasskeyFill className="mr-2 inline" />
+                  Login
+                </button>
+              </SignInButton>
+            </div>
+          </SignedOut>
         </div>
       </div>
       <div className="lower-section">
-        <Link
-          href={"/profile"}
-          className={`text-lg flex items-center ${
-            page === "profile" && "font-semibold"
-          }`}
-        >
-          <RiUser3Fill className="mr-2" />
-          Profile
-        </Link>
-        <Link
-          href={"/settings"}
-          className={`text-lg flex items-center ${
-            page === "settings" && "font-semibold"
-          }`}
-        >
-          <RiSettingsFill className="mr-2" />
-          Settings
-        </Link>
+        <SignedIn>
+          <Link
+            href={"/profile"}
+            className={`text-lg flex items-center ${
+              page === "profile" && "font-semibold"
+            }`}
+          >
+            <RiUser3Fill className="mr-2" />
+            Profile
+          </Link>
+          <Link
+            href={"/settings"}
+            className={`text-lg flex items-center ${
+              page === "settings" && "font-semibold"
+            }`}
+          >
+            <RiSettingsFill className="mr-2" />
+            Settings
+          </Link>
+          <SignOutButton>
+            <button className="text-lg flex items-center">
+              <RiLogoutCircleLine className="mr-2" />
+              Logout
+            </button>
+          </SignOutButton>
+        </SignedIn>
       </div>
     </aside>
   );

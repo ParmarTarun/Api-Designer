@@ -1,16 +1,13 @@
 import "@/styles/globals.css";
-import { SessionProvider } from "next-auth/react";
+import { ClerkProvider } from "@clerk/nextjs";
 import type { AppProps } from "next/app";
 import Nprogressbar from "nextjs-progressbar";
 
-export default function App({
-  Component,
-  pageProps: { session, ...pageProps },
-}: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
   return (
-    <SessionProvider session={session}>
+    <ClerkProvider {...pageProps}>
       <Nprogressbar />
       <Component {...pageProps} />
-    </SessionProvider>
+    </ClerkProvider>
   );
 }
