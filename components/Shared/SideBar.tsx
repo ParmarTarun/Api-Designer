@@ -1,4 +1,4 @@
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import {
@@ -6,9 +6,7 @@ import {
   RiUser3Fill,
   RiDashboardFill,
   RiMenuFoldFill,
-  RiLogoutCircleLine,
 } from "react-icons/ri";
-import { GoPasskeyFill } from "react-icons/go";
 import { BiSolidCollection } from "react-icons/bi";
 import { useRouter } from "next/router";
 
@@ -18,7 +16,6 @@ interface SideBarProps {
 }
 
 const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
-  const { data: session } = useSession();
   const fda = useRouter();
   const logout = async () => {
     await signOut({ callbackUrl: "/" });
@@ -44,66 +41,47 @@ const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
             <h5 className="text-2xl">Designer</h5>
           </Link>
           <div className="border-b border-secondary mt-2"></div>
-          {!!session && (
-            <div className="mt-4">
-              <Link
-                href={"/dashboard"}
-                className={`text-lg flex items-center ${
-                  page === "dashboard" && "font-semibold"
-                }`}
-              >
-                <RiDashboardFill className="mr-2" />
-                Dashboard
-              </Link>
-              <Link
-                href={"/collections"}
-                className={`text-lg flex items-center ${
-                  page === "collections" && "font-semibold"
-                }`}
-              >
-                <BiSolidCollection className="mr-2" />
-                Collections
-              </Link>
-            </div>
-          )}
-          {!session && (
-            <div className="mt-4">
-              <Link href={"/auth"} className="text-lg flex items-center">
-                <GoPasskeyFill className="mr-2" />
-                Login
-              </Link>
-            </div>
-          )}
+          <div className="mt-4">
+            <Link
+              href={"/dashboard"}
+              className={`text-lg flex items-center ${
+                page === "dashboard" && "font-semibold"
+              }`}
+            >
+              <RiDashboardFill className="mr-2" />
+              Dashboard
+            </Link>
+            <Link
+              href={"/collections"}
+              className={`text-lg flex items-center ${
+                page === "collections" && "font-semibold"
+              }`}
+            >
+              <BiSolidCollection className="mr-2" />
+              Collections
+            </Link>
+          </div>
         </div>
       </div>
       <div className="lower-section">
-        {session && (
-          <>
-            {" "}
-            <Link
-              href={"/profile"}
-              className={`text-lg flex items-center ${
-                page === "profile" && "font-semibold"
-              }`}
-            >
-              <RiUser3Fill className="mr-2" />
-              Profile
-            </Link>
-            <Link
-              href={"/settings"}
-              className={`text-lg flex items-center ${
-                page === "settings" && "font-semibold"
-              }`}
-            >
-              <RiSettingsFill className="mr-2" />
-              Settings
-            </Link>
-            <button className="text-lg flex items-center" onClick={logout}>
-              <RiLogoutCircleLine className="mr-2" />
-              Logout
-            </button>
-          </>
-        )}
+        <Link
+          href={"/profile"}
+          className={`text-lg flex items-center ${
+            page === "profile" && "font-semibold"
+          }`}
+        >
+          <RiUser3Fill className="mr-2" />
+          Profile
+        </Link>
+        <Link
+          href={"/settings"}
+          className={`text-lg flex items-center ${
+            page === "settings" && "font-semibold"
+          }`}
+        >
+          <RiSettingsFill className="mr-2" />
+          Settings
+        </Link>
       </div>
     </aside>
   );
