@@ -25,9 +25,15 @@ export type requestBody = {
   params: param[];
   authorization: authorization;
   headers: header[];
+  response: response;
   entityId: string;
 };
 export type body = { [key: string]: string } | string;
+
+export type response = {
+  content: string;
+  status: number;
+};
 
 export type param = {
   key: string;

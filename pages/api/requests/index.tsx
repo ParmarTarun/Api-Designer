@@ -32,9 +32,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
           body,
           headers,
           params,
+          response,
           entityId,
         } = req.body;
-        if (!name || !method || !path || !entityId) {
+        if (!name || !method || !path || !entityId || !response) {
           return res.status(400).json({ message: "Invalid request" });
         }
         if (!isValidObjectId(entityId))
@@ -47,6 +48,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
           authorization,
           body,
           headers,
+          response,
           params,
           entityId,
         });

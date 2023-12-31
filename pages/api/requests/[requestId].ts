@@ -19,8 +19,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   switch (req.method) {
     case "PATCH": {
       try {
-        const { name, method, path, authorization, body, headers, params } =
-          req.body;
+        const {
+          name,
+          method,
+          path,
+          authorization,
+          body,
+          headers,
+          params,
+          response,
+        } = req.body;
 
         if (!name || !method || !path) {
           return res.status(400).json({ message: "Invalid request" });
@@ -31,6 +39,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
           method,
           path,
           authorization,
+          response,
           body,
           headers,
           params,
