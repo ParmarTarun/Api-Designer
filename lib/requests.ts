@@ -24,6 +24,7 @@ export const getRequests: getRequestsType = async () => {
       body: row.body,
       headers: row.headers,
       params: row.params,
+      response: row.response,
       createdAt: row.createdAt,
     });
   });
@@ -38,6 +39,7 @@ export const postRequest: postRequestType = async ({
   authorization,
   body,
   headers,
+  response,
   params,
   entityId,
 }) => {
@@ -52,6 +54,7 @@ export const postRequest: postRequestType = async ({
     path,
     authorization,
     body,
+    response,
     headers,
     params,
   });
@@ -69,6 +72,7 @@ export const postRequest: postRequestType = async ({
     body: request.body,
     headers: request.headers,
     params: request.params,
+    response: request.response,
     createdAt: request.createdAt,
     id: request._id,
   };
@@ -77,7 +81,7 @@ export const postRequest: postRequestType = async ({
 // @ts-ignore   path is coming in as a string from request body and Literal type is expected here
 export const patchRequest: patchRequestType = async (
   id,
-  { name, method, path, authorization, body, headers, params }
+  { name, method, path, authorization, body, headers, response, params }
 ) => {
   await mongooseConnect();
   const request = await Request.findByIdAndUpdate(id, {
@@ -87,6 +91,7 @@ export const patchRequest: patchRequestType = async (
     authorization,
     body,
     headers,
+    response,
     params,
   });
   if (!request) throw new InvalidRequestId();
@@ -97,6 +102,7 @@ export const patchRequest: patchRequestType = async (
     path,
     authorization,
     headers,
+    response,
     body,
     params,
     createdAt: request.createdAt,
