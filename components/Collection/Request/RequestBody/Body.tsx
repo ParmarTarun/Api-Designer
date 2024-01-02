@@ -15,22 +15,19 @@ const Body: FC<bodyProps> = ({ body, handleRequestChange }) => {
 
   const jsonBody = beautify(body) || body;
   const isValidJson = isJson(body);
-  useEffect(() => {
-    setEditing(body.length ? false : true);
-  }, [body]);
   return (
     <div className="grid grid-cols-6">
       <div className="col-span-5">
         <div className="mt-2 " onDoubleClick={() => setEditing(true)}>
           {editing ? (
             <textarea
-              value={body}
+              value={body || "{}"}
               rows={10}
               className="w-full basic-input"
               onChange={handleBodyChange}
             />
           ) : (
-            <pre id="json">{jsonBody}</pre>
+            <pre id="json">{jsonBody || "{}"}</pre>
           )}
         </div>
         {!isValidJson && body && (
