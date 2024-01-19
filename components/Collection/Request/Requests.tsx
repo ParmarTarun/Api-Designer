@@ -50,9 +50,9 @@ const Requests: FC<requestsProps> = ({}) => {
                   key={i}
                   onClick={() => setCurrentRequestIndex(i)}
                 >
-                  <div className="py-2 pl-2 pr-4 grid grid-cols-4 font-semibold">
+                  <div className="py-2 pl-2 pr-4 grid grid-cols-5 font-semibold">
                     <p
-                      className="col-span-1 text-right text-xl"
+                      className="col-span-2 text-right text-xl"
                       style={{
                         color: `${reqMethodColorMap[req.method]}`,
                       }}

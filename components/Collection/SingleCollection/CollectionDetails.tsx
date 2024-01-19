@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Requests from "../Request/Requests";
 import { useCurrentCollection } from "@/context/currentCollection";
 import Entities from "../Entity/Entities";
 import BaseUrl from "./BaseUrl";
 import { collectionType } from "@/models/Collection";
 import { FaShare } from "react-icons/fa";
+import ShareCollectionModal from "./ShareCollectionModal";
 
 interface CollectionDetailsProps {
   collectionData: collectionType;
@@ -12,6 +13,7 @@ interface CollectionDetailsProps {
 
 const CollectionDetails = ({ collectionData }: CollectionDetailsProps) => {
   const { currentCollection, setCurrentCollection } = useCurrentCollection();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     setCurrentCollection(collectionData);
@@ -24,10 +26,7 @@ const CollectionDetails = ({ collectionData }: CollectionDetailsProps) => {
           <h3>{currentCollection?.name}</h3> <span>An example API design</span>
         </div>
         <div className="flex gap-2 text-2xl">
-          <button
-            className="text-primary"
-            onClick={() => alert("To be implenented")}
-          >
+          <button className="text-primary" onClick={() => setShowModal(true)}>
             <FaShare />
           </button>
         </div>
@@ -35,6 +34,12 @@ const CollectionDetails = ({ collectionData }: CollectionDetailsProps) => {
       <BaseUrl baseUrl={currentCollection.baseUrl} />
       <Entities />
       {!!currentCollection.entities.length && <Requests />}
+      {!!showModal && (
+        <ShareCollectionModal
+          close={() => setShowModal(false)}
+          collection={currentCollection}
+        />
+      )}
     </div>
   );
 };

@@ -1,5 +1,7 @@
 import { requestType } from "@/models/Request";
 import { param } from "../types";
+import { collectionType } from "@/models/Collection";
+import { entityType } from "@/models/Entity";
 
 export const reqMethodColorMap: { [key: string]: string } = {
   GET: "#3eb6a1",
@@ -62,4 +64,51 @@ export const beautify = (body: string) => {
   } catch (e) {
     return false;
   }
+};
+
+export const formatRequests = (requests: requestType[]) => {
+  const formatted = requests.map((req) => {
+    // remove created at and update the content to json
+    const {
+      createdAt: _,
+      id: __,
+      ...rest
+    } = {
+      ...req,
+      body: JSON.parse(req.body),
+      response: {
+        ...req.response,
+        content: JSON.parse(req.response.content),
+      },
+    };
+    return rest;
+  });
+  return formatted;
+};
+
+export const formatEntities = (entities: entityType[]) => {
+  const formatted = entities.map((ent) => {
+    const {
+      createdAt: _,
+      id: __,
+      ...rest
+    } = {
+      ...ent,
+      requests: formatRequests(ent.requests),
+    };
+    return rest;
+  });
+  return formatted;
+};
+
+export const formatCollection = (collection: collectionType) => {
+  const {
+    id: _,
+    createdAt: __,
+    ...rest
+  } = {
+    ...collection,
+    entities: formatEntities(collection.entities),
+  };
+  return JSON.stringify(rest);
 };
