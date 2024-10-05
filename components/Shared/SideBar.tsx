@@ -10,12 +10,7 @@ import {
 import { GoPasskeyFill } from "react-icons/go";
 import { BiSolidCollection } from "react-icons/bi";
 import { useRouter } from "next/router";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignOutButton,
-} from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 
 interface SideBarProps {
   showNav: boolean;
@@ -100,13 +95,10 @@ const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
             <RiSettingsFill className="mr-2" />
             Settings
           </Link> */}
-          {/* TODO: find the issue here, (currently still working) */}
-          <SignOutButton redirectUrl="/">
-            <button className="text-lg flex items-center">
-              <RiLogoutCircleLine className="mr-2" />
-              Logout
-            </button>
-          </SignOutButton>
+          {/* <button className="text-lg flex items-center">
+            <RiLogoutCircleLine className="mr-2" />
+            Logout
+          </button> */}
         </SignedIn>
       </div>
     </aside>
