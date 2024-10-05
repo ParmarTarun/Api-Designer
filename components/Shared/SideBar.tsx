@@ -8,7 +8,7 @@ import {
 import { GoPasskeyFill } from "react-icons/go";
 import { BiSolidCollection } from "react-icons/bi";
 import { useRouter } from "next/router";
-import { SignedIn, SignedOut, SignInButton, useClerk } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 
 interface SideBarProps {
   showNav: boolean;
@@ -18,8 +18,6 @@ interface SideBarProps {
 const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
   const fda = useRouter();
   const page = fda.pathname.split("/")[1];
-  const { signOut } = useClerk();
-  const router = useRouter();
   return (
     <aside
       className={
@@ -94,13 +92,10 @@ const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
             <RiSettingsFill className="mr-2" />
             Settings
           </Link> */}
-          <button
-            className="text-lg flex items-center"
-            onClick={() => signOut(() => router.push("/"))}
-          >
+          {/* <button className="text-lg flex items-center">
             <RiLogoutCircleLine className="mr-2" />
             Logout
-          </button>
+          </button> */}
         </SignedIn>
       </div>
     </aside>

@@ -1,10 +1,29 @@
+import { useAuth, useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import React from "react";
 
 const GetStarted = () => {
   const router = useRouter();
-  const handleGetStarted = () => {
-    router.push("/collections");
+  const { signIn } = useSignIn();
+  const { isSignedIn } = useAuth();
+  const handleGetStarted = async () => {
+    if (!isSignedIn) {
+      // loggin in test user
+      try {
+        const obj = await signIn
+          ?.create({
+            strategy: "password",
+            password: "1234",
+            identifier: "test@example.com",
+          })
+          .then(() => router.push("/collections"));
+      } catch (e) {
+        console.log(e);
+        alert("Failed to auto login!");
+      }
+    } else {
+      router.push("/collections");
+    }
   };
   return (
     <div className="w-4/5 text-center">
@@ -27,7 +46,7 @@ const GetStarted = () => {
         className="bg-darkHighlight font-semibold  text-secondary px-4 py-2 rounded-md mt-4 text-2xl"
         onClick={handleGetStarted}
       >
-        GET STARTED
+        {!isSignedIn ? "Login as Guest" : "Go to Collections"}
       </button>
     </div>
   );
