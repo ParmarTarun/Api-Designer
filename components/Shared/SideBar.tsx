@@ -25,6 +25,7 @@ interface SideBarProps {
 const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
   const fda = useRouter();
   const page = fda.pathname.split("/")[1];
+
   return (
     <aside
       className={
@@ -99,7 +100,8 @@ const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
             <RiSettingsFill className="mr-2" />
             Settings
           </Link> */}
-          <SignOutButton>
+          {/* TODO: find the issue here, (currently still working) */}
+          <SignOutButton redirectUrl="/">
             <button className="text-lg flex items-center">
               <RiLogoutCircleLine className="mr-2" />
               Logout
