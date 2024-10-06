@@ -28,6 +28,7 @@ type singleCollectionContextType = {
 const initialValues: singleCollectionContextType = {
   currentCollection: {
     id: "",
+    desc: "",
     baseUrl: "",
     createdAt: "",
     entities: [],
