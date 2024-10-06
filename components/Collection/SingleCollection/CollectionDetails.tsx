@@ -23,7 +23,8 @@ const CollectionDetails = ({ collectionData }: CollectionDetailsProps) => {
     <div className="text-primary">
       <div className="flex justify-between items-center pr-4">
         <div>
-          <h3>{currentCollection?.name}</h3> <span>An example API design</span>
+          <h3>{currentCollection?.name}</h3>{" "}
+          <span>{currentCollection?.desc}</span>
         </div>
         <div className="flex gap-2 text-2xl">
           <button className="text-primary" onClick={() => setShowModal(true)}>

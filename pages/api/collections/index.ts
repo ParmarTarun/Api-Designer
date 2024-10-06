@@ -23,12 +23,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
     case "POST": {
       try {
-        const { name, baseUrl } = req.body;
+        const { name, desc, baseUrl } = req.body;
         if (!name || !baseUrl) {
           return res.status(400).json({ message: "Invalid request" });
         }
         const collection = await postCollection({
           name,
+          desc,
           baseUrl,
           entities: [],
         });

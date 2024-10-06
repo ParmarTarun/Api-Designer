@@ -20,6 +20,7 @@ const CollectionFormModal = ({
   const [error, setError] = useState("");
   const [formData, setFormData] = useState<collectionBody>({
     name: collection?.name || "",
+    desc: collection?.desc || "",
     baseUrl: collection?.baseUrl || "",
     entities: collection?.entities || [],
   });
@@ -71,7 +72,7 @@ const CollectionFormModal = ({
           </button>
         </div>
         <form className="p-4">
-          <div className="grid grid-cols-6 items-center">
+          <div className="grid grid-cols-4 items-center">
             <label htmlFor="collection-name" className="text-right mr-2">
               Name:
             </label>
@@ -84,7 +85,7 @@ const CollectionFormModal = ({
               onChange={handleFormInput}
             />
           </div>
-          <div className="grid grid-cols-6 items-center mt-2">
+          <div className="grid grid-cols-4 items-center mt-2">
             <label htmlFor="collection-url" className="text-right mr-2">
               Base URL:
             </label>
@@ -96,6 +97,20 @@ const CollectionFormModal = ({
               value={formData.baseUrl}
               onChange={handleFormInput}
             />
+          </div>
+          <div className="grid grid-cols-4 items-center mt-2">
+            <label htmlFor="collection-desc" className="text-right mr-2">
+              Description:
+            </label>
+            <input
+              type="text"
+              className="basic-input col-span-2"
+              placeholder="Oneliner description"
+              name="desc"
+              value={formData.desc}
+              onChange={handleFormInput}
+            />
+            <span className="ml-2">(optional)</span>
           </div>
           {error && <p className="text-center text-error mt-4">{error}</p>}
           <div className="text-right font-medium mt-4">

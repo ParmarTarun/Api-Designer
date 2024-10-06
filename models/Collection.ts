@@ -4,6 +4,7 @@ const Entity = require("./Entity"); // this way entity model will be registered 
 export type collectionType = {
   id: string;
   name: string;
+  desc?: string;
   baseUrl: string;
   entities: entityType[];
   createdAt: string;
@@ -11,9 +12,10 @@ export type collectionType = {
 
 const CollectionSchema = new Schema<collectionType>(
   {
-    name: String,
+    name: { type: String, required: true },
+    desc: { type: String },
     entities: [{ type: Schema.Types.ObjectId, ref: "Entity", default: [] }],
-    baseUrl: String,
+    baseUrl: { type: String, required: true },
   },
   {
     timestamps: true,
