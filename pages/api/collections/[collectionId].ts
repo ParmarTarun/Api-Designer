@@ -20,12 +20,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   switch (req.method) {
     case "PATCH": {
       try {
-        const { name, baseUrl, entities } = req.body;
+        const { name, desc, baseUrl, entities } = req.body;
         if (!name || !baseUrl || !entities) {
           return res.status(400).json({ message: "Invalid request" });
         }
         const collection = await patchCollection(collectionId.toString(), {
           name,
+          desc,
           baseUrl,
           entities,
         });
