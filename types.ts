@@ -8,6 +8,7 @@ export type ReactChildrenProps = {
 
 export type collectionBody = {
   name: string;
+  desc: string;
   baseUrl: string;
   entities: entityType[];
 };

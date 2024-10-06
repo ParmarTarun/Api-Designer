@@ -54,7 +54,8 @@ export const getCollectionByName: getCollectionByNameType = async (
     path: "entities",
     populate: { path: "requests" },
   });
-  const { name, baseUrl, createdAt, id } = collectionDoc as collectionType;
+  const { name, desc, baseUrl, createdAt, id } =
+    collectionDoc as collectionType;
   let entities: entityType[] = [];
   let requests: requestType[] = [];
   collectionDoc.entities.forEach((en: any) => {
@@ -81,19 +82,22 @@ export const getCollectionByName: getCollectionByNameType = async (
     requests = [];
   });
 
-  return { name, baseUrl, entities, createdAt, id };
+  return { name, desc, baseUrl, entities, createdAt, id };
 };
 
 export const postCollection: postCollectionType = async ({
   name,
+  desc,
   baseUrl,
   entities,
 }) => {
   await mongooseConnect();
-  const collection = await Collection.create({ name, baseUrl, entities });
+  console.log({ desc });
+  const collection = await Collection.create({ name, desc, baseUrl, entities });
 
   return {
     name,
+    desc,
     baseUrl,
     entities,
     createdAt: collection.createdAt,

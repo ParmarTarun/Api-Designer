@@ -66,7 +66,7 @@ const Collections = ({ collectionsData }: collectionsProps) => {
               <MenuOptions id={coll.id} options={options} />
             </div>
             <div className="py-2 px-4  overflow-x-hidden text-primary">
-              <h6 className="italic">{coll.baseUrl}</h6>
+              <h6 className="italic">{coll.desc || "No Description"}</h6>
             </div>
           </div>
         </Link>
