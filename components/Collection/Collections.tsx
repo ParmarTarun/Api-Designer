@@ -60,7 +60,7 @@ const Collections = ({ collectionsData }: collectionsProps) => {
     <div className="flex gap-4 flex-wrap p-4">
       {collections.map((coll, i) => (
         <Link href={`/collections/${coll.name}`} key={i}>
-          <div className=" rounded-lg bg-lightHighlight">
+          <div className="w-[300px] rounded-lg bg-lightHighlight">
             <div className="text-secondary bg-primary rounded-t-lg grid grid-cols-5 px-2">
               <h5 className="text-lg col-span-4 py-2 pl-2">{coll.name}</h5>
               <MenuOptions id={coll.id} options={options} />

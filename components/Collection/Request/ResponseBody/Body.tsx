@@ -21,7 +21,7 @@ const Body: FC<bodyProps> = ({ response, handleRequestChange }) => {
   const isValidJson = isJson(body);
   return (
     <div className="grid grid-cols-6">
-      <div className="col-span-5">
+      <div className={`${editing ? "col-span-5" : "col-span-6"}`}>
         <div className="mt-2 " onDoubleClick={() => setEditing(true)}>
           {editing ? (
             <textarea
@@ -31,7 +31,9 @@ const Body: FC<bodyProps> = ({ response, handleRequestChange }) => {
               onChange={handleBodyChange}
             />
           ) : (
-            <pre id="json">{jsonBody}</pre>
+            <pre id="json" className={`w-100 overflow-scroll h-[30vh]`}>
+              {jsonBody}
+            </pre>
           )}
         </div>
         {!isValidJson && body && (
