@@ -74,7 +74,7 @@ const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
       </div>
       <div className="lower-section">
         <SignedIn>
-          <Link
+          {/* <Link
             href={"/profile"}
             className={`text-lg flex items-center ${
               page === "profile" && "font-semibold"
@@ -82,7 +82,7 @@ const SideBar = ({ showNav, setShowNav }: SideBarProps) => {
           >
             <RiUser3Fill className="mr-2" />
             Profile
-          </Link>
+          </Link> */}
           {/* <Link
             href={"/settings"}
             className={`text-lg flex items-center ${

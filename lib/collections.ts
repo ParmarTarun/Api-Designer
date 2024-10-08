@@ -28,6 +28,7 @@ export const getCollections: getCollectionsType = async () => {
     collections.push({
       id: row._id,
       name: row.name,
+      desc: row.desc,
       baseUrl: row.baseUrl,
       entities: row.entities,
       createdAt: row.createdAt,
